@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Weather Tomorrow"
 include(":app")
- 
+include(":shared")

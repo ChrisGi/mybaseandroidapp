@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import gi.aera.shared.platform
 import gi.aera.weathertomorrow.ui.theme.WeatherTomorrowTheme
 
 class MainActivity : ComponentActivity() {
@@ -21,7 +22,7 @@ class MainActivity : ComponentActivity() {
       WeatherTomorrowTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
           Greeting(
-            name = "Android",
+            name = platform(),
             modifier = Modifier.padding(innerPadding)
           )
         }
