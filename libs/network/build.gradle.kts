@@ -9,7 +9,7 @@ kotlin {
   // which platforms this KMP module supports.
   // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
   androidLibrary {
-    namespace = "gi.aera.shared"
+    namespace = "gi.aera.network"
     compileSdk = AndroidConfig.COMPILE_SDK
     minSdk = AndroidConfig.MIN_SDK
 
@@ -58,10 +58,15 @@ kotlin {
   sourceSets {
     commonMain {
       dependencies {
-        implementation(project(":network"))
-
         implementation(libs.kotlin.stdlib)
 
+        implementation(libs.ktor.client.core)
+        implementation(libs.ktor.client.logging)
+        implementation(libs.ktor.serialization.kotlinx.json)
+        implementation(libs.ktor.client.content.negotiation)
+        implementation(libs.ktor.client.encoding)
+
+        implementation(libs.kotlinx.coroutines.core)
         implementation(libs.koin.core)
         implementation(libs.koin.test)
       }
@@ -78,6 +83,11 @@ kotlin {
         // Add Android-specific dependencies here. Note that this source set depends on
         // commonMain by default and will correctly pull the Android artifacts of any KMP
         // dependencies declared in commonMain.
+        implementation(libs.ktor.client.okhttp)
+        implementation(libs.kotlinx.coroutines.android)
+
+        implementation(libs.koin.android)
+        implementation(libs.koin.androidx.compose)
       }
     }
 
@@ -96,6 +106,8 @@ kotlin {
         // part of KMP’s default source set hierarchy. Note that this source set depends
         // on common by default and will correctly pull the iOS artifacts of any
         // KMP dependencies declared in commonMain.
+
+        implementation(libs.ktor.client.ios)
       }
     }
   }

@@ -20,5 +20,19 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Weather Tomorrow"
-include(":app")
+
+private fun includeModules(directory: String) {
+  file(directory).listFiles()
+    ?.filter { it.isDirectory && File(it, "build.gradle.kts").exists() }
+    ?.forEach {
+      val moduleName = it.name
+      include(":$moduleName")
+      project(":$moduleName").projectDir = it
+    }
+}
+
 include(":shared")
+include(":app")
+includeModules("libs")
+includeModules("feature")
+includeModules("core")
