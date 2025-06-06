@@ -2,7 +2,7 @@
   <artifact type="jar" name="network">
     <output-path>$PROJECT_DIR$/libs/network/build/libs</output-path>
     <root id="archive" name="network.jar">
-      <element id="module-output" name="Weather Tomorrow.Weather_Tomorrow.network.androidMain" />
+      <element id="module-output" name="WeatherTomorrow.network.androidMain" />
     </root>
   </artifact>
 </component>

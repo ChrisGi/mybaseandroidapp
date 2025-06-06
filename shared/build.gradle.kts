@@ -58,7 +58,10 @@ kotlin {
   sourceSets {
     commonMain {
       dependencies {
-        implementation(project(":network"))
+        api(project(":network"))
+
+        api(project(":data-weather-forecast"))
+        api(project(":feature-weather-forecast"))
 
         implementation(libs.kotlin.stdlib)
 

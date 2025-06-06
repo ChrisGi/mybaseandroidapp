@@ -1,0 +1,50 @@
+package gi.aera.weather.feature.forecast.presentation
+
+import ForecastResponseDaily
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import gi.aera.network.di.domain.ApiResponse
+import gi.aera.ui.LceState
+import gi.aera.weather.feature.forecast.domain.ForecastViewState
+import gi.aera.weather.feature.forecast.domain.ForecastViewStateFactory
+import gi.aera.weather.forecast.domain.model.ForecastParams
+import gi.aera.weather.forecast.domain.usecase.GetDailyForecastUseCase
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+
+class ForecastViewModel(
+  private val getDailyForecastUseCase: GetDailyForecastUseCase,
+  private val forecastViewStateFactory: ForecastViewStateFactory
+) : ViewModel() {
+
+  private val _state = MutableStateFlow<LceState<List<ForecastViewState>>>(LceState.Loading)
+
+  val viewState = _state
+    .onStart { loadCurrentConditionsForecast() }
+    .stateIn(
+      viewModelScope,
+      SharingStarted.WhileSubscribed(5000L),
+      LceState.Loading
+    )
+
+  private fun loadCurrentConditionsForecast() {
+    viewModelScope.launch {
+      _state.update { LceState.Loading }
+
+      when (val forecastResponse = getDailyForecastUseCase(ForecastParams(location = "London"))) {
+        is ApiResponse.Error -> _state.update {
+          LceState.Error(Exception(forecastResponse.errorMessage))
+        }
+
+        is ApiResponse.Success<ForecastResponseDaily> -> _state.update {
+          LceState.Success(forecastViewStateFactory.createState(forecastResponse.data))
+        }
+      }
+    }
+  }
+}

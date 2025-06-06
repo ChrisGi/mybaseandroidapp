@@ -19,7 +19,7 @@ dependencyResolutionManagement {
   }
 }
 
-rootProject.name = "Weather Tomorrow"
+rootProject.name = "WeatherTomorrow"
 
 private fun includeModules(directory: String) {
   file(directory).listFiles()
@@ -31,8 +31,8 @@ private fun includeModules(directory: String) {
     }
 }
 
+include(":composeApp")
 include(":shared")
-include(":app")
 includeModules("libs")
 includeModules("feature")
-includeModules("core")
+includeModules("data")

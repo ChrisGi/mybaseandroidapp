@@ -1,6 +1,7 @@
 plugins {
   alias(libs.plugins.kotlin.multiplatform)
   alias(libs.plugins.android.kotlin.multiplatform.library)
+  alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin {
@@ -9,7 +10,7 @@ kotlin {
   // which platforms this KMP module supports.
   // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
   androidLibrary {
-    namespace = "gi.aera.network"
+    namespace = "gi.aera.lib.network"
     compileSdk = AndroidConfig.COMPILE_SDK
     minSdk = AndroidConfig.MIN_SDK
 
@@ -62,10 +63,10 @@ kotlin {
 
         implementation(libs.ktor.client.core)
         implementation(libs.ktor.client.logging)
-        implementation(libs.ktor.serialization.kotlinx.json)
         implementation(libs.ktor.client.content.negotiation)
         implementation(libs.ktor.client.encoding)
-
+        implementation(libs.ktor.client.resources)
+        implementation(libs.ktor.serialization.kotlinx.json)
         implementation(libs.kotlinx.coroutines.core)
         implementation(libs.koin.core)
         implementation(libs.koin.test)
@@ -86,8 +87,8 @@ kotlin {
         implementation(libs.ktor.client.okhttp)
         implementation(libs.kotlinx.coroutines.android)
 
-        implementation(libs.koin.android)
-        implementation(libs.koin.androidx.compose)
+        implementation(libs.koin.core)
+        implementation(libs.kotlinx.serialization.json)
       }
     }
 
