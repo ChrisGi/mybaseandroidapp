@@ -8,5 +8,5 @@ val appModules = listOf(
   networkModule,
 
   weatherForecastDataModule,
-  weatherForecastFeatureModule
+  weatherForecastFeatureModule,
 )

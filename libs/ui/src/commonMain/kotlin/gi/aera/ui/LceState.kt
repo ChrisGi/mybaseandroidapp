@@ -19,15 +19,16 @@ sealed class LceState<out T> {
 fun <T> LceViewState(
   state: LceState<T>,
   error: @Composable (throwable: Throwable) -> Unit,
-  content: @Composable (T) -> Unit
+  modifier: Modifier = Modifier
+    .fillMaxSize()
+    .background(MaterialTheme.colorScheme.background),
+  content: @Composable (T) -> Unit,
 ) {
   when (state) {
     is LceState.Loading -> {
       Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier
-          .fillMaxSize()
-          .background(MaterialTheme.colorScheme.background)
+        modifier = modifier,
       ) {
         CircularProgressIndicator()
       }

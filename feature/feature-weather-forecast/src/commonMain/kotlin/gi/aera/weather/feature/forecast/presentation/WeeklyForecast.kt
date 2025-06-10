@@ -21,7 +21,7 @@ import gi.aera.weather.feature.forecast.domain.ForecastViewState
 @Composable
 fun WeeklyForecast(
   forecast: List<ForecastViewState>,
-  modifier: Modifier
+  modifier: Modifier = Modifier,
 ) {
   LazyRow(
     modifier = modifier,
@@ -29,13 +29,13 @@ fun WeeklyForecast(
     items(forecast) { forecast ->
       Column(
         modifier = Modifier
-          .width(60.dp)
+          .width(60.dp),
       ) {
         Text(
           color = MaterialTheme.colorScheme.onBackground,
           text = forecast.forecastDay,
           modifier = Modifier
-            .align(Alignment.CenterHorizontally)
+            .align(Alignment.CenterHorizontally),
         )
         if (!LocalInspectionMode.current) {
           AsyncImage(
@@ -52,7 +52,7 @@ fun WeeklyForecast(
           color = MaterialTheme.colorScheme.onBackground,
           text = forecast.currentTemperature,
           modifier = Modifier
-            .align(Alignment.CenterHorizontally)
+            .align(Alignment.CenterHorizontally),
         )
       }
     }

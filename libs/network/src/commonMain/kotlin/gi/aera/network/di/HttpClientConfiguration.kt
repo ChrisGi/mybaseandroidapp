@@ -30,14 +30,14 @@ class HttpClientConfiguration(private val httpClientProvider: HttpClientProvider
       json(
         Json {
           ignoreUnknownKeys = true
-        }
+        },
       )
     }
     defaultRequest {
       url {
         protocol = URLProtocol.HTTPS
         host = "api.tomorrow.io/v4"
-        parameters.append("apikey", "l5wtsHIbpcdnao1IcRkBgnWcvXjF4AA7") //7
+        parameters.append("apikey", "l5wtsHIbpcdnao1IcRkBgnWcvXjF4AA7")
       }
     }
 

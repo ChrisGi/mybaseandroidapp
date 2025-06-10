@@ -97,6 +97,7 @@ import gi.aera.weather.weather_code_8002
 import gi.aera.weather.weather_code_8003
 import org.jetbrains.compose.resources.StringResource
 
+@Suppress("MagicNumber")
 enum class WeatherCode(val code: Int, val conditionStringRes: StringResource, val conditionIcon: String = "") {
   UNKNOWN(0, Res.string.weather_code_0),
   CLEAR_SUNNY(1000, Res.string.weather_code_1000, "clear_day"),
@@ -191,7 +192,8 @@ enum class WeatherCode(val code: Int, val conditionStringRes: StringResource, va
   MOSTLY_CLEAR_AND_THUNDERSTORM(8001, Res.string.weather_code_8001, "tstorm"),
   PARTLY_CLOUDY_AND_THUNDERSTORM(8003, Res.string.weather_code_8003, "tstorm"),
   MOSTLY_CLOUDY_AND_THUNDERSTORM(8002, Res.string.weather_code_8002, "tstorm"),
-  THUNDERSTORM(8000, Res.string.weather_code_8000, "tstorm");
+  THUNDERSTORM(8000, Res.string.weather_code_8000, "tstorm"),
+  ;
 
   companion object {
     fun fromCode(code: Int): WeatherCode {

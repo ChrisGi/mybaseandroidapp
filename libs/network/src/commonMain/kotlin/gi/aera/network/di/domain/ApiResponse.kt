@@ -26,6 +26,7 @@ sealed class ApiResponse<out T> {
   }
 }
 
+@Suppress("TooGenericExceptionCaught")
 suspend inline fun <reified T> HttpClient.apiRequest(
   block: () -> HttpResponse,
 ): ApiResponse<T> =

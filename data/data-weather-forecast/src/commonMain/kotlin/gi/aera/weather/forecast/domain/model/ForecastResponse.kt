@@ -17,13 +17,13 @@ data class TimelinesDaily(
 
 @Serializable
 data class TimelinesHourly(
-  val hourly: List<HourlyWeather> = emptyList()
+  val hourly: List<HourlyWeather> = emptyList(),
 )
 
 @Serializable
 data class DailyWeather(
   val time: String,
-  val values: DailyWeatherValues
+  val values: DailyWeatherValues,
 )
 
 @Serializable
@@ -123,7 +123,7 @@ data class DailyWeatherValues(
   val windGustMin: Double? = null,
   val windSpeedAvg: Double? = null,
   val windSpeedMax: Double? = null,
-  val windSpeedMin: Double? = null
+  val windSpeedMin: Double? = null,
 )
 
 @Serializable

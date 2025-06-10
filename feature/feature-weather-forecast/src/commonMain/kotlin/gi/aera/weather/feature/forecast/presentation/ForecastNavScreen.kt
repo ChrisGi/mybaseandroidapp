@@ -24,7 +24,7 @@ fun NavGraphBuilder.forecastScreen() {
       modifier = Modifier
         .background(MaterialTheme.colorScheme.background)
         .safeContentPadding()
-        .fillMaxSize()
+        .fillMaxSize(),
     ) {
       ForecastScreen(state)
     }

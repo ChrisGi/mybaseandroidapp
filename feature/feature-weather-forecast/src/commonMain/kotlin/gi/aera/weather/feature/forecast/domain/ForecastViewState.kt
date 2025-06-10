@@ -9,11 +9,13 @@ data class ForecastViewState(
   val currentTemperature: String,
   val condition: StringResource,
   val conditionIcon: String,
-  val localDate: LocalDate
+  val localDate: LocalDate,
 ) {
 
   val forecastDay: String
-    get() = localDate.format(LocalDate.Format {
-      dayOfWeek(DayOfWeekNames.ENGLISH_ABBREVIATED)
-    }).lowercase()
+    get() = localDate.format(
+      LocalDate.Format {
+        dayOfWeek(DayOfWeekNames.ENGLISH_ABBREVIATED)
+      },
+    ).lowercase()
 }

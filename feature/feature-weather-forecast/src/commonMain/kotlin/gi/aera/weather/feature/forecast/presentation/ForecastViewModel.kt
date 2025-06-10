@@ -9,7 +9,6 @@ import gi.aera.weather.feature.forecast.domain.ForecastViewState
 import gi.aera.weather.feature.forecast.domain.ForecastViewStateFactory
 import gi.aera.weather.forecast.domain.model.ForecastParams
 import gi.aera.weather.forecast.domain.usecase.GetDailyForecastUseCase
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onStart
@@ -19,7 +18,7 @@ import kotlinx.coroutines.launch
 
 class ForecastViewModel(
   private val getDailyForecastUseCase: GetDailyForecastUseCase,
-  private val forecastViewStateFactory: ForecastViewStateFactory
+  private val forecastViewStateFactory: ForecastViewStateFactory,
 ) : ViewModel() {
 
   private val _state = MutableStateFlow<LceState<List<ForecastViewState>>>(LceState.Loading)
@@ -28,8 +27,8 @@ class ForecastViewModel(
     .onStart { loadCurrentConditionsForecast() }
     .stateIn(
       viewModelScope,
-      SharingStarted.WhileSubscribed(5000L),
-      LceState.Loading
+      SharingStarted.WhileSubscribed(RELOADING_TIMEOUT),
+      LceState.Loading,
     )
 
   private fun loadCurrentConditionsForecast() {
@@ -46,5 +45,9 @@ class ForecastViewModel(
         }
       }
     }
+  }
+
+  companion object {
+    private const val RELOADING_TIMEOUT = 5000L
   }
 }

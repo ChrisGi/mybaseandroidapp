@@ -1,7 +1,7 @@
 package gi.aera.weather.forecast
 
 import kotlin.test.Test
-import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -10,7 +10,7 @@ import kotlin.test.assertEquals
  */
 class ExampleUnitTest {
   @Test
-  fun addition_isCorrect() {
-    assertEquals(4, 2 + 2)
+  fun `assert that true isCorrect`() {
+    assertTrue(true)
   }
 }

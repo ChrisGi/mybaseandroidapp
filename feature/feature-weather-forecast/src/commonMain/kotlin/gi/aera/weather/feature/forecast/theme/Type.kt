@@ -16,13 +16,13 @@ fun AppFontFamily() = FontFamily(
   Font(Res.font.Afacad_Regular, weight = FontWeight.Normal),
   Font(Res.font.Afacad_Medium, weight = FontWeight.Medium),
   Font(Res.font.Afacad_SemiBold, weight = FontWeight.SemiBold),
-  Font(Res.font.Afacad_Bold, weight = FontWeight.Bold)
+  Font(Res.font.Afacad_Bold, weight = FontWeight.Bold),
 )
 
 val baseline = Typography()
 
 @Composable
-fun AppTypography(): Typography {
+fun appTypography(): Typography {
   val appFontFamily = AppFontFamily()
   return Typography(
     displayLarge = baseline.displayLarge.copy(fontFamily = appFontFamily),
@@ -42,4 +42,3 @@ fun AppTypography(): Typography {
     labelSmall = baseline.labelSmall.copy(fontFamily = appFontFamily),
   )
 }
-

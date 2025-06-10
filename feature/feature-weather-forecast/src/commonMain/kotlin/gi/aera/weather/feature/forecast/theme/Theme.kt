@@ -90,14 +90,14 @@ data class ColorFamily(
   val color: Color,
   val onColor: Color,
   val colorContainer: Color,
-  val onColorContainer: Color
+  val onColorContainer: Color,
 )
 
 @Composable
 fun AppTheme(
-  darkTheme: Boolean = isSystemInDarkTheme(),
   type: Typography,
-  content: @Composable() () -> Unit
+  darkTheme: Boolean = isSystemInDarkTheme(),
+  content: @Composable() () -> Unit,
 ) {
   val colorScheme = when {
     darkTheme -> darkScheme
@@ -107,7 +107,6 @@ fun AppTheme(
   MaterialTheme(
     colorScheme = colorScheme,
     typography = type,
-    content = content
+    content = content,
   )
 }
-

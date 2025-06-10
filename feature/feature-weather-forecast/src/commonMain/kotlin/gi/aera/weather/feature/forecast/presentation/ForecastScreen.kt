@@ -16,7 +16,11 @@ import gi.aera.weather.feature.forecast.domain.ForecastViewState
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun ForecastScreen(state: LceState<List<ForecastViewState>>) {
+fun ForecastScreen(
+  state: LceState<List<ForecastViewState>>,
+  modifier: Modifier = Modifier
+    .fillMaxSize(),
+) {
   LceViewState(
     state = state,
     error = {
@@ -25,13 +29,12 @@ fun ForecastScreen(state: LceState<List<ForecastViewState>>) {
   ) { sevenDayForecast ->
     val todayForecast = sevenDayForecast.first()
     Column(
-      modifier = Modifier
-        .fillMaxSize()
+      modifier = modifier,
     ) {
       Box(
         modifier = Modifier
           .padding(PaddingValues(bottom = 32.dp))
-          .weight(1f)
+          .weight(1f),
       ) {
         Temperature(todayForecast.currentTemperature)
       }
@@ -41,18 +44,18 @@ fun ForecastScreen(state: LceState<List<ForecastViewState>>) {
         description = stringResource(todayForecast.condition),
         modifier = Modifier
           .padding(PaddingValues(vertical = 32.dp))
-          .weight(2f)
+          .weight(2f),
       )
 
       Box(
         modifier = Modifier
           .weight(1f)
-          .fillMaxWidth()
+          .fillMaxWidth(),
       ) {
         WeeklyForecast(
           sevenDayForecast,
           Modifier
-            .align(Alignment.Center)
+            .align(Alignment.Center),
         )
       }
     }

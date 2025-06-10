@@ -1,3 +1,5 @@
+@file:Suppress("MagicNumber")
+
 package gi.aera.weather.feature.forecast.theme
 import androidx.compose.ui.graphics.Color
 

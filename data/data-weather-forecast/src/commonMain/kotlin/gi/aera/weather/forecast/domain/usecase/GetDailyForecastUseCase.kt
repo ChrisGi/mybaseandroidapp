@@ -9,7 +9,7 @@ import kotlinx.coroutines.withContext
 
 class GetDailyForecastUseCase internal constructor(
   private val forecastRepository: ForecastRepository,
-  private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+  private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
 
   suspend operator fun invoke(params: ForecastParams) = withContext(dispatcher) {

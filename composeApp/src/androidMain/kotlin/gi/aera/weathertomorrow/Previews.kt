@@ -14,7 +14,7 @@ import gi.aera.weather.feature.forecast.domain.ForecastViewState
 import gi.aera.weather.feature.forecast.domain.WeatherCode
 import gi.aera.weather.feature.forecast.presentation.ForecastScreen
 import gi.aera.weather.feature.forecast.theme.AppTheme
-import gi.aera.weather.feature.forecast.theme.AppTypography
+import gi.aera.weather.feature.forecast.theme.appTypography
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -22,12 +22,13 @@ import kotlinx.datetime.toLocalDateTime
 @Preview
 @Composable
 private fun ForecScreenPreview() {
-  AppTheme(false, AppTypography()) {
+  AppTheme(false, appTypography()) {
     Column(
-      horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
+      horizontalAlignment = Alignment.CenterHorizontally,
+      modifier = Modifier
         .background(MaterialTheme.colorScheme.background)
         .safeContentPadding()
-        .fillMaxSize()
+        .fillMaxSize(),
     ) {
       val localDate = Clock.System.now().toLocalDateTime(TimeZone.UTC)
       val state = LceState.Success(
@@ -36,9 +37,9 @@ private fun ForecScreenPreview() {
             "100",
             WeatherCode.CLEAR_SUNNY.conditionStringRes,
             "icon",
-            localDate.date
-          )
-        )
+            localDate.date,
+          ),
+        ),
       )
       ForecastScreen(state)
     }

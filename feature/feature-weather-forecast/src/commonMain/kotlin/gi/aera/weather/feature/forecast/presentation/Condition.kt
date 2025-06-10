@@ -21,11 +21,11 @@ import gi.aera.weather.Res
 fun Condition(
   icon: String,
   description: String,
-  modifier: Modifier
+  modifier: Modifier = Modifier,
 ) {
   Row(
     verticalAlignment = Alignment.CenterVertically,
-    modifier = modifier
+    modifier = modifier,
   ) {
     if (!LocalInspectionMode.current) {
       AsyncImage(
@@ -49,7 +49,7 @@ fun Condition(
             text = char.toString(),
             style = TextStyle(fontWeight = FontWeight.Bold),
             modifier = Modifier
-              .align(Alignment.CenterHorizontally)
+              .align(Alignment.CenterHorizontally),
           )
         }
     }

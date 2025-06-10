@@ -7,5 +7,4 @@ internal class ForecastRepository internal constructor(private val forecastApi: 
   suspend fun forecastDaily(params: ForecastParams) = forecastApi.forecastDaily(params)
 
   suspend fun forecastHourly(params: ForecastParams) = forecastApi.forecastHourly(params)
-
 }

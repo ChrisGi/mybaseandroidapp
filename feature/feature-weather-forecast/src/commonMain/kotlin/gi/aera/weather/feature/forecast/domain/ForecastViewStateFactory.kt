@@ -13,7 +13,7 @@ class ForecastViewStateFactory {
       currentTemperature = weatherValues.temperatureAvg?.toInt().toString(),
       condition = getWeatherCondition(weatherValues.weatherCodeMin),
       conditionIcon = getWeatherConditionIcon(weatherValues.weatherCodeMin),
-      localDate = Instant.parse(daily.time).toLocalDateTime(TimeZone.currentSystemDefault()).date
+      localDate = Instant.parse(daily.time).toLocalDateTime(TimeZone.currentSystemDefault()).date,
     )
   }
 
