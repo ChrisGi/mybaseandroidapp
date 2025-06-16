@@ -61,6 +61,7 @@ kotlin {
         api(project(":network"))
 
         api(project(":data-weather-forecast"))
+        api(project(":data-location"))
         api(project(":feature-weather-forecast"))
 
         implementation(libs.kotlin.stdlib)

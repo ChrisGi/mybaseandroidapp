@@ -16,10 +16,11 @@ fun App(
 ) {
   KoinApplication(
     application = {
+      koinAppDeclaration.invoke(this)
       modules(appModules)
     },
   ) {
-    AppTheme(isSystemInDarkTheme, appTypography()) {
+    AppTheme(appTypography(), isSystemInDarkTheme) {
       val navController = rememberNavController()
       NavHost(
         navController = navController,

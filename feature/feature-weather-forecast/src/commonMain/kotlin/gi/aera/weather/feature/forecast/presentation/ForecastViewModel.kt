@@ -3,6 +3,7 @@ package gi.aera.weather.feature.forecast.presentation
 import ForecastResponseDaily
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import gi.aera.location.domain.usecase.GetCurrentLocationUseCase
 import gi.aera.network.di.domain.ApiResponse
 import gi.aera.ui.LceState
 import gi.aera.weather.feature.forecast.domain.ForecastViewState
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ForecastViewModel(
+  private val getLocationsUseCase: GetCurrentLocationUseCase,
   private val getDailyForecastUseCase: GetDailyForecastUseCase,
   private val forecastViewStateFactory: ForecastViewStateFactory,
 ) : ViewModel() {
@@ -35,13 +37,15 @@ class ForecastViewModel(
     viewModelScope.launch {
       _state.update { LceState.Loading }
 
-      when (val forecastResponse = getDailyForecastUseCase(ForecastParams(location = "London"))) {
+      val location = getLocationsUseCase()
+
+      when (val forecastResponse = getDailyForecastUseCase(ForecastParams(location = location.toString()))) {
         is ApiResponse.Error -> _state.update {
           LceState.Error(Exception(forecastResponse.errorMessage))
         }
 
         is ApiResponse.Success<ForecastResponseDaily> -> _state.update {
-          LceState.Success(forecastViewStateFactory.createState(forecastResponse.data))
+          LceState.Success(forecastViewStateFactory.createState(forecastResponse.data, location))
         }
       }
     }

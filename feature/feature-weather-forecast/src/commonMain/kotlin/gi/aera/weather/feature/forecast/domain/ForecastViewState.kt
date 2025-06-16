@@ -1,15 +1,16 @@
 package gi.aera.weather.feature.forecast.domain
 
+import gi.aera.ui.text.UiString
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.format
 import kotlinx.datetime.format.DayOfWeekNames
-import org.jetbrains.compose.resources.StringResource
 
 data class ForecastViewState(
   val currentTemperature: String,
-  val condition: StringResource,
+  val condition: UiString,
   val conditionIcon: String,
   val localDate: LocalDate,
+  val location: UiString,
 ) {
 
   val forecastDay: String

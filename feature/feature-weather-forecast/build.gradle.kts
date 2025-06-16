@@ -48,8 +48,10 @@ kotlin {
     commonMain {
       dependencies {
         implementation(project(":data-weather-forecast"))
+        implementation(project(":data-location"))
+
         api(project(":ui"))
-        implementation(project(":network"))
+        api(project(":network"))
 
         implementation(libs.kotlin.stdlib)
 

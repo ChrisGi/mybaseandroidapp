@@ -1,11 +1,11 @@
 <resources>
   <string name="weather_code_0">Nieznany</string>
-  <string name="weather_code_1000">Czyste</string>
-  <string name="weather_code_1100">Przeważnie czyste</string>
+  <string name="weather_code_1000">Pogodnie</string>
+  <string name="weather_code_1100">Przeważnie pogodnie</string>
   <string name="weather_code_1101">Częściowo pochmurno</string>
   <string name="weather_code_1102">Przeważnie pochmurno</string>
   <string name="weather_code_1001">Pochmurno</string>
-  <string name="weather_code_1103">Częściowo i przeważnie czyste</string>
+  <string name="weather_code_1103">Częściowo i przeważnie pogodnie</string>
   <string name="weather_code_2100">Lekkie zamglenie</string>
   <string name="weather_code_2101">Przeważnie czyste i lekkie zamglenie</string>
   <string name="weather_code_2102">Częściowo pochmurno i lekkie zamglenie</string>
@@ -93,4 +93,7 @@
   <string name="weather_code_8003">Częściowo pochmurno i burza</string>
   <string name="weather_code_8002">Przeważnie pochmurno i burza</string>
   <string name="weather_code_8000">Burza</string>
+
+  <string name="location_current">Moje położenie</string>
+
 </resources>

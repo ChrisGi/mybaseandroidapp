@@ -93,4 +93,7 @@
   <string name="weather_code_8003">Partly Cloudy and Thunderstorm</string>
   <string name="weather_code_8002">Mostly Cloudy and Thunderstorm</string>
   <string name="weather_code_8000">Thunderstorm</string>
+
+  <string name="location_current">My location</string>
+
 </resources>

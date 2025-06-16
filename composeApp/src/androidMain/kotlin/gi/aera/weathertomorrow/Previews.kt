@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import gi.aera.ui.LceState
+import gi.aera.ui.text.UiString
 import gi.aera.weather.feature.forecast.domain.ForecastViewState
 import gi.aera.weather.feature.forecast.domain.WeatherCode
 import gi.aera.weather.feature.forecast.presentation.ForecastScreen
@@ -22,7 +23,7 @@ import kotlinx.datetime.toLocalDateTime
 @Preview
 @Composable
 private fun ForecScreenPreview() {
-  AppTheme(false, appTypography()) {
+  AppTheme(appTypography(), false) {
     Column(
       horizontalAlignment = Alignment.CenterHorizontally,
       modifier = Modifier
@@ -35,9 +36,10 @@ private fun ForecScreenPreview() {
         listOf(
           ForecastViewState(
             "100",
-            WeatherCode.CLEAR_SUNNY.conditionStringRes,
+            UiString.Resource(WeatherCode.CLEAR_SUNNY.conditionStringRes),
             "icon",
             localDate.date,
+            UiString.Text("London"),
           ),
         ),
       )
