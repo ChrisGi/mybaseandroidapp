@@ -16,11 +16,11 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import gi.aera.weather.Res
-import gi.aera.weather.feature.forecast.domain.ForecastViewState
+import gi.aera.weather.feature.forecast.domain.Forecast
 
 @Composable
 fun WeeklyForecast(
-  forecast: List<ForecastViewState>,
+  forecast: List<Forecast>,
   modifier: Modifier = Modifier,
 ) {
   LazyRow(
@@ -33,7 +33,7 @@ fun WeeklyForecast(
       ) {
         Text(
           color = MaterialTheme.colorScheme.onBackground,
-          text = forecast.forecastDay,
+          text = forecast.weekday,
           modifier = Modifier
             .align(Alignment.CenterHorizontally),
         )

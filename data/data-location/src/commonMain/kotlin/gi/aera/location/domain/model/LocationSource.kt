@@ -4,7 +4,7 @@ sealed class LocationSource {
 
   data class GpsCoordinates(val latitude: Double, val longitude: Double) : LocationSource() {
     override fun toString(): String {
-      return "$latitude, $longitude"
+      return "Home, $latitude, $longitude"
     }
   }
 

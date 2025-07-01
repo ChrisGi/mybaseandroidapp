@@ -1,0 +1,83 @@
+package gi.aera.weather.feature.location.presentation
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import gi.aera.location.domain.model.SearchLocation
+import gi.aera.location.domain.usecase.SaveLocationUseCase
+import gi.aera.location.domain.usecase.SearchLocationUseCase
+import gi.aera.network.di.domain.ApiResponse
+import gi.aera.ui.C
+import gi.aera.ui.EventHandler
+import gi.aera.ui.LceState
+import gi.aera.weather.feature.location.domain.model.SearchLocationEvent
+import gi.aera.weather.feature.location.domain.model.SearchLocationViewState
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+
+@Suppress("OPT_IN_USAGE")
+class SearchLocationViewModel(
+  private val searchLocationUseCase: SearchLocationUseCase,
+  private val saveLocationUseCase: SaveLocationUseCase,
+) : ViewModel(), EventHandler<SearchLocationEvent> {
+
+  private val _searchLocationViewState = MutableStateFlow(SearchLocationViewState())
+  val searchLocationViewState: StateFlow<SearchLocationViewState> = _searchLocationViewState
+    .stateIn(
+      viewModelScope,
+      SharingStarted.WhileSubscribed(C.RELOADING_TIMEOUT),
+      SearchLocationViewState(),
+    )
+
+  init {
+    _searchLocationViewState
+      .map { it.searchQuery }
+      .debounce(DEBOUNCE_SEARCH_FOR)
+      .filter(::searchWithMinimumQueryLength)
+      .distinctUntilChanged()
+      .onEach { performNetworkSearchLocation(it) }
+      .launchIn(viewModelScope)
+  }
+
+  override fun obtainEvent(event: SearchLocationEvent) {
+    when (event) {
+      is SearchLocationEvent.Save -> saveLocation(event.location)
+      is SearchLocationEvent.Search -> searchLocation(event.query)
+    }
+  }
+
+  private fun searchLocation(query: String) {
+    _searchLocationViewState.update { it.copy(searchQuery = query) }
+  }
+
+  private fun saveLocation(location: SearchLocation) = viewModelScope.launch {
+    saveLocationUseCase(location)
+  }
+
+  private fun searchWithMinimumQueryLength(query: String, minLength: Int = 3) =
+    query.isNotEmpty() && query.length >= minLength
+
+  private suspend fun performNetworkSearchLocation(query: String) {
+    _searchLocationViewState.update { it.copy(displayState = LceState.Loading) }
+    when (val searchedLocationResponse = searchLocationUseCase(query)) {
+      is ApiResponse.Error -> println(searchedLocationResponse.errorMessage)
+      is ApiResponse.Success<List<SearchLocation>> -> {
+        val searchedLocations = searchedLocationResponse.data
+        _searchLocationViewState.update { it.copy(displayState = LceState.Content(searchedLocations)) }
+      }
+    }
+  }
+
+  companion object {
+    private const val DEBOUNCE_SEARCH_FOR = 500L
+  }
+}

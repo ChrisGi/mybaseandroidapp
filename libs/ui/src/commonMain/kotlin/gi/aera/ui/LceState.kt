@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 
 sealed class LceState<out T> {
   data object Loading : LceState<Nothing>()
-  data class Success<T>(val data: T) : LceState<T>()
+  data class Content<T>(val content: T) : LceState<T>()
   data class Error(val throwable: Throwable) : LceState<Nothing>()
 }
 
@@ -22,24 +22,28 @@ fun <T> LceViewState(
   modifier: Modifier = Modifier
     .fillMaxSize()
     .background(MaterialTheme.colorScheme.background),
+  loading: @Composable () -> Unit = { FullscreenProgressIndicator(modifier) },
   content: @Composable (T) -> Unit,
 ) {
   when (state) {
-    is LceState.Loading -> {
-      Box(
-        contentAlignment = Alignment.Center,
-        modifier = modifier,
-      ) {
-        CircularProgressIndicator()
-      }
-    }
+    is LceState.Loading -> loading()
 
-    is LceState.Success -> {
-      content(state.data)
+    is LceState.Content -> {
+      content(state.content)
     }
 
     is LceState.Error -> {
       error(state.throwable)
     }
+  }
+}
+
+@Composable
+private fun FullscreenProgressIndicator(modifier: Modifier = Modifier) {
+  Box(
+    contentAlignment = Alignment.Center,
+    modifier = modifier,
+  ) {
+    CircularProgressIndicator()
   }
 }

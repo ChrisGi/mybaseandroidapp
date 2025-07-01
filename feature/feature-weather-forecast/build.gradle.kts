@@ -72,6 +72,7 @@ kotlin {
         implementation(compose.components.resources)
         implementation(compose.preview)
         implementation(compose.components.uiToolingPreview)
+        implementation(compose.materialIconsExtended)
 
         implementation(libs.koin.test)
       }
@@ -104,10 +105,4 @@ kotlin {
     }
   }
 
-}
-
-compose.resources {
-  publicResClass = true
-  packageOfResClass = "gi.aera.weather"
-  generateResClass = always
 }

@@ -45,3 +45,10 @@ suspend inline fun <reified T> HttpClient.apiRequest(
   } catch (e: Exception) {
     ApiResponse.Error.GenericError(e.message)
   }
+
+inline fun <T, S> ApiResponse<T>.map(crossinline mapper: (T) -> S): ApiResponse<S> {
+  return when (this) {
+    is ApiResponse.Error -> this
+    is ApiResponse.Success<*> -> mapper(data as T).let { ApiResponse.Success(it) }
+  }
+}

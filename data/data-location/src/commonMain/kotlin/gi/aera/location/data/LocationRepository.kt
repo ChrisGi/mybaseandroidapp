@@ -1,3 +1,5 @@
 package gi.aera.location.data
 
-expect class LocationRepository : Location
+internal interface LocationRepository {
+  suspend fun getLastLocation(): Pair<Double, Double>
+}

@@ -30,7 +30,7 @@ kotlin {
   // A step-by-step guide on how to include this library in an XCode
   // project can be found here:
   // https://developer.android.com/kotlin/multiplatform/migrate
-  val xcfName = "networkKit"
+  val xcfName = "sharedKit"
 
   iosX64 {
     binaries.framework {
@@ -59,10 +59,14 @@ kotlin {
     commonMain {
       dependencies {
         api(project(":network"))
+        api(project(":ui"))
+        api(project(":preferences"))
 
         api(project(":data-weather-forecast"))
         api(project(":data-location"))
+
         api(project(":feature-weather-forecast"))
+        api(project(":feature-search-location"))
 
         implementation(libs.kotlin.stdlib)
 

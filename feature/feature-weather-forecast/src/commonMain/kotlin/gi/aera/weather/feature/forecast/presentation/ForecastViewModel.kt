@@ -3,55 +3,50 @@ package gi.aera.weather.feature.forecast.presentation
 import ForecastResponseDaily
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import gi.aera.location.domain.usecase.GetCurrentLocationUseCase
+import gi.aera.location.domain.model.LocationNotFoundException
+import gi.aera.location.domain.usecase.GetLastLocationUseCase
+import gi.aera.location.domain.usecase.GetSavedLocationUseCase
 import gi.aera.network.di.domain.ApiResponse
+import gi.aera.ui.C
 import gi.aera.ui.LceState
-import gi.aera.weather.feature.forecast.domain.ForecastViewState
+import gi.aera.weather.feature.forecast.domain.Forecast
 import gi.aera.weather.feature.forecast.domain.ForecastViewStateFactory
 import gi.aera.weather.forecast.domain.model.ForecastParams
 import gi.aera.weather.forecast.domain.usecase.GetDailyForecastUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 class ForecastViewModel(
-  private val getLocationsUseCase: GetCurrentLocationUseCase,
+  private val getLastLocationsUseCase: GetLastLocationUseCase,
+  private val getSavedLocationsUseCase: GetSavedLocationUseCase,
   private val getDailyForecastUseCase: GetDailyForecastUseCase,
   private val forecastViewStateFactory: ForecastViewStateFactory,
 ) : ViewModel() {
 
-  private val _state = MutableStateFlow<LceState<List<ForecastViewState>>>(LceState.Loading)
-
-  val viewState = _state
-    .onStart { loadCurrentConditionsForecast() }
-    .stateIn(
-      viewModelScope,
-      SharingStarted.WhileSubscribed(RELOADING_TIMEOUT),
-      LceState.Loading,
-    )
-
-  private fun loadCurrentConditionsForecast() {
-    viewModelScope.launch {
-      _state.update { LceState.Loading }
-
-      val location = getLocationsUseCase()
-
-      when (val forecastResponse = getDailyForecastUseCase(ForecastParams(location = location.toString()))) {
-        is ApiResponse.Error -> _state.update {
-          LceState.Error(Exception(forecastResponse.errorMessage))
-        }
-
-        is ApiResponse.Success<ForecastResponseDaily> -> _state.update {
-          LceState.Success(forecastViewStateFactory.createState(forecastResponse.data, location))
-        }
+  private val _state = MutableStateFlow<LceState<List<Forecast>>>(LceState.Loading)
+  val viewState = getSavedLocationsUseCase()
+    .catch { e ->
+      if (e is LocationNotFoundException) {
+        emit(getLastLocationsUseCase())
       }
     }
-  }
+    .combine(_state) { location, _ ->
+      return@combine when (
+        val response = getDailyForecastUseCase(ForecastParams(location = "${location.latitude}, ${location.longitude}"))
+      ) {
+        is ApiResponse.Error ->
+          LceState.Error(Exception(response.errorMessage))
 
-  companion object {
-    private const val RELOADING_TIMEOUT = 5000L
-  }
+        is ApiResponse.Success<ForecastResponseDaily> ->
+          LceState.Content(forecastViewStateFactory.createState(response.data, location))
+      }
+    }
+    .stateIn(
+      viewModelScope,
+      SharingStarted.WhileSubscribed(C.RELOADING_TIMEOUT),
+      LceState.Loading,
+    )
 }

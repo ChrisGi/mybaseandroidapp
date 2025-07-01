@@ -6,13 +6,13 @@ data class ForecastResponseDaily(
 )
 
 @Serializable
-data class ForecastResponseHourly(
-  val timelines: TimelinesHourly,
+data class TimelinesDaily(
+  val daily: List<DailyWeather> = emptyList(),
 )
 
 @Serializable
-data class TimelinesDaily(
-  val daily: List<DailyWeather> = emptyList(),
+data class ForecastResponseHourly(
+  val timelines: TimelinesHourly,
 )
 
 @Serializable

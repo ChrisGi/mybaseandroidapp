@@ -11,8 +11,8 @@ kotlin {
   // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
   androidLibrary {
     namespace = "gi.aera.weather.data.forecast"
-    compileSdk = 35
-    minSdk = 24
+    compileSdk = AndroidConfig.COMPILE_SDK
+    minSdk = AndroidConfig.MIN_SDK
 
     withHostTestBuilder {
     }
@@ -67,7 +67,6 @@ kotlin {
         implementation(libs.ktor.client.resources)
         implementation(libs.ktor.client.content.negotiation)
         implementation(libs.ktor.serialization.kotlinx.json)
-
 
         implementation(libs.koin.core)
         implementation(libs.koin.test)

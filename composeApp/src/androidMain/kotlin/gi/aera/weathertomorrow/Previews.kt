@@ -11,14 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import gi.aera.ui.LceState
 import gi.aera.ui.text.UiString
-import gi.aera.weather.feature.forecast.domain.ForecastViewState
+import gi.aera.ui.theme.AppTheme
+import gi.aera.ui.theme.appTypography
+import gi.aera.weather.feature.forecast.domain.Forecast
 import gi.aera.weather.feature.forecast.domain.WeatherCode
 import gi.aera.weather.feature.forecast.presentation.ForecastScreen
-import gi.aera.weather.feature.forecast.theme.AppTheme
-import gi.aera.weather.feature.forecast.theme.appTypography
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 
 @Preview
 @Composable
@@ -31,19 +28,18 @@ private fun ForecScreenPreview() {
         .safeContentPadding()
         .fillMaxSize(),
     ) {
-      val localDate = Clock.System.now().toLocalDateTime(TimeZone.UTC)
-      val state = LceState.Success(
+      val state = LceState.Content(
         listOf(
-          ForecastViewState(
+          Forecast(
             "100",
             UiString.Resource(WeatherCode.CLEAR_SUNNY.conditionStringRes),
             "icon",
-            localDate.date,
+            "mon",
             UiString.Text("London"),
           ),
         ),
       )
-      ForecastScreen(state)
+      ForecastScreen(state, {})
     }
   }
 }

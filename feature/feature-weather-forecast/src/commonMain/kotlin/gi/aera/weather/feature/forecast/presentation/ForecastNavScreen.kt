@@ -11,10 +11,13 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import gi.aera.weather.feature.forecast.domain.ForecastScreenViewEvent
 import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
 
-fun NavGraphBuilder.forecastScreen() {
+fun NavGraphBuilder.forecastScreen(
+  navigateToSearchLocation: () -> Unit = {},
+) {
   composable<ForecastNavScreen> {
     val viewModel = koinViewModel<ForecastViewModel>()
     val state by viewModel.viewState.collectAsStateWithLifecycle()
@@ -26,7 +29,14 @@ fun NavGraphBuilder.forecastScreen() {
         .safeContentPadding()
         .fillMaxSize(),
     ) {
-      ForecastScreen(state)
+      ForecastScreen(
+        state = state,
+        event = {
+          when (it) {
+            ForecastScreenViewEvent.NavigateToSearchLocation -> navigateToSearchLocation.invoke()
+          }
+        },
+      )
     }
   }
 }

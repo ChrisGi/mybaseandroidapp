@@ -25,8 +25,10 @@
             <option value="$PROJECT_DIR$/composeApp" />
             <option value="$PROJECT_DIR$/data/data-location" />
             <option value="$PROJECT_DIR$/data/data-weather-forecast" />
+            <option value="$PROJECT_DIR$/feature/feature-search-location" />
             <option value="$PROJECT_DIR$/feature/feature-weather-forecast" />
             <option value="$PROJECT_DIR$/libs/network" />
+            <option value="$PROJECT_DIR$/libs/preferences" />
             <option value="$PROJECT_DIR$/libs/ui" />
             <option value="$PROJECT_DIR$/shared" />
           </set>
