@@ -3,25 +3,19 @@ package gi.aera.weathertomorrow
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import gi.aera.shared.di.appModules
 import gi.aera.ui.theme.AppTheme
 import gi.aera.ui.theme.appTypography
 import gi.aera.weather.feature.forecast.presentation.ForecastNavScreen
 import gi.aera.weather.feature.forecast.presentation.forecastScreen
 import gi.aera.weather.feature.location.presentation.SearchLocationNavScreen
 import gi.aera.weather.feature.location.presentation.searchLocationScreen
-import org.koin.compose.KoinApplication
+import org.koin.compose.KoinContext
 
 @Composable
 fun App(
   isSystemInDarkTheme: Boolean,
 ) {
-  KoinApplication(
-    application = {
-      koinAppDeclaration.invoke(this)
-      modules(appModules)
-    },
-  ) {
+  KoinContext {
     AppTheme(appTypography(), isSystemInDarkTheme) {
       val navController = rememberNavController()
       NavHost(
