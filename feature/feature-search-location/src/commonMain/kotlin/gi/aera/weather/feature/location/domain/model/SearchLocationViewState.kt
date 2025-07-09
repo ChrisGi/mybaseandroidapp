@@ -9,7 +9,7 @@ import gi.aera.weather.search_location_screen_title
 data class SearchLocationViewState(
   val toolbarTitle: UiString = UiString.Resource(Res.string.search_location_screen_title),
   val searchQuery: String = "",
-  val displayState: LceState<List<SearchLocation>>? = null,
+  private val displayState: LceState<List<SearchLocation>>? = null,
 ) {
 
   val isLoading: Boolean

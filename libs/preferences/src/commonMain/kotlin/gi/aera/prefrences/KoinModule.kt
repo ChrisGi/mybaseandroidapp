@@ -4,7 +4,7 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 
 val preferencesModule = module {
-  includes(preferencesPlatformModule)
+  includes(platformModule)
 }
 
-expect val preferencesPlatformModule: Module
+expect val platformModule: Module

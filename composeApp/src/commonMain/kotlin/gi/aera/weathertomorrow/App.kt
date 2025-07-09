@@ -4,10 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import gi.aera.shared.di.appModules
-import gi.aera.weather.feature.forecast.presentation.ForecastNavScreen
-import gi.aera.weather.feature.forecast.presentation.forecastScreen
 import gi.aera.ui.theme.AppTheme
 import gi.aera.ui.theme.appTypography
+import gi.aera.weather.feature.forecast.presentation.ForecastNavScreen
+import gi.aera.weather.feature.forecast.presentation.forecastScreen
 import gi.aera.weather.feature.location.presentation.SearchLocationNavScreen
 import gi.aera.weather.feature.location.presentation.searchLocationScreen
 import org.koin.compose.KoinApplication
@@ -28,10 +28,18 @@ fun App(
         navController = navController,
         startDestination = ForecastNavScreen,
       ) {
-        forecastScreen {
-          navController.navigate(SearchLocationNavScreen)
+        forecastScreen { popUpInclusive ->
+          navController.navigate(SearchLocationNavScreen) {
+            if (popUpInclusive) {
+              popUpTo(0) { inclusive = true }
+            }
+          }
         }
-        searchLocationScreen(navController)
+        searchLocationScreen {
+          navController.navigate(ForecastNavScreen) {
+            popUpTo(0) { inclusive = true }
+          }
+        }
       }
     }
   }

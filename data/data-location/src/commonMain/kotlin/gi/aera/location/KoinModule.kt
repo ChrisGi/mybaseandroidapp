@@ -18,6 +18,7 @@ val locationModule = module {
   single { LocationApi(get(named(LOCATION_HTTP_CLIENT))) }
   singleOf(::SearchLocationRepository)
   single { SearchLocationUseCase(get()) }
+
   singleOf(::SaveLocationRepository)
   single { SaveLocationUseCase(get()) }
   single { GetSavedLocationUseCase(get()) }

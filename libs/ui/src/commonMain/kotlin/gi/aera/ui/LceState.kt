@@ -39,7 +39,7 @@ fun <T> LceViewState(
 }
 
 @Composable
-private fun FullscreenProgressIndicator(modifier: Modifier = Modifier) {
+fun FullscreenProgressIndicator(modifier: Modifier = Modifier) {
   Box(
     contentAlignment = Alignment.Center,
     modifier = modifier,

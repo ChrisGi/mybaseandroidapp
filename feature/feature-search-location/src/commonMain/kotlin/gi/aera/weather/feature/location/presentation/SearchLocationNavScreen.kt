@@ -9,12 +9,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
 
-fun NavGraphBuilder.searchLocationScreen(navController: NavHostController) {
+fun NavGraphBuilder.searchLocationScreen(
+  navigateBack: () -> Unit,
+) {
   composable<SearchLocationNavScreen> {
     val viewModel = koinViewModel<SearchLocationViewModel>()
     val state by viewModel.searchLocationViewState.collectAsStateWithLifecycle()
@@ -28,7 +29,7 @@ fun NavGraphBuilder.searchLocationScreen(navController: NavHostController) {
       SearchLocationScreen(
         state,
         viewModel::obtainEvent,
-        navController::popBackStack,
+        navigateBack,
       )
     }
   }
