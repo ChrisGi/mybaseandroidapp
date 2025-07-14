@@ -4,11 +4,13 @@ import gi.aera.location.domain.model.SearchLocation
 import gi.aera.ui.LceState
 import gi.aera.ui.text.UiString
 import gi.aera.weather.Res
+import gi.aera.weather.search_location_label
 import gi.aera.weather.search_location_screen_title
 
 data class SearchLocationViewState(
   val toolbarTitle: UiString = UiString.Resource(Res.string.search_location_screen_title),
   val searchQuery: String = "",
+  val searchPlaceholder: UiString = UiString.Resource(Res.string.search_location_label),
   private val displayState: LceState<List<SearchLocation>>? = null,
 ) {
 
