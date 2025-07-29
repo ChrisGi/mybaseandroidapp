@@ -1,4 +1,4 @@
-package gi.aera.weather.feature.location.domain.model
+package gi.aera.weather.feature.search.domain.model
 
 import gi.aera.location.domain.model.SearchLocation
 import gi.aera.ui.LceState

@@ -4,12 +4,12 @@ import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import gi.aera.weather.Afacad_Bold
-import gi.aera.weather.Afacad_Medium
-import gi.aera.weather.Afacad_Regular
-import gi.aera.weather.Afacad_SemiBold
-import gi.aera.weather.Res
 import org.jetbrains.compose.resources.Font
+import weathertomorrow.ui.generated.resources.Afacad_Bold
+import weathertomorrow.ui.generated.resources.Afacad_Medium
+import weathertomorrow.ui.generated.resources.Afacad_Regular
+import weathertomorrow.ui.generated.resources.Afacad_SemiBold
+import weathertomorrow.ui.generated.resources.Res
 
 @Composable
 fun AppFontFamily() = FontFamily(

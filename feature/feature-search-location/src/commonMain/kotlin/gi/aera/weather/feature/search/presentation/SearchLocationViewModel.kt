@@ -1,4 +1,4 @@
-package gi.aera.weather.feature.location.presentation
+package gi.aera.weather.feature.search.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,11 +9,14 @@ import gi.aera.network.di.domain.ApiResponse
 import gi.aera.ui.C
 import gi.aera.ui.EventHandler
 import gi.aera.ui.LceState
-import gi.aera.weather.feature.location.domain.model.SearchLocationEvent
-import gi.aera.weather.feature.location.domain.model.SearchLocationViewState
+import gi.aera.weather.feature.search.domain.model.SearchLocationEffect
+import gi.aera.weather.feature.search.domain.model.SearchLocationEvent
+import gi.aera.weather.feature.search.domain.model.SearchLocationViewState
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
@@ -38,6 +41,9 @@ class SearchLocationViewModel(
       SearchLocationViewState(),
     )
 
+  private val _searchLocationEffect = MutableSharedFlow<SearchLocationEffect>()
+  val searchLocationEffect = _searchLocationEffect.asSharedFlow()
+
   init {
     _searchLocationViewState
       .map { it.searchQuery }
@@ -52,7 +58,12 @@ class SearchLocationViewModel(
     when (event) {
       is SearchLocationEvent.Save -> saveLocation(event.location)
       is SearchLocationEvent.Search -> searchLocation(event.query)
+      is SearchLocationEvent.ShowLocationWeather -> showLocationWeather(event.location)
     }
+  }
+
+  private fun showLocationWeather(location: SearchLocation) = viewModelScope.launch {
+    _searchLocationEffect.emit(SearchLocationEffect.ShowLocationWeather(location))
   }
 
   private fun searchLocation(query: String) {

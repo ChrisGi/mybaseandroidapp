@@ -98,4 +98,10 @@
 
   <string name="search_location_screen_title">Pogoda w twoich miejscach</string>
   <string name="search_location_label">Szukaj miasta</string>
+
+  <string name="weather_location_add">Dodaj</string>
+  <string name="weather_location_cancel">Anuluj</string>
+  <string name="weather_location_temp_range">Od %1$s° do %2$s°</string>
+  <string name="weather_temperature_degree">%1$s°</string>
+
 </resources>

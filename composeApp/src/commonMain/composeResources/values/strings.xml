@@ -98,4 +98,10 @@
 
   <string name="search_location_screen_title">Weather in your places</string>
   <string name="search_location_label">Search for a city</string>
+
+  <string name="weather_location_add">Add</string>
+  <string name="weather_location_cancel">Cancel</string>
+  <string name="weather_location_temp_range">From %1$s° to %2$s°</string>
+  <string name="weather_temperature_degree">%1$s°</string>
+
 </resources>

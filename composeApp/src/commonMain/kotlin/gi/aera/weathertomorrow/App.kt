@@ -7,8 +7,8 @@ import gi.aera.ui.theme.AppTheme
 import gi.aera.ui.theme.appTypography
 import gi.aera.weather.feature.forecast.presentation.ForecastNavScreen
 import gi.aera.weather.feature.forecast.presentation.forecastScreen
-import gi.aera.weather.feature.location.presentation.SearchLocationNavScreen
-import gi.aera.weather.feature.location.presentation.searchLocationScreen
+import gi.aera.weather.feature.search.presentation.SearchLocationNavScreen
+import gi.aera.weather.feature.search.presentation.searchLocationScreen
 import org.koin.compose.KoinContext
 
 @Composable

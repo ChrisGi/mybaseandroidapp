@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import gi.aera.ui.LceState
 import gi.aera.ui.LceViewState
+import gi.aera.weather.component.Temperature
 import gi.aera.weather.feature.forecast.domain.Forecast
 import gi.aera.weather.feature.forecast.domain.ForecastScreenViewEvent
 
@@ -38,7 +39,10 @@ fun ForecastScreen(
           .padding(PaddingValues(bottom = 32.dp))
           .weight(1f),
       ) {
-        Temperature(todayForecast.currentTemperature)
+        Temperature(
+          temperature = todayForecast.currentTemperature,
+          modifier = Modifier.fillMaxSize(),
+        )
       }
 
       Condition(

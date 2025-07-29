@@ -1,8 +1,7 @@
-package gi.aera.weather.feature.forecast.presentation
+package gi.aera.weather.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,8 +15,7 @@ fun Temperature(
   temperature: String,
   unit: String = "C",
   fontSize: Int = 10,
-  modifier: Modifier = Modifier
-    .fillMaxSize(),
+  modifier: Modifier = Modifier,
 ) {
   Row(
     verticalAlignment = Alignment.CenterVertically,

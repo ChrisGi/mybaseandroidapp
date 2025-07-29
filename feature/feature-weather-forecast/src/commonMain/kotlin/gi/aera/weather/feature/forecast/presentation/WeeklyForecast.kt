@@ -17,6 +17,8 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import gi.aera.weather.Res
 import gi.aera.weather.feature.forecast.domain.Forecast
+import gi.aera.weather.weather_temperature_degree
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun WeeklyForecast(
@@ -50,7 +52,7 @@ fun WeeklyForecast(
         }
         Text(
           color = MaterialTheme.colorScheme.onBackground,
-          text = forecast.currentTemperature,
+          text = stringResource(Res.string.weather_temperature_degree, forecast.currentTemperature),
           modifier = Modifier
             .align(Alignment.CenterHorizontally),
         )

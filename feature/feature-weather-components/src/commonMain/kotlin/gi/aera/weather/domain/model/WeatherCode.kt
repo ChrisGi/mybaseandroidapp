@@ -1,4 +1,4 @@
-package gi.aera.weather.feature.forecast.domain
+package gi.aera.weather.domain.model
 
 import gi.aera.weather.Res
 import gi.aera.weather.weather_code_0

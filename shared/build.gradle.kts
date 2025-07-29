@@ -67,6 +67,7 @@ kotlin {
 
         api(project(":feature-weather-forecast"))
         api(project(":feature-search-location"))
+        api(project(":feature-weather-components"))
 
         implementation(libs.kotlin.stdlib)
 

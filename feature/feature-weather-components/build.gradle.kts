@@ -9,7 +9,7 @@ plugins {
 kotlin {
 
   androidLibrary {
-    namespace = "gi.aera.weather.feature.location.search"
+    namespace = "gi.aera.weather.components"
     compileSdk = 35
     minSdk = 24
 
@@ -24,7 +24,7 @@ kotlin {
 
   }
 
-  val xcfName = "location-searchKit"
+  val xcfName = "weather-componentsKit"
 
   iosX64 {
     binaries.framework {
@@ -47,13 +47,7 @@ kotlin {
   sourceSets {
     commonMain {
       dependencies {
-        implementation(project(":data-location"))
-        implementation(project(":data-weather-forecast"))
-
-        implementation(project(":ui"))
-        implementation(project(":network"))
-
-        implementation(project(":feature-weather-components"))
+        api(project(":ui"))
 
         implementation(libs.kotlin.stdlib)
 
@@ -61,8 +55,6 @@ kotlin {
         implementation(libs.coil.compose)
         implementation(libs.koin.core)
         implementation(libs.koin.compose)
-        implementation(libs.koin.compose.viewmodel)
-        implementation(libs.koin.compose.viewmodel.navigation)
         implementation(libs.androidx.navigation.compose)
         implementation(libs.androidx.lifecycle.runtimeCompose)
         implementation(libs.kotlinx.datetime)
@@ -106,4 +98,11 @@ kotlin {
       }
     }
   }
+
+}
+
+compose.resources {
+  publicResClass = true
+  packageOfResClass = "gi.aera.weather"
+  generateResClass = auto
 }

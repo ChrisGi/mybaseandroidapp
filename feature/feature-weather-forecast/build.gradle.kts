@@ -53,6 +53,8 @@ kotlin {
         api(project(":ui"))
         api(project(":network"))
 
+        implementation(project(":feature-weather-components"))
+
         implementation(libs.kotlin.stdlib)
 
         implementation(libs.coil.svg)

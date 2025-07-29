@@ -13,8 +13,8 @@ import gi.aera.ui.LceState
 import gi.aera.ui.text.UiString
 import gi.aera.ui.theme.AppTheme
 import gi.aera.ui.theme.appTypography
+import gi.aera.weather.domain.model.WeatherCode
 import gi.aera.weather.feature.forecast.domain.Forecast
-import gi.aera.weather.feature.forecast.domain.WeatherCode
 import gi.aera.weather.feature.forecast.presentation.ForecastScreen
 
 @Preview

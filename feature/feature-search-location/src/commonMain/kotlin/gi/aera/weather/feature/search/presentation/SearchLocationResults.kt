@@ -1,4 +1,4 @@
-package gi.aera.weather.feature.location.presentation
+package gi.aera.weather.feature.search.presentation
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -25,7 +25,6 @@ fun SearchLocationResults(
   results: List<SearchLocation>,
   isLoading: Boolean,
   save: (location: SearchLocation) -> Unit,
-  navigateBack: () -> Unit,
   modifier: Modifier = Modifier,
 ) {
   LazyColumn(
@@ -36,7 +35,6 @@ fun SearchLocationResults(
         modifier = Modifier
           .clickable {
             save(location)
-            navigateBack()
           },
       ) {
         ListItem(

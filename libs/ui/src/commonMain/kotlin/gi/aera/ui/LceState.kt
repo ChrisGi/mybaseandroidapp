@@ -18,10 +18,10 @@ sealed class LceState<out T> {
 @Composable
 fun <T> LceViewState(
   state: LceState<T>,
-  error: @Composable (throwable: Throwable) -> Unit,
   modifier: Modifier = Modifier
     .fillMaxSize()
     .background(MaterialTheme.colorScheme.background),
+  error: @Composable (throwable: Throwable) -> Unit = {},
   loading: @Composable () -> Unit = { FullscreenProgressIndicator(modifier) },
   content: @Composable (T) -> Unit,
 ) {

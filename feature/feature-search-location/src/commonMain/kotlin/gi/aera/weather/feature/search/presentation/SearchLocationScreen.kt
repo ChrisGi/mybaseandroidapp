@@ -1,4 +1,4 @@
-package gi.aera.weather.feature.location.presentation
+package gi.aera.weather.feature.search.presentation
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,13 +11,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import gi.aera.weather.feature.location.domain.model.SearchLocationEvent
-import gi.aera.weather.feature.location.domain.model.SearchLocationViewState
+import gi.aera.ui.LceState
+import gi.aera.ui.LceViewState
+import gi.aera.weather.feature.location.domain.WeatherLocation
+import gi.aera.weather.feature.location.presentation.WeatherLocationList
+import gi.aera.weather.feature.search.domain.model.SearchLocationEvent
+import gi.aera.weather.feature.search.domain.model.SearchLocationViewState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchLocationScreen(
   state: SearchLocationViewState,
+  weatherLocationState: LceState<List<WeatherLocation>>,
   event: (event: SearchLocationEvent) -> Unit,
   navigateBack: () -> Unit,
   modifier: Modifier = Modifier
@@ -54,11 +59,17 @@ fun SearchLocationScreen(
             SearchLocationResults(
               state.content,
               state.isLoading,
-              { event(SearchLocationEvent.Save(it)) },
-              navigateBack,
+              { event(SearchLocationEvent.ShowLocationWeather(it)) },
               Modifier
                 .weight(1f),
             )
+          }
+        }
+
+        LceViewState(weatherLocationState) { data ->
+          WeatherLocationList(data) {
+            event(SearchLocationEvent.Save(it))
+            navigateBack()
           }
         }
       }

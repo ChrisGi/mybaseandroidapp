@@ -121,9 +121,3 @@ kotlin {
     }
   }
 }
-
-compose.resources {
-  publicResClass = true
-  packageOfResClass = "gi.aera.weather"
-  generateResClass = auto
-}

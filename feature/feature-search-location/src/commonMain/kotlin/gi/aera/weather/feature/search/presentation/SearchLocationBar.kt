@@ -1,4 +1,4 @@
-package gi.aera.weather.feature.location.presentation
+package gi.aera.weather.feature.search.presentation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
