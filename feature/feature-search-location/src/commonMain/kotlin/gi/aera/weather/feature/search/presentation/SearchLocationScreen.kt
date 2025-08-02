@@ -11,10 +11,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import gi.aera.ui.LceState
-import gi.aera.ui.LceViewState
-import gi.aera.weather.feature.location.domain.WeatherLocation
-import gi.aera.weather.feature.location.presentation.WeatherLocationList
 import gi.aera.weather.feature.search.domain.model.SearchLocationEvent
 import gi.aera.weather.feature.search.domain.model.SearchLocationViewState
 
@@ -22,11 +18,10 @@ import gi.aera.weather.feature.search.domain.model.SearchLocationViewState
 @Composable
 fun SearchLocationScreen(
   state: SearchLocationViewState,
-  weatherLocationState: LceState<List<WeatherLocation>>,
   event: (event: SearchLocationEvent) -> Unit,
-  navigateBack: () -> Unit,
   modifier: Modifier = Modifier
     .fillMaxSize(),
+  content: @Composable () -> Unit,
 ) {
   Scaffold(
     topBar = {
@@ -45,9 +40,8 @@ fun SearchLocationScreen(
           .fillMaxSize(),
       ) {
         SearchLocationBar(
-          state.searchQuery,
-          state.searchPlaceholder,
-          { event(SearchLocationEvent.Search(it)) },
+          state = state.locationSearchBarState,
+          search = { event(SearchLocationEvent.Search(it)) },
         ) {
           if (state.isEmpty) {
             SearchLocationEmpty(
@@ -66,12 +60,7 @@ fun SearchLocationScreen(
           }
         }
 
-        LceViewState(weatherLocationState) { data ->
-          WeatherLocationList(data) {
-            event(SearchLocationEvent.Save(it))
-            navigateBack()
-          }
-        }
+        content()
       }
     }
   }

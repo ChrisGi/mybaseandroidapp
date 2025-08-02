@@ -18,16 +18,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import gi.aera.location.domain.model.SearchLocation
 import gi.aera.weather.component.Temperature
-import gi.aera.weather.feature.location.domain.WeatherLocation
+import gi.aera.weather.feature.location.domain.WeatherLocationState
 
 @Composable
 fun WeatherLocationCard(
-  state: WeatherLocation,
+  state: WeatherLocationState.WeatherLocation,
   modifier: Modifier = Modifier,
   selectLocation: (location: SearchLocation) -> Unit = {},
 ) {
   ElevatedCard(
-    onClick = { state.searchLocation?.let { selectLocation(state.searchLocation) } },
+    onClick = { selectLocation(state.searchLocation) },
     modifier = modifier,
     shape = RoundedCornerShape(16.dp),
   ) {

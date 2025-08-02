@@ -4,6 +4,7 @@ import gi.aera.location.data.LocationApi
 import gi.aera.location.data.SaveLocationRepository
 import gi.aera.location.data.SearchLocationRepository
 import gi.aera.location.domain.usecase.GetSavedLocationUseCase
+import gi.aera.location.domain.usecase.RemoveSavedLocationUseCase
 import gi.aera.location.domain.usecase.SaveLocationUseCase
 import gi.aera.location.domain.usecase.SearchLocationUseCase
 import gi.aera.network.di.LOCATION_HTTP_CLIENT
@@ -22,6 +23,7 @@ val locationModule = module {
   singleOf(::SaveLocationRepository)
   single { SaveLocationUseCase(get()) }
   single { GetSavedLocationUseCase(get()) }
+  single { RemoveSavedLocationUseCase(get()) }
 }
 
 expect val platformModule: Module

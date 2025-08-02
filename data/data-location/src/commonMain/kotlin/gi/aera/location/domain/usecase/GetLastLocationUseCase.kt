@@ -7,6 +7,8 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 class GetLastLocationUseCase internal constructor(
   private val locationRepository: LocationRepository,
@@ -22,10 +24,13 @@ class GetLastLocationUseCase internal constructor(
     } catch (e: LocationNotFoundException) {
       return@withContext DEFAULT_LOCATION
     }
-    return@withContext SearchLocation(null, null, latitude, longitude)
+    return@withContext SearchLocation(PLACE_ID, null, null, latitude, longitude)
   }
 
   companion object {
-    private val DEFAULT_LOCATION = SearchLocation("London", "London, UK", 51.509865, -0.118092)
+    @OptIn(ExperimentalUuidApi::class)
+    private val PLACE_ID = Uuid.random().toString()
+
+    private val DEFAULT_LOCATION = SearchLocation(PLACE_ID, "London", "London, UK", 51.509865, -0.118092)
   }
 }

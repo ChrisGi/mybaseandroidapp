@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -56,6 +57,7 @@ class ForecastViewModel(
 
   private fun getForecastForLocation() = viewModelScope.launch {
     val location = getSavedLocationsUseCase()
+      .map { it.last() }
       .catch { e ->
         e.printStackTrace() // todo log error to see how often data store exception is thrown
         if (permissionsController.isPermissionGranted(permission)) {

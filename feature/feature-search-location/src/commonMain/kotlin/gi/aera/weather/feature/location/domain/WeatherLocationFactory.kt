@@ -16,7 +16,7 @@ class WeatherLocationFactory {
     .first()
     .let { daily ->
       val weatherValues = daily.values
-      WeatherLocation(
+      WeatherLocationState.WeatherLocation(
         location = formatLocation(location),
         temperatureAvg = weatherValues.temperatureMax?.toInt().toString(),
         temperatureMin = weatherValues.temperatureMin?.toInt().toString(),

@@ -7,25 +7,32 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import gi.aera.location.domain.model.SearchLocation
-import gi.aera.weather.feature.location.domain.WeatherLocation
+import gi.aera.ui.compose.SwipeToDeleteContainer
+import gi.aera.weather.feature.location.domain.WeatherLocationState
 
 @Composable
 fun WeatherLocationList(
-  data: List<WeatherLocation>,
+  data: List<WeatherLocationState.WeatherLocation>,
   modifier: Modifier = Modifier,
-  selectLocation: (location: SearchLocation) -> Unit = {},
+  onLocationDelete: (WeatherLocationState.WeatherLocation) -> Unit = {},
 ) {
   LazyColumn(
     contentPadding = PaddingValues(16.dp),
     verticalArrangement = Arrangement.spacedBy(16.dp),
     modifier = modifier,
   ) {
-    items(data) { weatherLocation ->
-      WeatherLocationCard(
-        state = weatherLocation,
-        selectLocation = selectLocation,
-      )
+    items(
+      items = data,
+      key = { it.searchLocation.placeId },
+    ) { weatherLocation ->
+      SwipeToDeleteContainer(
+        item = weatherLocation,
+        onDelete = { onLocationDelete(it) },
+      ) {
+        WeatherLocationCard(
+          state = weatherLocation,
+        )
+      }
     }
   }
 }

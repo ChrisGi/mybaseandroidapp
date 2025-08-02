@@ -35,7 +35,7 @@ data class SearchResult(
   val plusCodeShort: String? = null,
   val rank: Rank? = null,
   @SerialName("place_id")
-  val placeId: String? = null,
+  val placeId: String,
   val county: String? = null,
 )
 

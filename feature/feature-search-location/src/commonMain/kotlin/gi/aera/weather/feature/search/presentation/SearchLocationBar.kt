@@ -17,44 +17,36 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
-import gi.aera.ui.text.UiString
+import gi.aera.weather.feature.search.domain.model.LocationSearchBarState
 
 @Suppress("LongMethod")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchLocationBar(
-  searchQueryValue: String,
-  placeholder: UiString,
+  state: LocationSearchBarState,
   search: (query: String) -> Unit,
   modifier: Modifier = Modifier
     .fillMaxWidth()
     .padding(PaddingValues(horizontal = 16.dp, vertical = 8.dp)),
   resultContent: @Composable () -> Unit,
 ) {
-  var expanded by remember { mutableStateOf(false) }
   val colors = SearchBarDefaults.colors(
     containerColor = MaterialTheme.colorScheme.surface,
   )
+  val focusManager = LocalFocusManager.current
   SearchBar(
     inputField = {
       TextField(
-        value = searchQueryValue,
-        onValueChange = {
-          search(it)
-          if (it.isNotEmpty() && !expanded) {
-            expanded = true
-          }
+        value = state.queryValue,
+        onValueChange = { value ->
+          search(value)
         },
         placeholder = {
-          Text(placeholder.asString(), color = MaterialTheme.colorScheme.onSurface)
+          Text(state.placeholder.asString(), color = MaterialTheme.colorScheme.onSurface)
         },
         leadingIcon = {
           Icon(
@@ -63,11 +55,11 @@ fun SearchLocationBar(
           )
         },
         trailingIcon = {
-          if (searchQueryValue.isNotEmpty()) {
+          if (state.queryValue.isNotEmpty()) {
             IconButton(
               onClick = {
-                expanded = false
                 search("")
+                focusManager.clearFocus()
               },
             ) {
               Icon(
@@ -86,12 +78,11 @@ fun SearchLocationBar(
           unfocusedIndicatorColor = Color.Transparent,
         ),
         modifier = Modifier
-          .fillMaxWidth()
-          .onFocusChanged { expanded = it.isFocused },
+          .fillMaxWidth(),
       )
     },
-    expanded = expanded,
-    onExpandedChange = { expanded = it },
+    expanded = state.expanded,
+    onExpandedChange = { },
     shape = RoundedCornerShape(16.dp),
     colors = colors,
     tonalElevation = 2.dp,

@@ -3,7 +3,6 @@ package gi.aera.weather.feature.search.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import gi.aera.location.domain.model.SearchLocation
-import gi.aera.location.domain.usecase.SaveLocationUseCase
 import gi.aera.location.domain.usecase.SearchLocationUseCase
 import gi.aera.network.di.domain.ApiResponse
 import gi.aera.ui.C
@@ -30,7 +29,6 @@ import kotlinx.coroutines.launch
 @Suppress("OPT_IN_USAGE")
 class SearchLocationViewModel(
   private val searchLocationUseCase: SearchLocationUseCase,
-  private val saveLocationUseCase: SaveLocationUseCase,
 ) : ViewModel(), EventHandler<SearchLocationEvent> {
 
   private val _searchLocationViewState = MutableStateFlow(SearchLocationViewState())
@@ -46,7 +44,7 @@ class SearchLocationViewModel(
 
   init {
     _searchLocationViewState
-      .map { it.searchQuery }
+      .map { it.locationSearchBarState.queryValue }
       .debounce(DEBOUNCE_SEARCH_FOR)
       .filter(::searchWithMinimumQueryLength)
       .distinctUntilChanged()
@@ -56,10 +54,13 @@ class SearchLocationViewModel(
 
   override fun obtainEvent(event: SearchLocationEvent) {
     when (event) {
-      is SearchLocationEvent.Save -> saveLocation(event.location)
       is SearchLocationEvent.Search -> searchLocation(event.query)
       is SearchLocationEvent.ShowLocationWeather -> showLocationWeather(event.location)
     }
+  }
+
+  fun closeSearch() {
+    searchLocation("")
   }
 
   private fun showLocationWeather(location: SearchLocation) = viewModelScope.launch {
@@ -67,11 +68,12 @@ class SearchLocationViewModel(
   }
 
   private fun searchLocation(query: String) {
-    _searchLocationViewState.update { it.copy(searchQuery = query) }
-  }
-
-  private fun saveLocation(location: SearchLocation) = viewModelScope.launch {
-    saveLocationUseCase(location)
+    val expanded = query.isNotEmpty()
+    _searchLocationViewState.update {
+      it.copy(
+        locationSearchBarState = it.locationSearchBarState.copy(queryValue = query, expanded = expanded),
+      )
+    }
   }
 
   private fun searchWithMinimumQueryLength(query: String, minLength: Int = 3) =
@@ -79,6 +81,7 @@ class SearchLocationViewModel(
 
   private suspend fun performNetworkSearchLocation(query: String) {
     _searchLocationViewState.update { it.copy(displayState = LceState.Loading) }
+
     when (val searchedLocationResponse = searchLocationUseCase(query)) {
       is ApiResponse.Error -> println(searchedLocationResponse.errorMessage)
       is ApiResponse.Success<List<SearchLocation>> -> {

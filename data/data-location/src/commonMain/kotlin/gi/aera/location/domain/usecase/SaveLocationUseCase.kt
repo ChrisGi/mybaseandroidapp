@@ -5,16 +5,24 @@ import gi.aera.location.domain.model.SearchLocation
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.json.Json
 
 class SaveLocationUseCase internal constructor(
   private val saveLocationRepository: SaveLocationRepository,
   private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
 
-  suspend operator fun invoke(location: SearchLocation) = withContext(dispatcher) {
-    val locationJson = Json.encodeToString(SearchLocation.serializer(), location)
-    runCatching { saveLocationRepository.saveLocation(locationJson) }
+  suspend operator fun invoke(location: SearchLocation): Result<Unit> = withContext(dispatcher) {
+
+    val locations = flow { emit(saveLocationRepository.getLocations()) }
+      .catch { emit(emptyList()) }
+      .first()
+      .plus(location)
+      .distinct()
+
+    runCatching { saveLocationRepository.saveLocation(locations) }
   }
 }

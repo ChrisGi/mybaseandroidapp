@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SearchLocation(
+  val placeId: String,
   val city: String?,
   val formatted: String?,
   val latitude: Double,

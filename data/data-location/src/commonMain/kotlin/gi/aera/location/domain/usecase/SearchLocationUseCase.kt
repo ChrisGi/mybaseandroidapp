@@ -21,8 +21,8 @@ class SearchLocationUseCase internal constructor(
           .map { it.toDomain() }
       }
   }
+}
 
-  private fun SearchResult.toDomain(): SearchLocation {
-    return SearchLocation(city, formatted, lat, lon)
-  }
+private fun SearchResult.toDomain(): SearchLocation {
+  return SearchLocation(placeId, city, formatted, lat, lon)
 }
