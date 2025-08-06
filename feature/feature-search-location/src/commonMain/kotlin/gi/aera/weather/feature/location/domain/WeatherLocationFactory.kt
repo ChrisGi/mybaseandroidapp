@@ -1,6 +1,7 @@
 package gi.aera.weather.feature.location.domain
 
 import ForecastResponseDaily
+import gi.aera.location.domain.model.LocationSource
 import gi.aera.location.domain.model.SearchLocation
 import gi.aera.ui.text.UiString
 import gi.aera.weather.Res
@@ -17,6 +18,7 @@ class WeatherLocationFactory {
     .let { daily ->
       val weatherValues = daily.values
       WeatherLocationState.WeatherLocation(
+        canBeDeleted = location.source == LocationSource.SEARCH,
         location = formatLocation(location),
         temperatureAvg = weatherValues.temperatureMax?.toInt().toString(),
         temperatureMin = weatherValues.temperatureMin?.toInt().toString(),

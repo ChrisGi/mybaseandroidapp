@@ -3,7 +3,11 @@ package gi.aera.weather.feature.location.presentation
 import ForecastResponseDaily
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dev.icerock.moko.permissions.Permission
+import dev.icerock.moko.permissions.PermissionsController
+import dev.icerock.moko.permissions.location.LOCATION
 import gi.aera.location.domain.model.SearchLocation
+import gi.aera.location.domain.usecase.GetLastLocationUseCase
 import gi.aera.location.domain.usecase.GetSavedLocationUseCase
 import gi.aera.location.domain.usecase.RemoveSavedLocationUseCase
 import gi.aera.location.domain.usecase.SaveLocationUseCase
@@ -20,14 +24,18 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 
+@Suppress("LongParameterList")
 class WeatherLocationViewModel(
+  private val permissionsController: PermissionsController,
+  private val getLastLocationsUseCase: GetLastLocationUseCase,
   private val getSavedLocationsUseCase: GetSavedLocationUseCase,
   private val getWeatherForecastUseCase: GetDailyForecastUseCase,
   private val weatherLocationFactory: WeatherLocationFactory,
@@ -41,7 +49,7 @@ class WeatherLocationViewModel(
   private val _savedLocationsWeatherState =
     MutableStateFlow<LceState<List<WeatherLocationState.WeatherLocation>>>(LceState.Loading)
   val savedLocationsWeatherState = _savedLocationsWeatherState
-    .onStart { getSavedLocationsWeather() }
+    .onStart { getLocationsWeather() }
     .stateIn(
       viewModelScope,
       SharingStarted.WhileSubscribed(C.RELOADING_TIMEOUT),
@@ -67,28 +75,49 @@ class WeatherLocationViewModel(
     }
   }
 
-  private fun getSavedLocationsWeather() = viewModelScope.launch {
+  private fun getLocationsWeather() = viewModelScope.launch {
     _savedLocationsWeatherState.update { LceState.Loading }
 
-    val weatherLocations = getSavedLocationsUseCase()
-      .catch { emit(emptyList()) }
+    getSavedLocations().zip(getLastLocation()) { savedLocations, lastLocation ->
+      listOf(lastLocation)
+        .plus(savedLocations)
+        .filterNotNull()
+    }
       .transform {
         val weatherLocations = it.map { location -> getWeatherForecast(location) }
         emit(weatherLocations)
       }
-      .first()
+      .collect { weatherLocations ->
+        when {
+          weatherLocations.any { it is WeatherLocationState.WeatherLocationError } ->
+            _savedLocationsWeatherState.update {
+              LceState.Error(weatherLocations.filterIsInstance<WeatherLocationState.WeatherLocationError>().first())
+            }
 
-    when {
-      weatherLocations.any { it is WeatherLocationState.WeatherLocationError } ->
-        _savedLocationsWeatherState.update {
-          LceState.Error(weatherLocations.filterIsInstance<WeatherLocationState.WeatherLocationError>().first())
+          else -> _savedLocationsWeatherState.update {
+            LceState.Content(weatherLocations.filterIsInstance<WeatherLocationState.WeatherLocation>())
+          }
         }
+      }
+  }
 
-      else -> _savedLocationsWeatherState.update {
-        LceState.Content(weatherLocations.filterIsInstance<WeatherLocationState.WeatherLocation>())
+  @Suppress("TooGenericExceptionCaught", "SwallowedException")
+  private fun getLastLocation() = flow {
+    if (permissionsController.isPermissionGranted(Permission.LOCATION)) {
+      emit(getLastLocationsUseCase())
+    } else {
+      try {
+        permissionsController.providePermission(Permission.LOCATION)
+
+        emit(getLastLocationsUseCase())
+      } catch (e: Exception) {
+        emit(null)
       }
     }
   }
+
+  private fun getSavedLocations() = getSavedLocationsUseCase()
+    .catch { emit(emptyList()) }
 
   private fun removeLocation(location: SearchLocation?) = viewModelScope.launch {
     location?.let { removeLocationUseCase(it) }
@@ -96,7 +125,7 @@ class WeatherLocationViewModel(
 
   private fun saveLocation(location: SearchLocation) = viewModelScope.launch {
     saveLocationUseCase(location)
-      .onSuccess { getSavedLocationsWeather() }
+      .onSuccess { getLocationsWeather() }
       .onFailure { println(it) }
   }
 

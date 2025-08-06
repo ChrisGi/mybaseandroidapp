@@ -2,6 +2,7 @@ package gi.aera.location.domain.usecase
 
 import gi.aera.location.data.LocationRepository
 import gi.aera.location.domain.model.LocationNotFoundException
+import gi.aera.location.domain.model.LocationSource
 import gi.aera.location.domain.model.SearchLocation
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -24,13 +25,14 @@ class GetLastLocationUseCase internal constructor(
     } catch (e: LocationNotFoundException) {
       return@withContext DEFAULT_LOCATION
     }
-    return@withContext SearchLocation(PLACE_ID, null, null, latitude, longitude)
+    return@withContext SearchLocation(PLACE_ID, null, null, latitude, longitude, LocationSource.GPS)
   }
 
   companion object {
     @OptIn(ExperimentalUuidApi::class)
     private val PLACE_ID = Uuid.random().toString()
 
-    private val DEFAULT_LOCATION = SearchLocation(PLACE_ID, "London", "London, UK", 51.509865, -0.118092)
+    private val DEFAULT_LOCATION =
+      SearchLocation(PLACE_ID, "London", "London, UK", 51.509865, -0.118092, LocationSource.SEARCH)
   }
 }

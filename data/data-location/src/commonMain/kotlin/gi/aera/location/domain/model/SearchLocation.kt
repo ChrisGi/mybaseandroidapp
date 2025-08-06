@@ -9,4 +9,5 @@ data class SearchLocation(
   val formatted: String?,
   val latitude: Double,
   val longitude: Double,
+  val source: LocationSource,
 )

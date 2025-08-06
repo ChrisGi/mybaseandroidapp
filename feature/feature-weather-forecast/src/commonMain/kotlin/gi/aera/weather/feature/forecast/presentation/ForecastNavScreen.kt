@@ -31,7 +31,6 @@ fun NavGraphBuilder.forecastScreen(
   composable<ForecastNavScreen> {
     val factory: PermissionsControllerFactory = rememberPermissionsControllerFactory()
     val controller: PermissionsController = remember(factory) { factory.createPermissionsController() }
-
     BindEffect(controller)
 
     val viewModel: ForecastViewModel = koinViewModel { parametersOf(controller) }

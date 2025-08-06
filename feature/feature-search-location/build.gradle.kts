@@ -76,6 +76,9 @@ kotlin {
         implementation(compose.components.uiToolingPreview)
         implementation(compose.materialIconsExtended)
 
+        implementation(libs.permissions.location)
+        implementation(libs.permissions.compose)
+
         implementation(libs.koin.test)
       }
     }

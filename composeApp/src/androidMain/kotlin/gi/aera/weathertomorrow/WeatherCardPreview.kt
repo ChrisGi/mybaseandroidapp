@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import gi.aera.location.domain.model.LocationSource
 import gi.aera.location.domain.model.SearchLocation
 import gi.aera.ui.text.UiString
 import gi.aera.ui.theme.AppTheme
@@ -41,4 +42,5 @@ private fun WeatherCardPreview() {
 }
 
 @Suppress("MagicNumber")
-private val DEFAULT_LOCATION = SearchLocation("PLACE_ID", "London", "London, UK", 51.509865, -0.118092)
+private val DEFAULT_LOCATION =
+  SearchLocation("PLACE_ID", "London", "London, UK", 51.509865, -0.118092, LocationSource.SEARCH)

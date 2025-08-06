@@ -18,6 +18,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import dev.icerock.moko.permissions.PermissionsController
+import dev.icerock.moko.permissions.compose.BindEffect
+import dev.icerock.moko.permissions.compose.PermissionsControllerFactory
+import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import gi.aera.ui.LceViewState
 import gi.aera.weather.feature.location.domain.WeatherLocationEvent
 import gi.aera.weather.feature.location.presentation.WeatherLocationBottomSheet
@@ -26,6 +30,7 @@ import gi.aera.weather.feature.location.presentation.WeatherLocationViewModel
 import gi.aera.weather.feature.search.domain.model.SearchLocationEffect
 import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Suppress("LongMethod")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,7 +39,11 @@ fun NavGraphBuilder.searchLocationScreen() {
     val searchLocationViewModel = koinViewModel<SearchLocationViewModel>()
     val state by searchLocationViewModel.searchLocationViewState.collectAsStateWithLifecycle()
 
-    val weatherLocationViewModel = koinViewModel<WeatherLocationViewModel>()
+    val factory: PermissionsControllerFactory = rememberPermissionsControllerFactory()
+    val controller: PermissionsController = remember(factory) { factory.createPermissionsController() }
+    BindEffect(controller)
+
+    val weatherLocationViewModel: WeatherLocationViewModel = koinViewModel { parametersOf(controller) }
     val weatherLocationState by weatherLocationViewModel.weatherLocationState.collectAsStateWithLifecycle()
     val savedLocationsWeatherState by weatherLocationViewModel.savedLocationsWeatherState.collectAsStateWithLifecycle()
 

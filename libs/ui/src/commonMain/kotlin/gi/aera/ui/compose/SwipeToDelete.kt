@@ -30,7 +30,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.rememberUpdatedState
 
 @Composable
-fun <T> SwipeToDeleteContainer(
+fun <T : SwipeableItem> SwipeToDeleteContainer(
   item: T,
   onDelete: (T) -> Unit,
   animationDuration: Int = 500,
@@ -66,6 +66,7 @@ fun <T> SwipeToDeleteContainer(
     SwipeToDismissBox(
       state = state,
       enableDismissFromStartToEnd = false,
+      enableDismissFromEndToStart = item.isSwipeable(),
       backgroundContent = {
         DeleteBackground(swipeDismissState = state)
       },

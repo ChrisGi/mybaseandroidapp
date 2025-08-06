@@ -2,6 +2,7 @@ package gi.aera.location.domain.usecase
 
 import gi.aera.location.data.SearchLocationRepository
 import gi.aera.location.data.SearchResult
+import gi.aera.location.domain.model.LocationSource
 import gi.aera.location.domain.model.SearchLocation
 import gi.aera.network.di.domain.map
 import kotlinx.coroutines.CoroutineDispatcher
@@ -24,5 +25,5 @@ class SearchLocationUseCase internal constructor(
 }
 
 private fun SearchResult.toDomain(): SearchLocation {
-  return SearchLocation(placeId, city, formatted, lat, lon)
+  return SearchLocation(placeId, city, formatted, lat, lon, LocationSource.SEARCH)
 }

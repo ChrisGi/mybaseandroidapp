@@ -47,8 +47,6 @@ kotlin {
   sourceSets {
     commonMain {
       dependencies {
-        api(project(":ui"))
-
         implementation(libs.kotlin.stdlib)
 
         implementation(libs.coil.svg)
