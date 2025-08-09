@@ -9,9 +9,9 @@ import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.PermissionsController
 import dev.icerock.moko.permissions.RequestCanceledException
 import dev.icerock.moko.permissions.location.LOCATION
+import gi.aera.location.domain.model.PermissionException
 import gi.aera.location.domain.model.SearchLocation
-import gi.aera.location.domain.usecase.GetLastLocationUseCase
-import gi.aera.location.domain.usecase.GetSavedLocationUseCase
+import gi.aera.location.domain.usecase.GetDefaultLocationUseCase
 import gi.aera.network.di.domain.ApiResponse
 import gi.aera.ui.C
 import gi.aera.ui.LceState
@@ -25,8 +25,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -35,8 +33,7 @@ import kotlin.coroutines.cancellation.CancellationException
 
 class ForecastViewModel(
   private val permissionsController: PermissionsController,
-  private val getLastLocationsUseCase: GetLastLocationUseCase,
-  private val getSavedLocationsUseCase: GetSavedLocationUseCase,
+  private val getDefaultLocationUseCase: GetDefaultLocationUseCase,
   private val getDailyForecastUseCase: GetDailyForecastUseCase,
   private val forecastViewStateFactory: ForecastViewStateFactory,
 ) : ViewModel() {
@@ -56,21 +53,21 @@ class ForecastViewModel(
   val effect = _effect.asSharedFlow()
 
   private fun getForecastForLocation() = viewModelScope.launch {
-    val location = getSavedLocationsUseCase()
-      .map { it.last() }
+    getDefaultLocationUseCase()
       .catch { e ->
-        e.printStackTrace() // todo log error to see how often data store exception is thrown
-        if (permissionsController.isPermissionGranted(permission)) {
-          emit(getLastLocationsUseCase())
-        } else {
-          provideLocationPermission()
-          throw CancellationException("Location permission not granted")
-        }
-        // todo catch data store exception
-      }
-      .first()
+        when {
+          e is PermissionException -> {
+            e.printStackTrace() // todo log error to see how often data store exception is thrown
+            provideLocationPermission()
+            throw CancellationException("Location permission not granted")
+          }
 
-    getForecast(location)
+          else -> throw e
+        }
+      }
+      .collect {
+        getForecast(it)
+      }
   }
 
   private suspend fun getForecast(location: SearchLocation) {

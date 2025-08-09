@@ -15,7 +15,7 @@ internal class SaveLocationRepository(private val dataStore: DataStore<Preferenc
 
   private val locationKey = stringPreferencesKey(C.DATA_STORE_LOCATION_KEY)
 
-  suspend fun saveLocation(locations: List<SearchLocation>) {
+  suspend fun saveLocations(locations: List<SearchLocation>) {
     val locationJson = Json.encodeToString(ListSerializer(SearchLocation.serializer()), locations)
     dataStore.edit { preferences ->
       preferences[locationKey] = locationJson
@@ -41,6 +41,6 @@ internal class SaveLocationRepository(private val dataStore: DataStore<Preferenc
     if (locations.contains(location).not()) return
 
     val updatedLocations = locations - location
-    saveLocation(updatedLocations)
+    saveLocations(updatedLocations)
   }
 }

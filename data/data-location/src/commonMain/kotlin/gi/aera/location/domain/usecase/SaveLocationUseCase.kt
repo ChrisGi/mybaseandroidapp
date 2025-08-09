@@ -23,6 +23,6 @@ class SaveLocationUseCase internal constructor(
       .plus(location)
       .distinct()
 
-    runCatching { saveLocationRepository.saveLocation(locations) }
+    runCatching { saveLocationRepository.saveLocations(locations) }
   }
 }

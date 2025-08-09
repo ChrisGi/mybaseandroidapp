@@ -6,10 +6,13 @@ import androidx.lifecycle.viewModelScope
 import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.PermissionsController
 import dev.icerock.moko.permissions.location.LOCATION
+import gi.aera.location.domain.model.LocationSource
 import gi.aera.location.domain.model.SearchLocation
 import gi.aera.location.domain.usecase.GetLastLocationUseCase
 import gi.aera.location.domain.usecase.GetSavedLocationUseCase
+import gi.aera.location.domain.usecase.RemoveDefaultLocationUseCase
 import gi.aera.location.domain.usecase.RemoveSavedLocationUseCase
+import gi.aera.location.domain.usecase.SaveDefaultLocationUseCase
 import gi.aera.location.domain.usecase.SaveLocationUseCase
 import gi.aera.network.di.domain.ApiResponse
 import gi.aera.ui.C
@@ -37,6 +40,8 @@ class WeatherLocationViewModel(
   private val permissionsController: PermissionsController,
   private val getLastLocationsUseCase: GetLastLocationUseCase,
   private val getSavedLocationsUseCase: GetSavedLocationUseCase,
+  private val saveDefaultLocationUseCase: SaveDefaultLocationUseCase,
+  private val removeDefaultLocationUseCase: RemoveDefaultLocationUseCase,
   private val getWeatherForecastUseCase: GetDailyForecastUseCase,
   private val weatherLocationFactory: WeatherLocationFactory,
   private val removeLocationUseCase: RemoveSavedLocationUseCase,
@@ -60,6 +65,19 @@ class WeatherLocationViewModel(
     when (event) {
       is WeatherLocationEvent.RemoveLocation -> removeLocation(event.location)
       is WeatherLocationEvent.Save -> saveLocation(event.location)
+      is WeatherLocationEvent.SetAsDefault -> setAsDefaultLocation(event.location)
+    }
+  }
+
+  private fun setAsDefaultLocation(location: SearchLocation) {
+    viewModelScope.launch {
+      when (location.source) {
+        LocationSource.GPS -> removeDefaultLocationUseCase()
+          .onFailure { println("Error on removing default location:\n$it") }
+
+        LocationSource.SEARCH -> saveDefaultLocationUseCase(location)
+          .onFailure { println("Error on saving default location:\n$it") }
+      }
     }
   }
 
@@ -119,8 +137,8 @@ class WeatherLocationViewModel(
   private fun getSavedLocations() = getSavedLocationsUseCase()
     .catch { emit(emptyList()) }
 
-  private fun removeLocation(location: SearchLocation?) = viewModelScope.launch {
-    location?.let { removeLocationUseCase(it) }
+  private fun removeLocation(location: SearchLocation) = viewModelScope.launch {
+    removeLocationUseCase(location)
   }
 
   private fun saveLocation(location: SearchLocation) = viewModelScope.launch {

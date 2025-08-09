@@ -29,7 +29,11 @@ fun App(
             }
           }
         }
-        searchLocationScreen()
+        searchLocationScreen {
+          navController.navigate(ForecastNavScreen) {
+            popUpTo(0) { inclusive = true }
+          }
+        }
       }
     }
   }

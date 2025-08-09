@@ -9,6 +9,6 @@ import org.koin.dsl.module
 val weatherLocationsFeatureModule = module {
   factory { WeatherLocationFactory() }
   viewModel { (params: PermissionsController) ->
-    WeatherLocationViewModel(params, get(), get(), get(), get(), get(), get())
+    WeatherLocationViewModel(params, get(), get(), get(), get(), get(), get(), get(), get())
   }
 }

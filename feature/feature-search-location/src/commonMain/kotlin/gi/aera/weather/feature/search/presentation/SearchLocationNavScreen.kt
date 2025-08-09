@@ -34,7 +34,9 @@ import org.koin.core.parameter.parametersOf
 
 @Suppress("LongMethod")
 @OptIn(ExperimentalMaterial3Api::class)
-fun NavGraphBuilder.searchLocationScreen() {
+fun NavGraphBuilder.searchLocationScreen(
+  onBack: () -> Unit = {},
+) {
   composable<SearchLocationNavScreen> {
     val searchLocationViewModel = koinViewModel<SearchLocationViewModel>()
     val state by searchLocationViewModel.searchLocationViewState.collectAsStateWithLifecycle()
@@ -95,7 +97,11 @@ fun NavGraphBuilder.searchLocationScreen() {
           WeatherLocationList(
             data = data,
             onLocationDelete = {
-              weatherLocationViewModel.obtainEvent(WeatherLocationEvent.RemoveLocation(it.searchLocation))
+              weatherLocationViewModel.obtainEvent(WeatherLocationEvent.RemoveLocation(it))
+            },
+            onLocationSet = {
+              weatherLocationViewModel.obtainEvent(WeatherLocationEvent.SetAsDefault(it))
+              onBack()
             },
           )
         }
