@@ -4,6 +4,8 @@ import io.ktor.client.HttpClient
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.HttpResponseValidator
 import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.cache.HttpCache
+import io.ktor.client.plugins.cache.storage.CacheStorage
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
@@ -17,9 +19,15 @@ import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
-class WeatherApiHttpClientConfiguration(private val httpClientProvider: HttpClientProvider) {
+class WeatherApiHttpClientConfiguration(
+  private val httpClient: HttpClient,
+  private val cacheStorage: CacheStorage,
+) {
 
-  fun getHttpClient(): HttpClient = httpClientProvider.invoke().config {
+  fun getHttpClient(): HttpClient = httpClient.config {
+    install(HttpCache) {
+      publicStorage(cacheStorage)
+    }
     install(Resources)
     install(Logging) {
       logger = Logger.SIMPLE

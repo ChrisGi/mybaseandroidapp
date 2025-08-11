@@ -17,9 +17,9 @@ import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
-class LocationApiHttpClientConfiguration(private val httpClientProvider: HttpClientProvider) {
+class LocationApiHttpClientConfiguration(private val httpClient: HttpClient) {
 
-  fun getHttpClient(): HttpClient = httpClientProvider.invoke().config {
+  fun getHttpClient(): HttpClient = httpClient.config {
     install(Resources)
     install(Logging) {
       logger = Logger.SIMPLE
