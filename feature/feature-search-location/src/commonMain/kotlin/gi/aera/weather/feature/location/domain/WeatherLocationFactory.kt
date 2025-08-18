@@ -1,6 +1,6 @@
 package gi.aera.weather.feature.location.domain
 
-import ForecastResponseDaily
+import ForecastDailyResponse
 import gi.aera.location.domain.model.LocationSource
 import gi.aera.location.domain.model.SearchLocation
 import gi.aera.ui.text.UiString
@@ -11,7 +11,7 @@ import gi.aera.weather.location_current
 class WeatherLocationFactory {
 
   fun createState(
-    response: ForecastResponseDaily,
+    response: ForecastDailyResponse,
     location: SearchLocation,
   ) = response.timelines.daily
     .first()

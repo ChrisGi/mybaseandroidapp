@@ -28,6 +28,8 @@ import gi.aera.weather.feature.location.presentation.WeatherLocationBottomSheet
 import gi.aera.weather.feature.location.presentation.WeatherLocationList
 import gi.aera.weather.feature.location.presentation.WeatherLocationViewModel
 import gi.aera.weather.feature.search.domain.model.SearchLocationEffect
+import gi.aera.weather.feature.settings.domain.SettingMenuViewEffect
+import gi.aera.weather.feature.settings.presentation.SettingsMenuViewModel
 import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -36,6 +38,7 @@ import org.koin.core.parameter.parametersOf
 @OptIn(ExperimentalMaterial3Api::class)
 fun NavGraphBuilder.searchLocationScreen(
   onBack: () -> Unit = {},
+  showSettingsScreen: () -> Unit = {},
 ) {
   composable<SearchLocationNavScreen> {
     val searchLocationViewModel = koinViewModel<SearchLocationViewModel>()
@@ -48,6 +51,17 @@ fun NavGraphBuilder.searchLocationScreen(
     val weatherLocationViewModel: WeatherLocationViewModel = koinViewModel { parametersOf(controller) }
     val weatherLocationState by weatherLocationViewModel.weatherLocationState.collectAsStateWithLifecycle()
     val savedLocationsWeatherState by weatherLocationViewModel.savedLocationsWeatherState.collectAsStateWithLifecycle()
+
+    val menuSettingsViewModel: SettingsMenuViewModel = koinViewModel()
+    val menuSettingsState by menuSettingsViewModel.settingsMenuViewState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+      menuSettingsViewModel.settingsMenuViewEffect.collect { effect ->
+        when (effect) {
+          SettingMenuViewEffect.ShowSettingsScreen -> showSettingsScreen()
+        }
+      }
+    }
 
     var showLocationWeather by remember { mutableStateOf(false) }
 
@@ -81,7 +95,9 @@ fun NavGraphBuilder.searchLocationScreen(
 
       SearchLocationScreen(
         state = state,
+        menuState = menuSettingsState,
         event = searchLocationViewModel::obtainEvent,
+        menuEvent = menuSettingsViewModel::obtainMenuClick,
       ) {
         LceViewState(
           state = savedLocationsWeatherState,

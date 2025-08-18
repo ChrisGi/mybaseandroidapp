@@ -1,6 +1,6 @@
 package gi.aera.weather.feature.location.presentation
 
-import ForecastResponseDaily
+import ForecastDailyResponse
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.icerock.moko.permissions.Permission
@@ -21,7 +21,6 @@ import gi.aera.ui.LceState
 import gi.aera.weather.feature.location.domain.WeatherLocationEvent
 import gi.aera.weather.feature.location.domain.WeatherLocationFactory
 import gi.aera.weather.feature.location.domain.WeatherLocationState
-import gi.aera.weather.forecast.domain.model.ForecastParams
 import gi.aera.weather.forecast.domain.usecase.GetDailyForecastUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -148,13 +147,12 @@ class WeatherLocationViewModel(
   }
 
   private suspend fun getWeatherForecast(location: SearchLocation): WeatherLocationState {
-    val params = ForecastParams(location = "${location.latitude}, ${location.longitude}")
-    return when (val response = getWeatherForecastUseCase(params)) {
+    return when (val response = getWeatherForecastUseCase(location = "${location.latitude}, ${location.longitude}")) {
       is ApiResponse.Error -> {
         WeatherLocationState.WeatherLocationError("Something went wrong")
       }
 
-      is ApiResponse.Success<ForecastResponseDaily> -> weatherLocationFactory.createState(response.data, location)
+      is ApiResponse.Success<ForecastDailyResponse> -> weatherLocationFactory.createState(response.data, location)
     }
   }
 }

@@ -105,4 +105,9 @@
   <string name="weather_temperature_degree">%1$s°</string>
 
 
+  <string name="settings_menu">Settings</string>
+  <string name="settings_unit_system">Unit system</string>
+  <string name="settings_unit_system_metric">metric</string>
+  <string name="settings_unit_system_imperial">imperial</string>
+
 </resources>

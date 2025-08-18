@@ -1,6 +1,6 @@
 package gi.aera.weather.feature.forecast.domain
 
-import ForecastResponseDaily
+import ForecastDailyResponse
 import gi.aera.location.domain.model.SearchLocation
 import gi.aera.ui.text.UiString
 import gi.aera.weather.Res
@@ -16,7 +16,7 @@ import kotlinx.datetime.toLocalDateTime
 class ForecastViewStateFactory {
 
   fun createState(
-    response: ForecastResponseDaily,
+    response: ForecastDailyResponse,
     location: SearchLocation,
   ) = response.timelines.daily.map { daily ->
     val weatherValues = daily.values

@@ -1,6 +1,6 @@
 package gi.aera.weather.feature.forecast.presentation
 
-import ForecastResponseDaily
+import ForecastDailyResponse
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.icerock.moko.permissions.DeniedAlwaysException
@@ -18,7 +18,6 @@ import gi.aera.ui.LceState
 import gi.aera.weather.feature.forecast.domain.Forecast
 import gi.aera.weather.feature.forecast.domain.ForecastScreenViewEffect
 import gi.aera.weather.feature.forecast.domain.ForecastViewStateFactory
-import gi.aera.weather.forecast.domain.model.ForecastParams
 import gi.aera.weather.forecast.domain.usecase.GetDailyForecastUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -74,16 +73,12 @@ class ForecastViewModel(
     _state.update { LceState.Loading }
 
     val state = when (
-      val response = getDailyForecastUseCase(
-        ForecastParams(
-          location = "${location.latitude}, ${location.longitude}",
-        ),
-      )
+      val response = getDailyForecastUseCase(location = "${location.latitude}, ${location.longitude}")
     ) {
       is ApiResponse.Error ->
         LceState.Error(Exception(response.errorMessage))
 
-      is ApiResponse.Success<ForecastResponseDaily> ->
+      is ApiResponse.Success<ForecastDailyResponse> ->
         LceState.Content(forecastViewStateFactory.createState(response.data, location))
     }
     _state.update { state }

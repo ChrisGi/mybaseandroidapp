@@ -13,12 +13,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import gi.aera.weather.feature.search.domain.model.SearchLocationEvent
 import gi.aera.weather.feature.search.domain.model.SearchLocationViewState
+import gi.aera.weather.feature.settings.domain.SettingMenuItemId
+import gi.aera.weather.feature.settings.domain.SettingsMenuViewState
+import gi.aera.weather.feature.settings.presentation.SettingsDropdown
 
+@Suppress("LongParameterList")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchLocationScreen(
   state: SearchLocationViewState,
+  menuState: SettingsMenuViewState,
   event: (event: SearchLocationEvent) -> Unit,
+  menuEvent: (SettingMenuItemId) -> Unit,
   modifier: Modifier = Modifier
     .fillMaxSize(),
   content: @Composable () -> Unit,
@@ -27,6 +33,7 @@ fun SearchLocationScreen(
     topBar = {
       MediumTopAppBar(
         title = { Text(text = state.toolbarTitle.asString()) },
+        actions = { SettingsDropdown(menuState.settingsMenuState) { menuEvent(it) } },
       )
     },
     modifier = modifier,

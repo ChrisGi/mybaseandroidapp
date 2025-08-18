@@ -9,6 +9,6 @@ class ForecastResource {
     val parent: ForecastResource = ForecastResource(),
     val location: String,
     val timesteps: String? = "1h",
-    val units: String? = "metric",
+    val units: String,
   )
 }

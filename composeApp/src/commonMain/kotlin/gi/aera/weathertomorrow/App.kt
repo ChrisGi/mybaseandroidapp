@@ -3,6 +3,8 @@ package gi.aera.weathertomorrow
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import gi.aera.feature.settings.presentation.AppSettingsNavScreen
+import gi.aera.feature.settings.presentation.appSettingsNavScreen
 import gi.aera.ui.theme.AppTheme
 import gi.aera.ui.theme.appTypography
 import gi.aera.weather.feature.forecast.presentation.ForecastNavScreen
@@ -29,10 +31,18 @@ fun App(
             }
           }
         }
-        searchLocationScreen {
-          navController.navigate(ForecastNavScreen) {
-            popUpTo(0) { inclusive = true }
-          }
+        searchLocationScreen(
+          onBack = {
+            navController.navigate(ForecastNavScreen) {
+              popUpTo(0) { inclusive = true }
+            }
+          },
+          showSettingsScreen = {
+            navController.navigate(AppSettingsNavScreen)
+          },
+        )
+        appSettingsNavScreen {
+          navController.popBackStack()
         }
       }
     }

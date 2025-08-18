@@ -1,5 +1,7 @@
 package gi.aera.shared.di
 
+import gi.aera.appsettings.appSettingsDataModule
+import gi.aera.feature.settings.appSettingsFeatureModule
 import gi.aera.location.locationModule
 import gi.aera.network.di.networkModule
 import gi.aera.prefrences.preferencesModule
@@ -14,7 +16,10 @@ val appModules = listOf(
   preferencesModule,
 
   weatherForecastDataModule,
+  appSettingsDataModule,
+
   weatherForecastFeatureModule,
-  searchLocationFeatureModule,
   weatherLocationsFeatureModule,
+  searchLocationFeatureModule,
+  appSettingsFeatureModule,
 )
