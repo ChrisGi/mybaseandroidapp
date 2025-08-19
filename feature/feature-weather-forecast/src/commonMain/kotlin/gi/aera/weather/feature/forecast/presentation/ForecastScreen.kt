@@ -14,23 +14,23 @@ import androidx.compose.ui.unit.dp
 import gi.aera.ui.LceState
 import gi.aera.ui.LceViewState
 import gi.aera.weather.component.Temperature
-import gi.aera.weather.feature.forecast.domain.Forecast
+import gi.aera.weather.feature.forecast.domain.WeatherConditions
 import gi.aera.weather.feature.forecast.domain.ForecastScreenViewEvent
 
 @Composable
 fun ForecastScreen(
-  state: LceState<List<Forecast>>,
+  currentWeatherState: LceState<WeatherConditions>,
+  forecastState: LceState<List<WeatherConditions>>,
   event: (ForecastScreenViewEvent) -> Unit,
   modifier: Modifier = Modifier
     .fillMaxSize(),
 ) {
   LceViewState(
-    state = state,
+    state = currentWeatherState,
     error = {
       println("Error $it")
     },
-  ) { sevenDayForecast ->
-    val todayForecast = sevenDayForecast.first()
+  ) { todayForecast ->
     Column(
       modifier = modifier,
     ) {
@@ -40,7 +40,7 @@ fun ForecastScreen(
           .weight(1f),
       ) {
         Temperature(
-          temperature = todayForecast.currentTemperature,
+          temperature = todayForecast.temperature,
           unit = todayForecast.unitSystem,
           modifier = Modifier.fillMaxSize(),
         )
@@ -48,7 +48,7 @@ fun ForecastScreen(
 
       Condition(
         icon = todayForecast.conditionIcon,
-        description = todayForecast.condition.asString(),
+        description = todayForecast.conditionTitle.asString(),
         modifier = Modifier
           .padding(PaddingValues(vertical = 32.dp))
           .weight(2f),
@@ -70,7 +70,7 @@ fun ForecastScreen(
           .fillMaxWidth(),
       ) {
         WeeklyForecast(
-          sevenDayForecast,
+          forecastState,
           Modifier
             .align(Alignment.Center),
         )

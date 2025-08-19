@@ -1,10 +1,10 @@
 package gi.aera.weather.feature.forecast.domain
 
-import ForecastDailyResponse
 import gi.aera.location.domain.model.SearchLocation
 import gi.aera.ui.text.UiString
 import gi.aera.weather.Res
 import gi.aera.weather.domain.model.WeatherCode
+import gi.aera.weather.forecast.domain.model.RealtimeWeatherResponse
 import gi.aera.weather.location_current
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
@@ -13,18 +13,17 @@ import kotlinx.datetime.format
 import kotlinx.datetime.format.DayOfWeekNames
 import kotlinx.datetime.toLocalDateTime
 
-class ForecastViewStateFactory {
+class RealtimeWeatherViewStateFactory {
 
   fun createState(
-    response: ForecastDailyResponse,
+    response: RealtimeWeatherResponse,
     location: SearchLocation,
-  ) = response.timelines.daily.map { daily ->
-    val weatherValues = daily.values
+  ) = response.data.values.let { weatherValues ->
     WeatherConditions(
-      temperature = weatherValues.temperatureMax?.toInt().toString(),
-      conditionTitle = UiString.Resource(getWeatherCondition(weatherValues.weatherCodeMax)),
-      conditionIcon = getWeatherConditionIcon(weatherValues.weatherCodeMax),
-      weekday = formatWeekday(daily.time),
+      temperature = weatherValues.temperature?.toInt().toString(),
+      conditionTitle = UiString.Resource(getWeatherCondition(weatherValues.weatherCode)),
+      conditionIcon = getWeatherConditionIcon(weatherValues.weatherCode),
+      weekday = formatWeekday(response.data.time),
       location = formatLocation(location),
       unitSystem = response.unitSystem,
     )

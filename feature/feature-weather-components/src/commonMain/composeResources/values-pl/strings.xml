@@ -103,6 +103,7 @@
   <string name="weather_location_cancel">Anuluj</string>
   <string name="weather_location_temp_range">Od %1$s° do %2$s°</string>
   <string name="weather_temperature_degree">%1$s°</string>
+  <string name="weather_temperature_apparent">Odczuwalnie %1$s°</string>
 
   <string name="settings_menu">Ustawienia</string>
   <string name="settings_unit_system">System jednostek</string>

@@ -31,9 +31,8 @@ private fun WeatherCardPreview() {
       WeatherLocationCard(
         state = WeatherLocationState.WeatherLocation(
           location = UiString.Text("London"),
-          temperatureAvg = "25",
-          temperatureMin = "16°",
-          temperatureMax = "26°",
+          temperature = "25",
+          temperatureApparent = "16°",
           condition = UiString.Text("Trochę chmur"),
           searchLocation = DEFAULT_LOCATION,
           unitSystem = UnitSystem.METRIC,

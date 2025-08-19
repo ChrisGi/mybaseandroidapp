@@ -15,7 +15,7 @@ import gi.aera.ui.text.UiString
 import gi.aera.ui.theme.AppTheme
 import gi.aera.ui.theme.appTypography
 import gi.aera.weather.domain.model.WeatherCode
-import gi.aera.weather.feature.forecast.domain.Forecast
+import gi.aera.weather.feature.forecast.domain.WeatherConditions
 import gi.aera.weather.feature.forecast.presentation.ForecastScreen
 
 @Preview
@@ -31,7 +31,7 @@ private fun ForecScreenPreview() {
     ) {
       val state = LceState.Content(
         listOf(
-          Forecast(
+          WeatherConditions(
             "100",
             UiString.Resource(WeatherCode.CLEAR_SUNNY.conditionStringRes),
             "icon",
@@ -41,7 +41,12 @@ private fun ForecScreenPreview() {
           ),
         ),
       )
-      ForecastScreen(state, {})
+      val currentWeatherState = LceState.Loading
+      ForecastScreen(
+        currentWeatherState = currentWeatherState,
+        forecastState = state,
+        {},
+      )
     }
   }
 }

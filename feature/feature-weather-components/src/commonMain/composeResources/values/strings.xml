@@ -103,7 +103,7 @@
   <string name="weather_location_cancel">Cancel</string>
   <string name="weather_location_temp_range">From %1$s° to %2$s°</string>
   <string name="weather_temperature_degree">%1$s°</string>
-
+  <string name="weather_temperature_apparent">Feels like %1$s°</string>
 
   <string name="settings_menu">Settings</string>
   <string name="settings_unit_system">Unit system</string>

@@ -103,7 +103,7 @@ enum class WeatherCode(val code: Int, val conditionStringRes: StringResource, va
   CLEAR_SUNNY(1000, Res.string.weather_code_1000, "clear_day"),
   MOSTLY_CLEAR(1100, Res.string.weather_code_1100, "mostly_clear_day"),
   PARTLY_CLOUDY(1101, Res.string.weather_code_1101, "partly_cloudy_day"),
-  MOSTLY_CLOUDY(1102, Res.string.weather_code_1102, "most_cloudy_day"),
+  MOSTLY_CLOUDY(1102, Res.string.weather_code_1102, "mostly_cloudy"),
   CLOUDY(1001, Res.string.weather_code_1001, "cloudy"),
   PARTLY_CLOUDY_AND_MOSTLY_CLEAR(1103, Res.string.weather_code_1103, "partly_cloudy_day"),
   LIGHT_FOG(2100, Res.string.weather_code_2100, "fog"),

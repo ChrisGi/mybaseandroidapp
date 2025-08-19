@@ -1,6 +1,5 @@
 package gi.aera.weather.feature.location.presentation
 
-import ForecastDailyResponse
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.icerock.moko.permissions.Permission
@@ -21,7 +20,8 @@ import gi.aera.ui.LceState
 import gi.aera.weather.feature.location.domain.WeatherLocationEvent
 import gi.aera.weather.feature.location.domain.WeatherLocationFactory
 import gi.aera.weather.feature.location.domain.WeatherLocationState
-import gi.aera.weather.forecast.domain.usecase.GetDailyForecastUseCase
+import gi.aera.weather.forecast.domain.model.RealtimeWeatherResponse
+import gi.aera.weather.forecast.domain.usecase.GetCurrentWeatherUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -41,7 +41,7 @@ class WeatherLocationViewModel(
   private val getSavedLocationsUseCase: GetSavedLocationUseCase,
   private val saveDefaultLocationUseCase: SaveDefaultLocationUseCase,
   private val removeDefaultLocationUseCase: RemoveDefaultLocationUseCase,
-  private val getWeatherForecastUseCase: GetDailyForecastUseCase,
+  private val getCurrentWeatherUseCase: GetCurrentWeatherUseCase,
   private val weatherLocationFactory: WeatherLocationFactory,
   private val removeLocationUseCase: RemoveSavedLocationUseCase,
   private val saveLocationUseCase: SaveLocationUseCase,
@@ -147,12 +147,12 @@ class WeatherLocationViewModel(
   }
 
   private suspend fun getWeatherForecast(location: SearchLocation): WeatherLocationState {
-    return when (val response = getWeatherForecastUseCase(location = "${location.latitude}, ${location.longitude}")) {
+    return when (val response = getCurrentWeatherUseCase(location = "${location.latitude}, ${location.longitude}")) {
       is ApiResponse.Error -> {
         WeatherLocationState.WeatherLocationError("Something went wrong")
       }
 
-      is ApiResponse.Success<ForecastDailyResponse> -> weatherLocationFactory.createState(response.data, location)
+      is ApiResponse.Success<RealtimeWeatherResponse> -> weatherLocationFactory.createState(response.data, location)
     }
   }
 }

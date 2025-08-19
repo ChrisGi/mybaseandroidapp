@@ -66,12 +66,12 @@ fun WeatherLocationCard(
             .weight(SPLIT_SCREEN_HALF),
         ) {
           Temperature(
-            temperature = state.temperatureAvg,
+            temperature = state.temperature,
             unit = state.unitSystem,
             fontSize = 4,
           )
           Text(
-            text = state.temperatureRangeFormatted.asString(),
+            text = state.temperatureApparentFormatted.asString(),
             style = MaterialTheme.typography.bodyMedium,
           )
         }

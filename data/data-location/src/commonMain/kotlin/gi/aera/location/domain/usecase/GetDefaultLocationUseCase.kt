@@ -6,7 +6,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.flowOn
 
 class GetDefaultLocationUseCase internal constructor(
   private val defaultLocationRepository: DefaultLocationRepository,
@@ -15,14 +15,13 @@ class GetDefaultLocationUseCase internal constructor(
 ) {
 
   @Suppress("SwallowedException", "TooGenericExceptionCaught")
-  suspend operator fun invoke() = withContext(dispatcher) {
-    defaultLocationRepository.getLocation()
-      .catch { _ ->
-        try {
-          emit(getLastLocationUseCase())
-        } catch (e: Exception) {
-          throw PermissionException()
-        }
+  operator fun invoke() = defaultLocationRepository.getLocation()
+    .catch { _ ->
+      try {
+        emit(getLastLocationUseCase())
+      } catch (e: Exception) {
+        throw PermissionException()
       }
-  }
+    }
+    .flowOn(dispatcher)
 }

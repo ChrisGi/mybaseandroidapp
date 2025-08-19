@@ -45,7 +45,8 @@ fun NavGraphBuilder.forecastScreen(
       }
     }
 
-    val state by viewModel.viewState.collectAsStateWithLifecycle()
+    val forecastViewState by viewModel.forecastViewState.collectAsStateWithLifecycle()
+    val currentWeatherViewState by viewModel.currentWeatherViewState.collectAsStateWithLifecycle()
 
     Column(
       horizontalAlignment = Alignment.CenterHorizontally,
@@ -55,7 +56,8 @@ fun NavGraphBuilder.forecastScreen(
         .fillMaxSize(),
     ) {
       ForecastScreen(
-        state = state,
+        currentWeatherState = currentWeatherViewState,
+        forecastState = forecastViewState,
         event = {
           when (it) {
             ForecastScreenViewEvent.NavigateToSearchLocation -> currentNavigateToSearchLocation(false)

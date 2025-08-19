@@ -15,47 +15,57 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import gi.aera.ui.LceState
+import gi.aera.ui.LceViewState
 import gi.aera.weather.Res
-import gi.aera.weather.feature.forecast.domain.Forecast
+import gi.aera.weather.feature.forecast.domain.WeatherConditions
 import gi.aera.weather.weather_temperature_degree
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun WeeklyForecast(
-  forecast: List<Forecast>,
+  state: LceState<List<WeatherConditions>>,
   modifier: Modifier = Modifier,
 ) {
-  LazyRow(
-    modifier = modifier,
-  ) {
-    items(forecast) { forecast ->
-      Column(
-        modifier = Modifier
-          .width(60.dp),
-      ) {
-        Text(
-          color = MaterialTheme.colorScheme.onBackground,
-          text = forecast.weekday,
+
+  LceViewState(
+    state = state,
+    error = {
+      println("Error $it")
+    },
+  ) { forecast ->
+    LazyRow(
+      modifier = modifier,
+    ) {
+      items(forecast) { forecast ->
+        Column(
           modifier = Modifier
-            .align(Alignment.CenterHorizontally),
-        )
-        if (!LocalInspectionMode.current) {
-          AsyncImage(
-            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
-            model = Res.getUri(forecast.conditionIcon),
-            contentDescription = null,
+            .width(60.dp),
+        ) {
+          Text(
+            color = MaterialTheme.colorScheme.onBackground,
+            text = forecast.weekday,
             modifier = Modifier
-              .size(48.dp)
-              .align(Alignment.CenterHorizontally)
-              .padding(horizontal = 8.dp),
+              .align(Alignment.CenterHorizontally),
+          )
+          if (!LocalInspectionMode.current) {
+            AsyncImage(
+              colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
+              model = Res.getUri(forecast.conditionIcon),
+              contentDescription = null,
+              modifier = Modifier
+                .size(48.dp)
+                .align(Alignment.CenterHorizontally)
+                .padding(horizontal = 8.dp),
+            )
+          }
+          Text(
+            color = MaterialTheme.colorScheme.onBackground,
+            text = stringResource(Res.string.weather_temperature_degree, forecast.temperature),
+            modifier = Modifier
+              .align(Alignment.CenterHorizontally),
           )
         }
-        Text(
-          color = MaterialTheme.colorScheme.onBackground,
-          text = stringResource(Res.string.weather_temperature_degree, forecast.currentTemperature),
-          modifier = Modifier
-            .align(Alignment.CenterHorizontally),
-        )
       }
     }
   }
