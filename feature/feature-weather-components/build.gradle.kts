@@ -47,6 +47,8 @@ kotlin {
   sourceSets {
     commonMain {
       dependencies {
+        implementation(project(":data-app-settings"))
+
         implementation(libs.kotlin.stdlib)
 
         implementation(libs.coil.svg)

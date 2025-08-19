@@ -106,7 +106,7 @@
 
   <string name="settings_menu">Ustawienia</string>
   <string name="settings_unit_system">System jednostek</string>
-  <string name="settings_unit_system_metric">metryczny</string>
-  <string name="settings_unit_system_imperial">imperialny</string>
+  <string name="settings_unit_system_metric">metryczny (°C)</string>
+  <string name="settings_unit_system_imperial">imperialny (°F)</string>
 
 </resources>

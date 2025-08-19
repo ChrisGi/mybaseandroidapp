@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import gi.aera.appsettings.domain.model.UnitSystem
 import gi.aera.ui.LceState
 import gi.aera.ui.text.UiString
 import gi.aera.ui.theme.AppTheme
@@ -36,6 +37,7 @@ private fun ForecScreenPreview() {
             "icon",
             "mon",
             UiString.Text("London"),
+            UnitSystem.IMPERIAL,
           ),
         ),
       )

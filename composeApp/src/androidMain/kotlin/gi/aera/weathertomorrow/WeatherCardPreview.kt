@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import gi.aera.appsettings.domain.model.UnitSystem
 import gi.aera.location.domain.model.LocationSource
 import gi.aera.location.domain.model.SearchLocation
 import gi.aera.ui.text.UiString
@@ -35,6 +36,7 @@ private fun WeatherCardPreview() {
           temperatureMax = "26°",
           condition = UiString.Text("Trochę chmur"),
           searchLocation = DEFAULT_LOCATION,
+          unitSystem = UnitSystem.METRIC,
         ),
       )
     }

@@ -1,8 +1,10 @@
+import gi.aera.appsettings.domain.model.UnitSystem
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class ForecastDailyResponse(
   val timelines: TimelinesDaily,
+  val unitSystem: UnitSystem = UnitSystem.METRIC,
 )
 
 @Serializable

@@ -49,6 +49,7 @@ kotlin {
       dependencies {
         implementation(project(":data-location"))
         implementation(project(":data-weather-forecast"))
+        implementation(project(":data-app-settings"))
 
         implementation(project(":ui"))
         implementation(project(":network"))

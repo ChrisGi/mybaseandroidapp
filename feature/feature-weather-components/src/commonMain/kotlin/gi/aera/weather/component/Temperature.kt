@@ -8,12 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
+import gi.aera.appsettings.domain.model.UnitSystem
+import gi.aera.weather.domain.model.toTemperatureScale
 
 @Suppress("ComposableParamOrder")
 @Composable
 fun Temperature(
   temperature: String,
-  unit: String = "C",
+  unit: UnitSystem,
   fontSize: Int = 10,
   modifier: Modifier = Modifier,
 ) {
@@ -35,7 +37,7 @@ fun Temperature(
       )
       Text(
         color = MaterialTheme.colorScheme.onBackground,
-        text = unit,
+        text = unit.toTemperatureScale(),
         fontSize = (fontSize * 3).sp,
         modifier = Modifier.align(Alignment.CenterHorizontally),
       )

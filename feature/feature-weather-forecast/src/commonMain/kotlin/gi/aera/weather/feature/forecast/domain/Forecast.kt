@@ -1,5 +1,6 @@
 package gi.aera.weather.feature.forecast.domain
 
+import gi.aera.appsettings.domain.model.UnitSystem
 import gi.aera.ui.text.UiString
 
 data class Forecast(
@@ -8,4 +9,5 @@ data class Forecast(
   val conditionIcon: String,
   val weekday: String,
   val location: UiString,
+  val unitSystem: UnitSystem,
 )

@@ -25,6 +25,7 @@ class WeatherLocationFactory {
         temperatureMax = weatherValues.temperatureMax?.toInt().toString(),
         condition = UiString.Resource(getWeatherCondition(weatherValues.weatherCodeMax)),
         searchLocation = location,
+        unitSystem = response.unitSystem,
       )
     }
 

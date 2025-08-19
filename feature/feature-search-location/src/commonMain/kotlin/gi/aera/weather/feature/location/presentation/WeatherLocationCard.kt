@@ -65,7 +65,11 @@ fun WeatherLocationCard(
             .fillMaxHeight()
             .weight(SPLIT_SCREEN_HALF),
         ) {
-          Temperature(temperature = state.temperatureAvg, fontSize = 4)
+          Temperature(
+            temperature = state.temperatureAvg,
+            unit = state.unitSystem,
+            fontSize = 4,
+          )
           Text(
             text = state.temperatureRangeFormatted.asString(),
             style = MaterialTheme.typography.bodyMedium,

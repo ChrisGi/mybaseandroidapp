@@ -26,6 +26,7 @@ class ForecastViewStateFactory {
       conditionIcon = getWeatherConditionIcon(weatherValues.weatherCodeMax),
       weekday = formatWeekday(daily.time),
       location = formatLocation(location),
+      unitSystem = response.unitSystem,
     )
   }
 

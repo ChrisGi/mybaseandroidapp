@@ -41,6 +41,7 @@ fun ForecastScreen(
       ) {
         Temperature(
           temperature = todayForecast.currentTemperature,
+          unit = todayForecast.unitSystem,
           modifier = Modifier.fillMaxSize(),
         )
       }
