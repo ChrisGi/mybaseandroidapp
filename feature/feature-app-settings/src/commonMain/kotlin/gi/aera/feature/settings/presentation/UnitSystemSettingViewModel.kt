@@ -11,6 +11,7 @@ import gi.aera.feature.settings.domain.model.toTitle
 import gi.aera.ui.text.UiString
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
@@ -40,7 +41,9 @@ class UnitSystemSettingViewModel(
             UiString.Resource(unitSystem.toTitle()),
           )
         }
-      }.collect {
+      }
+      .catch { e -> e.printStackTrace() }
+      .collect {
         _unitSettingsViewState.value = UnitSettingsViewState(it)
       }
   }

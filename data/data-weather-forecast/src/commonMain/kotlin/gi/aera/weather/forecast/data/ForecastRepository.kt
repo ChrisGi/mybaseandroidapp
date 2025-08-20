@@ -1,12 +1,13 @@
 package gi.aera.weather.forecast.data
 
+import ForecastDailyResponse
+import gi.aera.network.di.domain.ApiResponse
+import gi.aera.weather.forecast.domain.model.ForecastHourlyResponse
 import gi.aera.weather.forecast.domain.model.ForecastParams
+import gi.aera.weather.forecast.domain.model.RealtimeWeatherResponse
 
-internal class ForecastRepository internal constructor(private val forecastApi: ForecastApi) {
-
-  suspend fun realtimeWeather(params: ForecastParams) = forecastApi.realtimeWeather(params)
-
-  suspend fun forecastDaily(params: ForecastParams) = forecastApi.forecastDaily(params)
-
-  suspend fun forecastHourly(params: ForecastParams) = forecastApi.forecastHourly(params)
+interface ForecastRepository {
+  suspend fun realtimeWeather(params: ForecastParams): ApiResponse<RealtimeWeatherResponse>
+  suspend fun forecastDaily(params: ForecastParams): ApiResponse<ForecastDailyResponse>
+  suspend fun forecastHourly(params: ForecastParams): ApiResponse<ForecastHourlyResponse>
 }

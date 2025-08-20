@@ -104,6 +104,7 @@ class WeatherLocationViewModel(
         val weatherLocations = it.map { location -> getWeatherForecast(location) }
         emit(weatherLocations)
       }
+      .catch { e -> e.printStackTrace() }
       .collect { weatherLocations ->
         when {
           weatherLocations.any { it is WeatherLocationState.WeatherLocationError } ->
