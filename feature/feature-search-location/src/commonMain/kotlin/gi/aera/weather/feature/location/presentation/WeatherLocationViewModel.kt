@@ -132,7 +132,7 @@ class WeatherLocationViewModel(
         emit(null)
       }
     }
-  }
+  }.catch { emit(null) }
 
   private fun getSavedLocations() = getSavedLocationsUseCase()
     .catch { emit(emptyList()) }

@@ -15,6 +15,12 @@ internal class SaveLocationRepository(private val dataStore: DataStore<Preferenc
 
   private val locationKey = stringPreferencesKey(C.DATA_STORE_LOCATION_KEY)
 
+  fun getLocations() = dataStore.data
+    .map { preferences ->
+      preferences[locationKey] ?: throw LocationNotFoundException()
+    }
+    .map { json -> Json.decodeFromString(ListSerializer(SearchLocation.serializer()), json) }
+
   suspend fun saveLocations(locations: List<SearchLocation>) {
     val locationJson = Json.encodeToString(ListSerializer(SearchLocation.serializer()), locations)
     dataStore.edit { preferences ->
@@ -22,25 +28,18 @@ internal class SaveLocationRepository(private val dataStore: DataStore<Preferenc
     }
   }
 
-  suspend fun getLocations() = dataStore.data
-    .map { preferences ->
-      preferences[locationKey] ?: throw LocationNotFoundException()
-    }
-    .map { json -> Json.decodeFromString(ListSerializer(SearchLocation.serializer()), json) }
-    .first()
-
-  suspend fun getLocation(placeId: String): SearchLocation? {
-    val locations = getLocations()
-    return locations.find { it.placeId == placeId }
-  }
-
   suspend fun removeLocation(placeId: String) {
     val location = getLocation(placeId) ?: return
-    val locations = getLocations()
+    val locations = getLocations().first()
 
     if (locations.contains(location).not()) return
 
     val updatedLocations = locations - location
     saveLocations(updatedLocations)
+  }
+
+  private suspend fun getLocation(placeId: String): SearchLocation? {
+    val locations = getLocations().first()
+    return locations.find { it.placeId == placeId }
   }
 }

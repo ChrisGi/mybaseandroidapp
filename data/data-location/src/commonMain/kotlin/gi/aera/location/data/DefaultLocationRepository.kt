@@ -20,11 +20,18 @@ internal class DefaultLocationRepository(private val dataStore: DataStore<Prefer
     }
   }
 
+  @Suppress("TooGenericExceptionCaught", "SwallowedException")
   fun getLocation() = dataStore.data
     .map { preferences ->
       preferences[locationKey] ?: throw LocationNotFoundException()
     }
-    .map { json -> Json.decodeFromString(SearchLocation.serializer(), json) }
+    .map { json ->
+      try {
+        Json.decodeFromString(SearchLocation.serializer(), json)
+      } catch (e: Exception) {
+        throw LocationNotFoundException()
+      }
+    }
 
   suspend fun removeLocation() {
     dataStore.edit { preferences ->

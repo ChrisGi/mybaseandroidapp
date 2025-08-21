@@ -1,7 +1,7 @@
 package gi.aera.location.domain.usecase
 
 import gi.aera.location.data.DefaultLocationRepository
-import gi.aera.location.domain.model.PermissionException
+import gi.aera.location.domain.model.LocationNotFoundException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -14,13 +14,11 @@ class GetDefaultLocationUseCase internal constructor(
   private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
 
-  @Suppress("SwallowedException", "TooGenericExceptionCaught")
   operator fun invoke() = defaultLocationRepository.getLocation()
-    .catch { _ ->
-      try {
-        emit(getLastLocationUseCase())
-      } catch (e: Exception) {
-        throw PermissionException()
+    .catch { e ->
+      when {
+        e is LocationNotFoundException -> emit(getLastLocationUseCase())
+        else -> throw e
       }
     }
     .flowOn(dispatcher)

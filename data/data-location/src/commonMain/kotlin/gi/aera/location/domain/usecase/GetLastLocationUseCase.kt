@@ -15,10 +15,7 @@ class GetLastLocationUseCase internal constructor(
   private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
 
-  suspend operator fun invoke(): SearchLocation = obtainLocation()
-
-  @Suppress("SwallowedException")
-  private suspend fun obtainLocation() = withContext(dispatcher) {
+  suspend operator fun invoke(): SearchLocation = withContext(dispatcher) {
     val (latitude, longitude) = locationRepository.getLastLocation()
     return@withContext SearchLocation(PLACE_ID, null, null, latitude, longitude, LocationSource.GPS)
   }

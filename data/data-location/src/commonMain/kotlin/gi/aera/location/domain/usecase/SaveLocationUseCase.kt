@@ -7,7 +7,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 
 class SaveLocationUseCase internal constructor(
@@ -16,8 +15,7 @@ class SaveLocationUseCase internal constructor(
 ) {
 
   suspend operator fun invoke(location: SearchLocation): Result<Unit> = withContext(dispatcher) {
-
-    val locations = flow { emit(saveLocationRepository.getLocations()) }
+    val locations = saveLocationRepository.getLocations()
       .catch { emit(emptyList()) }
       .first()
       .plus(location)
