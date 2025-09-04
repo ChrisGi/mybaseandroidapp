@@ -1,5 +1,6 @@
 package gi.aera.network.di
 
+import gi.aera.lib.network.ApiKeys
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.HttpResponseValidator
@@ -37,7 +38,7 @@ class LocationApiHttpClientConfiguration(private val httpClient: HttpClient) {
       url {
         protocol = URLProtocol.HTTPS
         host = "api.geoapify.com/v1"
-        parameters.append("apiKey", "a6641c97d0dd49208e577dd3ce55284e")
+        parameters.append("apiKey", ApiKeys.geoapifyApiKey)
       }
     }
 

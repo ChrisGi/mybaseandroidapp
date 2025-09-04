@@ -30,6 +30,7 @@ slf4jAndroid = "1.7.36"
 navigationCompose = "2.9.0-beta03"
 detekt = "1.23.8"
 detektCompose = "0.4.12"
+buildKonfig="0.15.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -97,3 +98,4 @@ android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 detekt-plugin = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+build-konfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildKonfig" }

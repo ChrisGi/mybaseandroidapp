@@ -1,5 +1,6 @@
 package gi.aera.network.di
 
+import gi.aera.lib.network.ApiKeys
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.HttpResponseValidator
@@ -45,7 +46,7 @@ class WeatherApiHttpClientConfiguration(
       url {
         protocol = URLProtocol.HTTPS
         host = "api.tomorrow.io/v4"
-        parameters.append("apikey", "l5wtsHIbpcdnao1IcRkBgnWcvXjF4AA7")
+        parameters.append("apikey", ApiKeys.tomorrowApiKey)
       }
     }
 

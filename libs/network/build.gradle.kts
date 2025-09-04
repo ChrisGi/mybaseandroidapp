@@ -1,7 +1,29 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec
+
 plugins {
   alias(libs.plugins.kotlin.multiplatform)
   alias(libs.plugins.android.kotlin.multiplatform.library)
   alias(libs.plugins.kotlin.serialization)
+  alias(libs.plugins.build.konfig)
+}
+
+buildkonfig {
+  packageName = "gi.aera.lib.network"
+  objectName = "ApiKeys"
+  exposeObjectWithName = "ApiKeys"
+  val localProperties = LocalProperties(project)
+  defaultConfigs {
+    buildConfigField(
+      FieldSpec.Type.STRING,
+      "tomorrowApiKey",
+      localProperties.fromLocalPropertiesFile("tomorrow.apiKey"),
+    )
+    buildConfigField(
+      FieldSpec.Type.STRING,
+      "geoapifyApiKey",
+      localProperties.fromLocalPropertiesFile("geoapify.apiKey"),
+    )
+  }
 }
 
 kotlin {
@@ -100,4 +122,8 @@ kotlin {
     }
   }
 
+}
+
+tasks.named("assemble") {
+  dependsOn("generateBuildKonfig")
 }
