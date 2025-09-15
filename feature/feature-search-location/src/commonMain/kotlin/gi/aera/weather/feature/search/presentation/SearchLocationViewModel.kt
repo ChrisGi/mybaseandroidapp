@@ -2,9 +2,9 @@ package gi.aera.weather.feature.search.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import gi.aera.domain.model.ApiResponse
 import gi.aera.location.domain.model.SearchLocation
 import gi.aera.location.domain.usecase.SearchLocationUseCase
-import gi.aera.network.di.domain.ApiResponse
 import gi.aera.ui.C
 import gi.aera.ui.EventHandler
 import gi.aera.ui.LceState

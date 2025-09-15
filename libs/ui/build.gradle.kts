@@ -61,6 +61,10 @@ kotlin {
   sourceSets {
     commonMain {
       dependencies {
+        implementation(project(":domain"))
+
+        api(libs.ktor.serialization.kotlinx.json)
+
         implementation(libs.kotlin.stdlib)
 
         implementation(libs.ktor.client.core)
@@ -71,6 +75,8 @@ kotlin {
         implementation(libs.kotlinx.coroutines.core)
         implementation(libs.koin.core)
         implementation(libs.koin.test)
+
+        implementation(libs.androidx.navigation.compose)
 
         implementation(compose.runtime)
         implementation(compose.foundation)

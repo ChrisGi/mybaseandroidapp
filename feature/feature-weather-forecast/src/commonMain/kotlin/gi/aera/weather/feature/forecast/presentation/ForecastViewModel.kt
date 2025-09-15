@@ -9,23 +9,31 @@ import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.PermissionsController
 import dev.icerock.moko.permissions.RequestCanceledException
 import dev.icerock.moko.permissions.location.LOCATION
+import gi.aera.domain.model.ApiResponse
+import gi.aera.domain.model.AppError
 import gi.aera.location.domain.model.PermissionException
+import gi.aera.location.domain.model.SearchLocation
 import gi.aera.location.domain.usecase.GetDefaultLocationUseCase
-import gi.aera.network.di.domain.ApiResponse
 import gi.aera.ui.C
+import gi.aera.ui.EventHandler
 import gi.aera.ui.LceState
-import gi.aera.weather.feature.forecast.domain.ForecastScreenViewEffect
+import gi.aera.ui.navigation.NavigationArgs
+import gi.aera.ui.navigation.NavigationManager
+import gi.aera.ui.navigation.Route
+import gi.aera.weather.feature.forecast.domain.ForecastScreenViewEvent
 import gi.aera.weather.feature.forecast.domain.ForecastViewStateFactory
 import gi.aera.weather.feature.forecast.domain.RealtimeWeatherViewStateFactory
 import gi.aera.weather.feature.forecast.domain.WeatherConditions
 import gi.aera.weather.forecast.domain.model.RealtimeWeatherResponse
 import gi.aera.weather.forecast.domain.usecase.GetCurrentWeatherUseCase
 import gi.aera.weather.forecast.domain.usecase.GetDailyForecastUseCase
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
@@ -34,6 +42,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.coroutines.cancellation.CancellationException
 
+@Suppress("LongParameterList")
 class ForecastViewModel(
   private val permissionsController: PermissionsController,
   private val getDefaultLocationUseCase: GetDefaultLocationUseCase,
@@ -41,7 +50,8 @@ class ForecastViewModel(
   private val getDailyForecastUseCase: GetDailyForecastUseCase,
   private val realtimeWeatherViewStateFactory: RealtimeWeatherViewStateFactory,
   private val forecastViewStateFactory: ForecastViewStateFactory,
-) : ViewModel() {
+  private val navigationManager: NavigationManager,
+) : ViewModel(), EventHandler<ForecastScreenViewEvent> {
 
   private val permission = Permission.LOCATION
 
@@ -56,52 +66,59 @@ class ForecastViewModel(
 
   private val _forecastViewState = MutableStateFlow<LceState<List<WeatherConditions>>>(LceState.Loading)
   val forecastViewState = _forecastViewState
-    .onStart { getForecastForLocation() }
     .stateIn(
       viewModelScope,
       SharingStarted.WhileSubscribed(C.RELOADING_TIMEOUT),
       LceState.Loading,
     )
 
-  private val _effect = MutableSharedFlow<ForecastScreenViewEffect>()
-  val effect = _effect.asSharedFlow()
+  override fun obtainEvent(event: ForecastScreenViewEvent) {
+    when (event) {
+      is ForecastScreenViewEvent.Retry -> getCurrentWeatherForLocation()
 
+      is ForecastScreenViewEvent.NavigateToSearchLocation -> navigateToSearchLocation(event.popUpInclusive)
+    }
+  }
+
+  @OptIn(ExperimentalCoroutinesApi::class)
   private fun getCurrentWeatherForLocation() = viewModelScope.launch {
     defaultLocation()
+      .onStart { _currentWeatherViewState.update { LceState.Loading } }
       .transform { location ->
-        val state = when (
+        val lceState = when (
           val response = getCurrentWeatherUseCase(location = "${location.latitude}, ${location.longitude}")
         ) {
-          is ApiResponse.Error ->
-            LceState.Error(Exception(response.errorMessage))
+          is ApiResponse.Error -> {
+            LceState.Error(AppError.from(response))
+          }
 
           is ApiResponse.Success<RealtimeWeatherResponse> ->
             LceState.Content(realtimeWeatherViewStateFactory.createState(response.data, location))
         }
-        emit(state)
-      }.collect { lceState ->
         _currentWeatherViewState.update { lceState }
-      }
-  }
 
-  private fun getForecastForLocation() = viewModelScope.launch {
-    defaultLocation()
-      .transform { location ->
-        val state = when (
-          val response = getDailyForecastUseCase(location = "${location.latitude}, ${location.longitude}")
-        ) {
-          is ApiResponse.Error ->
-            LceState.Error(Exception(response.errorMessage))
+        when (lceState) {
+          is LceState.Error -> throw CancellationException("Error loading current weather")
 
-          is ApiResponse.Success<ForecastDailyResponse> ->
-            LceState.Content(forecastViewStateFactory.createState(response.data, location))
+          else -> emit(location)
         }
-        emit(state)
       }
-      .collect { lceState ->
-        _forecastViewState.update { lceState }
-      }
+      .flatMapLatest { location -> getForecastForLocation(location) }
+      .collect { _ -> }
   }
+
+  private fun getForecastForLocation(location: SearchLocation) = flow {
+    val state = when (
+      val response = getDailyForecastUseCase(location = "${location.latitude}, ${location.longitude}")
+    ) {
+      is ApiResponse.Error ->
+        LceState.Error(AppError.from(response))
+
+      is ApiResponse.Success<ForecastDailyResponse> ->
+        LceState.Content(forecastViewStateFactory.createState(response.data, location))
+    }
+    emit(state)
+  }.onEach { lceState -> _forecastViewState.update { lceState } }
 
   private fun defaultLocation() = getDefaultLocationUseCase()
     .catch { e ->
@@ -112,7 +129,7 @@ class ForecastViewModel(
         }
 
         else -> {
-          _effect.emit(ForecastScreenViewEffect.SearchForLocation)
+          navigateToSearchLocation(true)
           throw CancellationException("Location not found")
         }
       }
@@ -128,16 +145,24 @@ class ForecastViewModel(
         permissionsController.providePermission(permission)
 
         getCurrentWeatherForLocation()
-        getForecastForLocation()
       } catch (e: DeniedAlwaysException) {
         e.printStackTrace()
-        _effect.emit(ForecastScreenViewEffect.SearchForLocation)
+        navigateToSearchLocation(true)
       } catch (e: DeniedException) {
         e.printStackTrace()
-        _effect.emit(ForecastScreenViewEffect.SearchForLocation)
+        navigateToSearchLocation(true)
       } catch (e: RequestCanceledException) {
         e.printStackTrace()
       }
     }
+  }
+
+  private fun navigateToSearchLocation(popUpInclusive: Boolean) {
+    val popUpTo = if (popUpInclusive) Pair(Route.ForecastNavScreen, true) else null
+    val navArgs = NavigationArgs(
+      route = Route.SearchLocationNavScreen,
+      popUpTo = popUpTo,
+    )
+    navigationManager.navigateTo(navArgs)
   }
 }

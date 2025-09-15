@@ -14,8 +14,9 @@ import androidx.compose.ui.unit.dp
 import gi.aera.ui.LceState
 import gi.aera.ui.LceViewState
 import gi.aera.weather.component.Temperature
-import gi.aera.weather.feature.forecast.domain.WeatherConditions
+import gi.aera.weather.error.AppErrorContentProvider
 import gi.aera.weather.feature.forecast.domain.ForecastScreenViewEvent
+import gi.aera.weather.feature.forecast.domain.WeatherConditions
 
 @Composable
 fun ForecastScreen(
@@ -27,8 +28,15 @@ fun ForecastScreen(
 ) {
   LceViewState(
     state = currentWeatherState,
-    error = {
-      println("Error $it")
+    errorContent = {
+      AppErrorContentProvider(
+        it,
+        modifier
+          .fillMaxSize()
+          .padding(vertical = 32.dp),
+      ) {
+        event(ForecastScreenViewEvent.Retry)
+      }
     },
   ) { todayForecast ->
     Column(
@@ -56,12 +64,12 @@ fun ForecastScreen(
 
       ForecastLocation(
         location = todayForecast.location.asString(),
-        onClick = { event.invoke(ForecastScreenViewEvent.NavigateToSearchLocation) },
+        onClick = { event(ForecastScreenViewEvent.NavigateToSearchLocation()) },
         modifier = Modifier
           .fillMaxWidth()
           .align(Alignment.CenterHorizontally)
           .padding(8.dp)
-          .clickable { event.invoke(ForecastScreenViewEvent.NavigateToSearchLocation) },
+          .clickable { event(ForecastScreenViewEvent.NavigateToSearchLocation()) },
       )
 
       Box(

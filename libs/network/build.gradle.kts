@@ -76,6 +76,8 @@ kotlin {
   sourceSets {
     commonMain {
       dependencies {
+        implementation(project(":domain"))
+
         implementation(libs.kotlin.stdlib)
 
         implementation(libs.ktor.client.core)

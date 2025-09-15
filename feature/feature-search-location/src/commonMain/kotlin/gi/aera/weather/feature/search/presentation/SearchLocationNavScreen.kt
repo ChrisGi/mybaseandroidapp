@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,6 +22,8 @@ import dev.icerock.moko.permissions.compose.BindEffect
 import dev.icerock.moko.permissions.compose.PermissionsControllerFactory
 import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import gi.aera.ui.LceViewState
+import gi.aera.ui.navigation.Route
+import gi.aera.weather.error.AppErrorContentProvider
 import gi.aera.weather.feature.location.domain.WeatherLocationEvent
 import gi.aera.weather.feature.location.presentation.WeatherLocationBottomSheet
 import gi.aera.weather.feature.location.presentation.WeatherLocationList
@@ -30,17 +31,16 @@ import gi.aera.weather.feature.location.presentation.WeatherLocationViewModel
 import gi.aera.weather.feature.search.domain.model.SearchLocationEffect
 import gi.aera.weather.feature.settings.domain.SettingMenuViewEffect
 import gi.aera.weather.feature.settings.presentation.SettingsMenuViewModel
-import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Suppress("LongMethod")
 @OptIn(ExperimentalMaterial3Api::class)
-fun NavGraphBuilder.searchLocationScreen(
+fun NavGraphBuilder.searchLocationNavScreen(
   onBack: () -> Unit = {},
   showSettingsScreen: () -> Unit = {},
 ) {
-  composable<SearchLocationNavScreen> {
+  composable<Route.SearchLocationNavScreen> {
     val searchLocationViewModel = koinViewModel<SearchLocationViewModel>()
     val state by searchLocationViewModel.searchLocationViewState.collectAsStateWithLifecycle()
 
@@ -49,6 +49,7 @@ fun NavGraphBuilder.searchLocationScreen(
     BindEffect(controller)
 
     val weatherLocationViewModel: WeatherLocationViewModel = koinViewModel { parametersOf(controller) }
+
     val weatherLocationState by weatherLocationViewModel.weatherLocationState.collectAsStateWithLifecycle()
     val savedLocationsWeatherState by weatherLocationViewModel.savedLocationsWeatherState.collectAsStateWithLifecycle()
 
@@ -101,13 +102,15 @@ fun NavGraphBuilder.searchLocationScreen(
       ) {
         LceViewState(
           state = savedLocationsWeatherState,
-          error = {
-            Text(
-              text = it.message ?: "Something went wrong",
-              modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(16.dp),
-            )
+          errorContent = {
+            AppErrorContentProvider(
+              it,
+              Modifier
+                .fillMaxSize()
+                .padding(32.dp),
+            ) {
+              weatherLocationViewModel.getLocationsWeather()
+            }
           },
         ) { data ->
           WeatherLocationList(
@@ -125,6 +128,3 @@ fun NavGraphBuilder.searchLocationScreen(
     }
   }
 }
-
-@Serializable
-data object SearchLocationNavScreen

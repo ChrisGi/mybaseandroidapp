@@ -8,11 +8,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import gi.aera.domain.model.AppError
 
 sealed class LceState<out T> {
   data object Loading : LceState<Nothing>()
   data class Content<T>(val content: T) : LceState<T>()
-  data class Error(val throwable: Throwable) : LceState<Nothing>()
+  data class Error(val appError: AppError) : LceState<Nothing>()
 }
 
 @Composable
@@ -21,20 +22,16 @@ fun <T> LceViewState(
   modifier: Modifier = Modifier
     .fillMaxSize()
     .background(MaterialTheme.colorScheme.background),
-  error: @Composable (throwable: Throwable) -> Unit = {},
+  errorContent: @Composable (appError: AppError) -> Unit = {},
   loading: @Composable () -> Unit = { FullscreenProgressIndicator(modifier) },
   content: @Composable (T) -> Unit,
 ) {
   when (state) {
     is LceState.Loading -> loading()
 
-    is LceState.Content -> {
-      content(state.content)
-    }
+    is LceState.Content -> content(state.content)
 
-    is LceState.Error -> {
-      error(state.throwable)
-    }
+    is LceState.Error -> errorContent(state.appError)
   }
 }
 

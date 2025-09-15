@@ -1,6 +1,7 @@
 package gi.aera.weather.feature.location.domain
 
 import gi.aera.appsettings.domain.model.UnitSystem
+import gi.aera.domain.model.AppError
 import gi.aera.location.domain.model.SearchLocation
 import gi.aera.ui.compose.SwipeableItem
 import gi.aera.ui.text.UiString
@@ -25,6 +26,6 @@ sealed interface WeatherLocationState {
   }
 
   data class WeatherLocationError(
-    override val message: String,
-  ) : Throwable(), WeatherLocationState
+    val appError: AppError,
+  ) : WeatherLocationState
 }

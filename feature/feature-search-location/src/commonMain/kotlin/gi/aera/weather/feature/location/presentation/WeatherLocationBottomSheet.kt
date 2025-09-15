@@ -21,6 +21,7 @@ import gi.aera.ui.FullscreenProgressIndicator
 import gi.aera.ui.LceState
 import gi.aera.ui.LceViewState
 import gi.aera.weather.Res
+import gi.aera.weather.error.AppErrorContentProvider
 import gi.aera.weather.feature.location.domain.WeatherLocationState
 import gi.aera.weather.weather_location_add
 import gi.aera.weather.weather_location_cancel
@@ -45,13 +46,14 @@ fun WeatherLocationBottomSheet(
   ) {
     LceViewState(
       state = state,
-      error = {
-        Text(
-          text = it.message ?: "Something went wrong",
-          modifier = Modifier
-            .align(Alignment.CenterHorizontally)
-            .padding(16.dp),
-        )
+      errorContent = {
+        AppErrorContentProvider(
+          it,
+          Modifier
+            .padding(32.dp),
+        ) {
+          hideBottomSheet()
+        }
       },
       loading = { FullscreenProgressIndicator(modifier.align(Alignment.CenterHorizontally)) },
     ) { weatherLocation ->

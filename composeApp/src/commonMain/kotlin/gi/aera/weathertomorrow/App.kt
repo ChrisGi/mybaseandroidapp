@@ -5,13 +5,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import gi.aera.feature.settings.presentation.AppSettingsNavScreen
 import gi.aera.feature.settings.presentation.appSettingsNavScreen
+import gi.aera.ui.navigation.NavigationLaunchedEffect
+import gi.aera.ui.navigation.NavigationManager
+import gi.aera.ui.navigation.Route
 import gi.aera.ui.theme.AppTheme
 import gi.aera.ui.theme.appTypography
-import gi.aera.weather.feature.forecast.presentation.ForecastNavScreen
-import gi.aera.weather.feature.forecast.presentation.forecastScreen
-import gi.aera.weather.feature.search.presentation.SearchLocationNavScreen
-import gi.aera.weather.feature.search.presentation.searchLocationScreen
+import gi.aera.weather.error.genericErrorNavScreen
+import gi.aera.weather.error.networkErrorNavScreen
+import gi.aera.weather.feature.forecast.presentation.forecastNavScreen
+import gi.aera.weather.feature.search.presentation.searchLocationNavScreen
 import org.koin.compose.KoinContext
+import org.koin.compose.koinInject
 
 @Composable
 fun App(
@@ -19,21 +23,19 @@ fun App(
 ) {
   KoinContext {
     AppTheme(appTypography(), isSystemInDarkTheme) {
+      val navigationManager: NavigationManager = koinInject()
       val navController = rememberNavController()
+
+      NavigationLaunchedEffect(navigationManager, navController)
+
       NavHost(
         navController = navController,
-        startDestination = ForecastNavScreen,
+        startDestination = Route.ForecastNavScreen,
       ) {
-        forecastScreen { popUpInclusive ->
-          navController.navigate(SearchLocationNavScreen) {
-            if (popUpInclusive) {
-              popUpTo(0) { inclusive = true }
-            }
-          }
-        }
-        searchLocationScreen(
+        forecastNavScreen()
+        searchLocationNavScreen(
           onBack = {
-            navController.navigate(ForecastNavScreen) {
+            navController.navigate(Route.ForecastNavScreen) {
               popUpTo(0) { inclusive = true }
             }
           },
@@ -42,8 +44,18 @@ fun App(
           },
         )
         appSettingsNavScreen {
-          navController.popBackStack()
+          navController.navigateUp()
         }
+        genericErrorNavScreen {
+          navController.navigateUp()
+        }
+        networkErrorNavScreen(
+          onBack = {
+            navController.navigate(Route.ForecastNavScreen) {
+              popUpTo(0) { inclusive = true }
+            }
+          },
+        )
       }
     }
   }

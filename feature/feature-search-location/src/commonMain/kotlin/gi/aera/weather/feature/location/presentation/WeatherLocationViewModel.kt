@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.PermissionsController
 import dev.icerock.moko.permissions.location.LOCATION
+import gi.aera.domain.model.ApiResponse
+import gi.aera.domain.model.AppError
 import gi.aera.location.domain.model.LocationSource
 import gi.aera.location.domain.model.SearchLocation
 import gi.aera.location.domain.usecase.GetLastLocationUseCase
@@ -13,7 +15,6 @@ import gi.aera.location.domain.usecase.RemoveDefaultLocationUseCase
 import gi.aera.location.domain.usecase.RemoveSavedLocationUseCase
 import gi.aera.location.domain.usecase.SaveDefaultLocationUseCase
 import gi.aera.location.domain.usecase.SaveLocationUseCase
-import gi.aera.network.di.domain.ApiResponse
 import gi.aera.ui.C
 import gi.aera.ui.EventHandler
 import gi.aera.ui.LceState
@@ -88,11 +89,11 @@ class WeatherLocationViewModel(
         _weatherLocationState.update { LceState.Content(weatherLocationState) }
 
       is WeatherLocationState.WeatherLocationError ->
-        _weatherLocationState.update { LceState.Error(weatherLocationState) }
+        _weatherLocationState.update { LceState.Error(weatherLocationState.appError) }
     }
   }
 
-  private fun getLocationsWeather() = viewModelScope.launch {
+  fun getLocationsWeather() = viewModelScope.launch {
     _savedLocationsWeatherState.update { LceState.Loading }
 
     getSavedLocations().zip(getLastLocation()) { savedLocations, lastLocation ->
@@ -109,7 +110,8 @@ class WeatherLocationViewModel(
         when {
           weatherLocations.any { it is WeatherLocationState.WeatherLocationError } ->
             _savedLocationsWeatherState.update {
-              LceState.Error(weatherLocations.filterIsInstance<WeatherLocationState.WeatherLocationError>().first())
+              val error = weatherLocations.filterIsInstance<WeatherLocationState.WeatherLocationError>().first()
+              LceState.Error(error.appError)
             }
 
           else -> _savedLocationsWeatherState.update {
@@ -150,7 +152,7 @@ class WeatherLocationViewModel(
   private suspend fun getWeatherForecast(location: SearchLocation): WeatherLocationState {
     return when (val response = getCurrentWeatherUseCase(location = "${location.latitude}, ${location.longitude}")) {
       is ApiResponse.Error -> {
-        WeatherLocationState.WeatherLocationError("Something went wrong")
+        WeatherLocationState.WeatherLocationError(AppError.from(response))
       }
 
       is ApiResponse.Success<RealtimeWeatherResponse> -> weatherLocationFactory.createState(response.data, location)

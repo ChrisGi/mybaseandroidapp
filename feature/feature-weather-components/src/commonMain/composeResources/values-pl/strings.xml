@@ -110,4 +110,8 @@
   <string name="settings_unit_system_metric">metryczny (°C)</string>
   <string name="settings_unit_system_imperial">imperialny (°F)</string>
 
+  <string name="error_fatal">Coś poszło nie tak, spróbuj ponownie później</string>
+  <string name="error_network">Problemy z połączeniem, spróbuj ponownie później. (kod: %1$s)</string>
+  <string name="error_retry">Ponów</string>
+
 </resources>

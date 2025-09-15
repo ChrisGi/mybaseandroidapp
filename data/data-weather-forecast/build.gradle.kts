@@ -46,6 +46,7 @@ kotlin {
       dependencies {
         implementation(project(":network"))
         implementation(project(":data-app-settings"))
+        implementation(project(":domain"))
 
         implementation(libs.kotlin.stdlib)
 

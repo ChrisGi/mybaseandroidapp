@@ -30,7 +30,7 @@ fun WeeklyForecast(
 
   LceViewState(
     state = state,
-    error = {
+    errorContent = {
       println("Error $it")
     },
   ) { forecast ->

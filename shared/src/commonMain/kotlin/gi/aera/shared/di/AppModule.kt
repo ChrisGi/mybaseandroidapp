@@ -5,6 +5,8 @@ import gi.aera.feature.settings.appSettingsFeatureModule
 import gi.aera.location.locationModule
 import gi.aera.network.di.networkModule
 import gi.aera.prefrences.preferencesModule
+import gi.aera.ui.navigation.navigationModule
+import gi.aera.weather.error.errorNavigationModule
 import gi.aera.weather.feature.forecast.weatherForecastFeatureModule
 import gi.aera.weather.feature.location.weatherLocationsFeatureModule
 import gi.aera.weather.feature.search.searchLocationFeatureModule
@@ -14,6 +16,8 @@ val appModules = listOf(
   networkModule,
   locationModule,
   preferencesModule,
+  navigationModule,
+  errorNavigationModule,
 
   weatherForecastDataModule,
   appSettingsDataModule,

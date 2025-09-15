@@ -110,4 +110,8 @@
   <string name="settings_unit_system_metric">metric (°C)</string>
   <string name="settings_unit_system_imperial">imperial (°F)</string>
 
+  <string name="error_fatal">Something went wrong, please try again later</string>
+  <string name="error_network">Something is wrong with network, please try again later. (code: %1$s)</string>
+  <string name="error_retry">Retry</string>
+
 </resources>

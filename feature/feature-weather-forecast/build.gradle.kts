@@ -53,6 +53,7 @@ kotlin {
 
         api(project(":ui"))
         api(project(":network"))
+        api(project(":domain"))
 
         implementation(project(":feature-weather-components"))
 

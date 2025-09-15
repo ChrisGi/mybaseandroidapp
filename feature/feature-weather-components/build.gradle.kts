@@ -48,6 +48,9 @@ kotlin {
     commonMain {
       dependencies {
         implementation(project(":data-app-settings"))
+        implementation(project(":ui"))
+        implementation(project(":network"))
+        implementation(project(":domain"))
 
         implementation(libs.kotlin.stdlib)
 

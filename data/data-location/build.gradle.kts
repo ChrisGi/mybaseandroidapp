@@ -46,6 +46,7 @@ kotlin {
       dependencies {
         implementation(project(":network"))
         implementation(project(":preferences"))
+        implementation(project(":domain"))
 
         implementation(libs.kotlin.stdlib)
 

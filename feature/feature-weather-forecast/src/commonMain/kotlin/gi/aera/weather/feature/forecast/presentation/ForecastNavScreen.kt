@@ -5,10 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -18,32 +16,17 @@ import dev.icerock.moko.permissions.PermissionsController
 import dev.icerock.moko.permissions.compose.BindEffect
 import dev.icerock.moko.permissions.compose.PermissionsControllerFactory
 import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
-import gi.aera.weather.feature.forecast.domain.ForecastScreenViewEffect
-import gi.aera.weather.feature.forecast.domain.ForecastScreenViewEvent
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.serialization.Serializable
+import gi.aera.ui.navigation.Route
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
-fun NavGraphBuilder.forecastScreen(
-  navigateToSearchLocation: (popUpInclusive: Boolean) -> Unit,
-) {
-  composable<ForecastNavScreen> {
+fun NavGraphBuilder.forecastNavScreen() {
+  composable<Route.ForecastNavScreen> {
     val factory: PermissionsControllerFactory = rememberPermissionsControllerFactory()
     val controller: PermissionsController = remember(factory) { factory.createPermissionsController() }
     BindEffect(controller)
 
     val viewModel: ForecastViewModel = koinViewModel { parametersOf(controller) }
-
-    val currentNavigateToSearchLocation by rememberUpdatedState(navigateToSearchLocation)
-
-    LaunchedEffect(Unit) {
-      viewModel.effect.collectLatest {
-        when (it) {
-          ForecastScreenViewEffect.SearchForLocation -> currentNavigateToSearchLocation(true)
-        }
-      }
-    }
 
     val forecastViewState by viewModel.forecastViewState.collectAsStateWithLifecycle()
     val currentWeatherViewState by viewModel.currentWeatherViewState.collectAsStateWithLifecycle()
@@ -58,15 +41,8 @@ fun NavGraphBuilder.forecastScreen(
       ForecastScreen(
         currentWeatherState = currentWeatherViewState,
         forecastState = forecastViewState,
-        event = {
-          when (it) {
-            ForecastScreenViewEvent.NavigateToSearchLocation -> currentNavigateToSearchLocation(false)
-          }
-        },
+        event = viewModel::obtainEvent,
       )
     }
   }
 }
-
-@Serializable
-data object ForecastNavScreen
