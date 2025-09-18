@@ -1,4 +1,4 @@
-package gi.aera.network.di
+package gi.aera.network.config
 
 import gi.aera.lib.network.ApiKeys
 import io.ktor.client.HttpClient
@@ -18,7 +18,7 @@ import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
-class LocationApiHttpClientConfiguration(private val httpClient: HttpClient) {
+internal class LocationApiHttpClientConfiguration(private val httpClient: HttpClient) {
 
   fun getHttpClient(): HttpClient = httpClient.config {
     install(Resources)

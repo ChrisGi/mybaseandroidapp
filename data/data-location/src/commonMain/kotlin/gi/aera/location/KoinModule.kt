@@ -11,7 +11,7 @@ import gi.aera.location.domain.usecase.RemoveSavedLocationUseCase
 import gi.aera.location.domain.usecase.SaveDefaultLocationUseCase
 import gi.aera.location.domain.usecase.SaveLocationUseCase
 import gi.aera.location.domain.usecase.SearchLocationUseCase
-import gi.aera.network.di.LOCATION_HTTP_CLIENT
+import gi.aera.network.LOCATION_HTTP_CLIENT
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named

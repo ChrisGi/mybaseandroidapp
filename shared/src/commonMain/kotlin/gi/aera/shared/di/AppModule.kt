@@ -3,7 +3,7 @@ package gi.aera.shared.di
 import gi.aera.appsettings.appSettingsDataModule
 import gi.aera.feature.settings.appSettingsFeatureModule
 import gi.aera.location.locationModule
-import gi.aera.network.di.networkModule
+import gi.aera.network.networkModule
 import gi.aera.prefrences.preferencesModule
 import gi.aera.ui.navigation.navigationModule
 import gi.aera.weather.error.errorNavigationModule

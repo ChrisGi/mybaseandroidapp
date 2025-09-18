@@ -4,7 +4,7 @@ import gi.aera.location.data.SearchLocationRepository
 import gi.aera.location.data.SearchResult
 import gi.aera.location.domain.model.LocationSource
 import gi.aera.location.domain.model.SearchLocation
-import gi.aera.network.di.domain.map
+import gi.aera.network.domain.map
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO

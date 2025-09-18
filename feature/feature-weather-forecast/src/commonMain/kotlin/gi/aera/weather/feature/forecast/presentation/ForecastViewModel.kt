@@ -20,6 +20,7 @@ import gi.aera.ui.LceState
 import gi.aera.ui.navigation.NavigationArgs
 import gi.aera.ui.navigation.NavigationManager
 import gi.aera.ui.navigation.Route
+import gi.aera.ui.navigation.SettingType
 import gi.aera.weather.feature.forecast.domain.ForecastScreenViewEvent
 import gi.aera.weather.feature.forecast.domain.ForecastViewStateFactory
 import gi.aera.weather.feature.forecast.domain.RealtimeWeatherViewStateFactory
@@ -75,8 +76,10 @@ class ForecastViewModel(
   override fun obtainEvent(event: ForecastScreenViewEvent) {
     when (event) {
       is ForecastScreenViewEvent.Retry -> getCurrentWeatherForLocation()
-
       is ForecastScreenViewEvent.NavigateToSearchLocation -> navigateToSearchLocation(event.popUpInclusive)
+      is ForecastScreenViewEvent.NavigateToNetworkSettings -> navigationManager.navigateTo(
+        NavigationArgs(Route.SystemSettings(SettingType.NETWORK)),
+      )
     }
   }
 

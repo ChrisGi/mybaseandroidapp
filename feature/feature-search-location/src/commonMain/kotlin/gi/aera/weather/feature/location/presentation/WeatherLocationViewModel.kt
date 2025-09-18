@@ -18,8 +18,10 @@ import gi.aera.location.domain.usecase.SaveLocationUseCase
 import gi.aera.ui.C
 import gi.aera.ui.EventHandler
 import gi.aera.ui.LceState
+import gi.aera.ui.navigation.NavigationManager
+import gi.aera.ui.navigation.SettingType
 import gi.aera.weather.feature.location.domain.WeatherLocationEvent
-import gi.aera.weather.feature.location.domain.WeatherLocationFactory
+import gi.aera.weather.feature.location.domain.WeatherLocationStateFactory
 import gi.aera.weather.feature.location.domain.WeatherLocationState
 import gi.aera.weather.forecast.domain.model.RealtimeWeatherResponse
 import gi.aera.weather.forecast.domain.usecase.GetCurrentWeatherUseCase
@@ -43,9 +45,10 @@ class WeatherLocationViewModel(
   private val saveDefaultLocationUseCase: SaveDefaultLocationUseCase,
   private val removeDefaultLocationUseCase: RemoveDefaultLocationUseCase,
   private val getCurrentWeatherUseCase: GetCurrentWeatherUseCase,
-  private val weatherLocationFactory: WeatherLocationFactory,
+  private val weatherLocationFactory: WeatherLocationStateFactory,
   private val removeLocationUseCase: RemoveSavedLocationUseCase,
   private val saveLocationUseCase: SaveLocationUseCase,
+  private val navigationManager: NavigationManager,
 ) : ViewModel(), EventHandler<WeatherLocationEvent> {
 
   private val _weatherLocationState = MutableStateFlow<LceState<WeatherLocationState.WeatherLocation>>(LceState.Loading)
@@ -66,6 +69,8 @@ class WeatherLocationViewModel(
       is WeatherLocationEvent.RemoveLocation -> removeLocation(event.location)
       is WeatherLocationEvent.Save -> saveLocation(event.location)
       is WeatherLocationEvent.SetAsDefault -> setAsDefaultLocation(event.location)
+      is WeatherLocationEvent.RetryGetSavedLocations -> getLocationsWeather()
+      is WeatherLocationEvent.NavigateToNetworkSettings -> navigationManager.openSystemSettings(SettingType.NETWORK)
     }
   }
 
@@ -93,7 +98,7 @@ class WeatherLocationViewModel(
     }
   }
 
-  fun getLocationsWeather() = viewModelScope.launch {
+  private fun getLocationsWeather() = viewModelScope.launch {
     _savedLocationsWeatherState.update { LceState.Loading }
 
     getSavedLocations().zip(getLastLocation()) { savedLocations, lastLocation ->

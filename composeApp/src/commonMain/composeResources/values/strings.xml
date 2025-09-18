@@ -113,5 +113,7 @@
   <string name="error_fatal">Something went wrong, please try again later</string>
   <string name="error_network">Something is wrong with network, please try again later. (code: %1$s)</string>
   <string name="error_retry">Retry</string>
+  <string name="error_network_not_available">Something is wrong with network, check your connection settings</string>
+  <string name="error_network_check">Check network</string>
 
 </resources>

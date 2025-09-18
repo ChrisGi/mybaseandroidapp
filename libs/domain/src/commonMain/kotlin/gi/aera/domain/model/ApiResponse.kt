@@ -16,5 +16,7 @@ sealed class ApiResponse<out T> {
 
     data class UnknownError(val message: String?) : Error(message)
     data class SerializationError(val message: String?) : Error(message)
+    data object NetworkError : Error(null)
+    data object TimeoutError : Error(null)
   }
 }

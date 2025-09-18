@@ -11,8 +11,9 @@ fun NavigationLaunchedEffect(
 ) {
   LaunchedEffect(Unit) {
     navigationManager.navigationRoute.collect { navigationArgs ->
-      when (navigationArgs.route) {
+      when (val args = navigationArgs.route) {
         is Route.Up -> navController.navigateUp()
+        is Route.SystemSettings -> navigationManager.openSystemSettings(args.settingType)
         else -> navController.navigate(navigationArgs.route) {
           navigationArgs.popUpTo?.let { (route, inclusive) ->
             popUpTo(route) { this.inclusive = inclusive }

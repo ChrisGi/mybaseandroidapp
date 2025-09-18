@@ -87,9 +87,13 @@ fun NavGraphBuilder.searchLocationNavScreen(
         WeatherLocationBottomSheet(
           state = weatherLocationState,
           hideBottomSheet = { showLocationWeather = false },
-          saveLocation = {
-            weatherLocationViewModel.obtainEvent(WeatherLocationEvent.Save(it))
-            searchLocationViewModel.closeSearch()
+          event = {
+            when (it) {
+              is WeatherLocationEvent.Save -> {
+                searchLocationViewModel.closeSearch()
+              }
+            }
+            weatherLocationViewModel.obtainEvent(it)
           },
         )
       }
@@ -108,9 +112,9 @@ fun NavGraphBuilder.searchLocationNavScreen(
               Modifier
                 .fillMaxSize()
                 .padding(32.dp),
-            ) {
-              weatherLocationViewModel.getLocationsWeather()
-            }
+              onRetry = { weatherLocationViewModel.obtainEvent(WeatherLocationEvent.RetryGetSavedLocations) },
+              onCheckNetwork = { weatherLocationViewModel.obtainEvent(WeatherLocationEvent.NavigateToNetworkSettings) },
+            )
           },
         ) { data ->
           WeatherLocationList(

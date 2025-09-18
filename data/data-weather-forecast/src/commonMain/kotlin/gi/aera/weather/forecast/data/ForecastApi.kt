@@ -1,8 +1,8 @@
 package gi.aera.weather.forecast.data
 
 import ForecastDailyResponse
-import gi.aera.network.di.domain.apiRequest
-import gi.aera.network.di.domain.map
+import gi.aera.network.domain.apiRequest
+import gi.aera.network.domain.map
 import gi.aera.weather.forecast.domain.model.ForecastHourlyResponse
 import gi.aera.weather.forecast.domain.model.ForecastParams
 import gi.aera.weather.forecast.domain.model.ForecastResource
@@ -13,7 +13,7 @@ import io.ktor.client.plugins.resources.get
 
 internal class ForecastApi(private val httpClient: HttpClient) {
 
-  suspend fun realtimeWeather(params: ForecastParams) = httpClient.apiRequest<RealtimeWeatherResponse> {
+  suspend fun realtimeWeather(params: ForecastParams) = apiRequest<RealtimeWeatherResponse> {
     httpClient.get(
       RealtimeWeatherResource.Realtime(
         location = params.location,
@@ -22,7 +22,7 @@ internal class ForecastApi(private val httpClient: HttpClient) {
     )
   }.map { it.copy(unitSystem = params.units) }
 
-  suspend fun forecastDaily(params: ForecastParams) = httpClient.apiRequest<ForecastDailyResponse> {
+  suspend fun forecastDaily(params: ForecastParams) = apiRequest<ForecastDailyResponse> {
     httpClient.get(
       ForecastResource.Forecast(
         location = params.location,
@@ -32,7 +32,7 @@ internal class ForecastApi(private val httpClient: HttpClient) {
     )
   }.map { it.copy(unitSystem = params.units) }
 
-  suspend fun forecastHourly(params: ForecastParams) = httpClient.apiRequest<ForecastHourlyResponse> {
+  suspend fun forecastHourly(params: ForecastParams) = apiRequest<ForecastHourlyResponse> {
     httpClient.get(
       ForecastResource.Forecast(
         location = params.location,

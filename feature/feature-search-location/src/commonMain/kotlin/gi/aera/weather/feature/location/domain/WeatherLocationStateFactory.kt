@@ -8,7 +8,7 @@ import gi.aera.weather.domain.model.WeatherCode
 import gi.aera.weather.forecast.domain.model.RealtimeWeatherResponse
 import gi.aera.weather.location_current
 
-class WeatherLocationFactory {
+class WeatherLocationStateFactory {
 
   fun createState(
     response: RealtimeWeatherResponse,

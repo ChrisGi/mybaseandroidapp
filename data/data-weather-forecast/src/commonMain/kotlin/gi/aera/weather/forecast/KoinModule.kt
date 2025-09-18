@@ -1,6 +1,6 @@
 package gi.aera.weather.forecast
 
-import gi.aera.network.di.WEATHER_HTTP_CLIENT
+import gi.aera.network.WEATHER_HTTP_CLIENT
 import gi.aera.weather.forecast.data.ForecastApi
 import gi.aera.weather.forecast.data.ForecastRepository
 import gi.aera.weather.forecast.data.ForecastRepositoryImpl

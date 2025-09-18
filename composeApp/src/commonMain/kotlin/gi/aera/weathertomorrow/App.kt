@@ -10,8 +10,6 @@ import gi.aera.ui.navigation.NavigationManager
 import gi.aera.ui.navigation.Route
 import gi.aera.ui.theme.AppTheme
 import gi.aera.ui.theme.appTypography
-import gi.aera.weather.error.genericErrorNavScreen
-import gi.aera.weather.error.networkErrorNavScreen
 import gi.aera.weather.feature.forecast.presentation.forecastNavScreen
 import gi.aera.weather.feature.search.presentation.searchLocationNavScreen
 import org.koin.compose.KoinContext
@@ -46,16 +44,6 @@ fun App(
         appSettingsNavScreen {
           navController.navigateUp()
         }
-        genericErrorNavScreen {
-          navController.navigateUp()
-        }
-        networkErrorNavScreen(
-          onBack = {
-            navController.navigate(Route.ForecastNavScreen) {
-              popUpTo(0) { inclusive = true }
-            }
-          },
-        )
       }
     }
   }

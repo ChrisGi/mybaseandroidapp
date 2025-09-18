@@ -1,4 +1,4 @@
-package gi.aera.network.di
+package gi.aera.network
 
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.darwin.Darwin

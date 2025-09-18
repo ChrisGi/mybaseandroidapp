@@ -1,4 +1,4 @@
-package gi.aera.network.di
+package gi.aera.network.config
 
 import gi.aera.lib.network.ApiKeys
 import io.ktor.client.HttpClient
@@ -20,7 +20,7 @@ import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
-class WeatherApiHttpClientConfiguration(
+internal class WeatherApiHttpClientConfiguration(
   private val httpClient: HttpClient,
   private val cacheStorage: CacheStorage,
 ) {

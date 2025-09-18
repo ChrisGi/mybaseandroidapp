@@ -1,5 +1,7 @@
-package gi.aera.network.di
+package gi.aera.network
 
+import gi.aera.network.config.LocationApiHttpClientConfiguration
+import gi.aera.network.config.WeatherApiHttpClientConfiguration
 import io.ktor.client.HttpClient
 import org.koin.core.module.Module
 import org.koin.core.qualifier.named

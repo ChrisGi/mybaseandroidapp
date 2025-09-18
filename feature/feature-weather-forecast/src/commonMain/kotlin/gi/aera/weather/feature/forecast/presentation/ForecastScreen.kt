@@ -18,6 +18,7 @@ import gi.aera.weather.error.AppErrorContentProvider
 import gi.aera.weather.feature.forecast.domain.ForecastScreenViewEvent
 import gi.aera.weather.feature.forecast.domain.WeatherConditions
 
+@Suppress("LongMethod")
 @Composable
 fun ForecastScreen(
   currentWeatherState: LceState<WeatherConditions>,
@@ -34,9 +35,13 @@ fun ForecastScreen(
         modifier
           .fillMaxSize()
           .padding(vertical = 32.dp),
-      ) {
-        event(ForecastScreenViewEvent.Retry)
-      }
+        onRetry = {
+          event(ForecastScreenViewEvent.Retry)
+        },
+        onCheckNetwork = {
+          event(ForecastScreenViewEvent.NavigateToNetworkSettings)
+        },
+      )
     },
   ) { todayForecast ->
     Column(

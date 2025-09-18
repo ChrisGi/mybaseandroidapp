@@ -113,5 +113,7 @@
   <string name="error_fatal">Coś poszło nie tak, spróbuj ponownie później</string>
   <string name="error_network">Problemy z połączeniem, spróbuj ponownie później. (kod: %1$s)</string>
   <string name="error_retry">Ponów</string>
+  <string name="error_network_not_available">Problemy z połączeniem, sprawdź ustawienia sieci</string>
+  <string name="error_network_check">Sprawdź sieć</string>
 
 </resources>

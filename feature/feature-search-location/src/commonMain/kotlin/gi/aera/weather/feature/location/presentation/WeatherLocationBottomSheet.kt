@@ -16,12 +16,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import gi.aera.location.domain.model.SearchLocation
 import gi.aera.ui.FullscreenProgressIndicator
 import gi.aera.ui.LceState
 import gi.aera.ui.LceViewState
 import gi.aera.weather.Res
 import gi.aera.weather.error.AppErrorContentProvider
+import gi.aera.weather.feature.location.domain.WeatherLocationEvent
 import gi.aera.weather.feature.location.domain.WeatherLocationState
 import gi.aera.weather.weather_location_add
 import gi.aera.weather.weather_location_cancel
@@ -31,11 +31,11 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun WeatherLocationBottomSheet(
   state: LceState<WeatherLocationState.WeatherLocation>,
+  event: (WeatherLocationEvent) -> Unit,
   modifier: Modifier = Modifier
     .wrapContentSize()
     .padding(16.dp),
   sheetState: SheetState = rememberModalBottomSheetState(),
-  saveLocation: (SearchLocation) -> Unit = {},
   hideBottomSheet: () -> Unit = {},
 ) {
   ModalBottomSheet(
@@ -51,9 +51,9 @@ fun WeatherLocationBottomSheet(
           it,
           Modifier
             .padding(32.dp),
-        ) {
-          hideBottomSheet()
-        }
+          onRetry = { hideBottomSheet() },
+          onCheckNetwork = { event(WeatherLocationEvent.NavigateToNetworkSettings) },
+        )
       },
       loading = { FullscreenProgressIndicator(modifier.align(Alignment.CenterHorizontally)) },
     ) { weatherLocation ->
@@ -72,7 +72,7 @@ fun WeatherLocationBottomSheet(
         TextButton(
           onClick = {
             hideBottomSheet()
-            saveLocation(weatherLocation.searchLocation)
+            event(WeatherLocationEvent.Save(weatherLocation.searchLocation))
           },
         ) {
           Text(text = stringResource(Res.string.weather_location_add))
