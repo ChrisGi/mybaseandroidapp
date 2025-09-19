@@ -46,8 +46,8 @@ internal class WeatherApiHttpClientConfiguration(
       url {
         protocol = URLProtocol.HTTPS
         host = "api.tomorrow.io/v4"
-        parameters.append("apikey", ApiKeys.tomorrowApiKey)
       }
+      headers.append("apikey", ApiKeys.tomorrowApiKey)
     }
 
     expectSuccess = false
