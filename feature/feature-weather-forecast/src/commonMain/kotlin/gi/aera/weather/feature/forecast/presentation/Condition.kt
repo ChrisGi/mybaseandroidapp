@@ -1,5 +1,6 @@
 package gi.aera.weather.feature.forecast.presentation
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,17 +10,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
-import gi.aera.weather.Res
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun Condition(
-  icon: String,
+  icon: DrawableResource,
   description: String,
   modifier: Modifier = Modifier,
 ) {
@@ -28,9 +28,8 @@ fun Condition(
     modifier = modifier,
   ) {
     if (!LocalInspectionMode.current) {
-      AsyncImage(
-        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
-        model = Res.getUri(icon),
+      Image(
+        painter = painterResource(icon),
         contentDescription = null,
         modifier = Modifier
           .fillMaxSize()
@@ -40,7 +39,11 @@ fun Condition(
       )
     }
 
-    Column {
+    Column(
+      modifier = Modifier
+        .padding(horizontal = 16.dp)
+        .align(Alignment.CenterVertically),
+    ) {
       description
         .uppercase()
         .forEach { char ->
@@ -49,6 +52,7 @@ fun Condition(
             text = char.toString(),
             style = TextStyle(fontWeight = FontWeight.Bold),
             modifier = Modifier
+              .padding(vertical = 2.dp)
               .align(Alignment.CenterHorizontally),
           )
         }

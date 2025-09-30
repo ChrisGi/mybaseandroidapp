@@ -1,10 +1,8 @@
 package gi.aera.weathertomorrow
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,19 +23,18 @@ private fun ForecScreenPreview() {
     Column(
       horizontalAlignment = Alignment.CenterHorizontally,
       modifier = Modifier
-        .background(MaterialTheme.colorScheme.background)
         .safeContentPadding()
         .fillMaxSize(),
     ) {
       val state = LceState.Content(
         listOf(
           WeatherConditions(
-            "100",
-            UiString.Resource(WeatherCode.CLEAR_SUNNY.conditionStringRes),
-            "icon",
-            "mon",
-            UiString.Text("London"),
-            UnitSystem.IMPERIAL,
+            temperature = "100",
+            conditionTitle = UiString.Resource(WeatherCode.CLEAR_SUNNY.conditionStringRes),
+            conditionIcon = WeatherCode.CLEAR_SUNNY.conditionIcon,
+            weekday = "mon",
+            location = UiString.Text("London"),
+            unitSystem = UnitSystem.IMPERIAL,
           ),
         ),
       )

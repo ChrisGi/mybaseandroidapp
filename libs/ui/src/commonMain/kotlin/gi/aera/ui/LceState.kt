@@ -1,10 +1,8 @@
 package gi.aera.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,11 +17,9 @@ sealed class LceState<out T> {
 @Composable
 fun <T> LceViewState(
   state: LceState<T>,
-  modifier: Modifier = Modifier
-    .fillMaxSize()
-    .background(MaterialTheme.colorScheme.background),
+  modifier: Modifier = Modifier,
   errorContent: @Composable (appError: AppError) -> Unit = {},
-  loading: @Composable () -> Unit = { FullscreenProgressIndicator(modifier) },
+  loading: @Composable () -> Unit = { FullscreenProgressIndicator(modifier.fillMaxSize()) },
   content: @Composable (T) -> Unit,
 ) {
   when (state) {

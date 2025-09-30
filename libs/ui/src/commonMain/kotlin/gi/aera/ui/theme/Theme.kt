@@ -3,11 +3,13 @@ package gi.aera.ui.theme
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
-import androidx.compose.ui.graphics.Color
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.ui.graphics.Brush
 
 private val lightScheme = lightColorScheme(
   primary = primaryLight,
@@ -85,13 +87,25 @@ private val darkScheme = darkColorScheme(
   surfaceContainerHighest = surfaceContainerHighestDark,
 )
 
-@Immutable
-data class ColorFamily(
-  val color: Color,
-  val onColor: Color,
-  val colorContainer: Color,
-  val onColorContainer: Color,
+data class ExtraColors(
+  val backgroundGradient: Brush = backgroundGradientLight,
 )
+
+val lightExtraColors = ExtraColors(
+  backgroundGradient = backgroundGradientLight,
+)
+
+val darkExtraColors = ExtraColors(
+  backgroundGradient = backgroundGradientDark,
+)
+
+@Suppress("CompositionLocalAllowlist")
+val LocalExtraColors = compositionLocalOf { ExtraColors() }
+
+val MaterialTheme.extraColors: ExtraColors
+  @Composable
+  @ReadOnlyComposable
+  get() = LocalExtraColors.current
 
 @Composable
 fun AppTheme(
@@ -104,9 +118,16 @@ fun AppTheme(
     else -> lightScheme
   }
 
-  MaterialTheme(
-    colorScheme = colorScheme,
-    typography = type,
-    content = content,
-  )
+  val extraColors = when {
+    darkTheme -> darkExtraColors
+    else -> lightExtraColors
+  }
+
+  CompositionLocalProvider(LocalExtraColors provides extraColors) {
+    MaterialTheme(
+      colorScheme = colorScheme,
+      typography = type,
+      content = content,
+    )
+  }
 }

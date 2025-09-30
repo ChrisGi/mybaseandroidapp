@@ -3,7 +3,6 @@ package gi.aera.weather.feature.forecast.presentation
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -24,17 +23,17 @@ fun ForecastScreen(
   currentWeatherState: LceState<WeatherConditions>,
   forecastState: LceState<List<WeatherConditions>>,
   event: (ForecastScreenViewEvent) -> Unit,
-  modifier: Modifier = Modifier
-    .fillMaxSize(),
+  modifier: Modifier = Modifier,
 ) {
   LceViewState(
+    modifier = modifier,
     state = currentWeatherState,
     errorContent = {
       AppErrorContentProvider(
         it,
-        modifier
+        Modifier
           .fillMaxSize()
-          .padding(vertical = 32.dp),
+          .padding(vertical = 64.dp, horizontal = 32.dp),
         onRetry = {
           event(ForecastScreenViewEvent.Retry)
         },
@@ -44,12 +43,10 @@ fun ForecastScreen(
       )
     },
   ) { todayForecast ->
-    Column(
-      modifier = modifier,
-    ) {
+    Column {
       Box(
         modifier = Modifier
-          .padding(PaddingValues(bottom = 32.dp))
+          .padding(top = 64.dp, start = 32.dp)
           .weight(1f),
       ) {
         Temperature(
@@ -63,7 +60,6 @@ fun ForecastScreen(
         icon = todayForecast.conditionIcon,
         description = todayForecast.conditionTitle.asString(),
         modifier = Modifier
-          .padding(PaddingValues(vertical = 32.dp))
           .weight(2f),
       )
 
@@ -73,13 +69,14 @@ fun ForecastScreen(
         modifier = Modifier
           .fillMaxWidth()
           .align(Alignment.CenterHorizontally)
-          .padding(8.dp)
+          .padding(16.dp)
           .clickable { event(ForecastScreenViewEvent.NavigateToSearchLocation()) },
       )
 
       Box(
         modifier = Modifier
           .weight(1f)
+          .padding(horizontal = 16.dp)
           .fillMaxWidth(),
       ) {
         WeeklyForecast(

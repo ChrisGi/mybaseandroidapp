@@ -45,8 +45,6 @@ class RealtimeWeatherViewStateFactory {
   private fun getWeatherCondition(code: Int?) =
     code?.let { WeatherCode.fromCode(it).conditionStringRes } ?: WeatherCode.UNKNOWN.conditionStringRes
 
-  private fun getWeatherConditionIcon(code: Int?): String {
-    val iconResName = code?.let { WeatherCode.fromCode(it).conditionIcon } ?: WeatherCode.UNKNOWN.conditionIcon
-    return "files/$iconResName.svg"
-  }
+  private fun getWeatherConditionIcon(code: Int?) =
+    code?.let { WeatherCode.fromCode(it).conditionIcon } ?: WeatherCode.UNKNOWN.conditionIcon
 }

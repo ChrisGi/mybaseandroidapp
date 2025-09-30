@@ -7,7 +7,7 @@ import gi.aera.weather.forecast.domain.model.ForecastParams
 import gi.aera.weather.forecast.domain.model.RealtimeWeatherResponse
 import kotlinx.serialization.json.Json
 
-class FakeForecastRepositoryImpl : ForecastRepository {
+internal class FakeForecastRepositoryImpl : ForecastRepository {
 
   override suspend fun realtimeWeather(params: ForecastParams): ApiResponse<RealtimeWeatherResponse> {
     val json = "{\n" +
@@ -30,7 +30,7 @@ class FakeForecastRepositoryImpl : ForecastRepository {
       "      \"uvHealthConcern\": 1,\n" +
       "      \"uvIndex\": 5,\n" +
       "      \"visibility\": 8.5,\n" +
-      "      \"weatherCode\": 1001,\n" +
+      "      \"weatherCode\": 1101,\n" +
       "      \"windDirection\": 180,\n" +
       "      \"windGust\": 6.2,\n" +
       "      \"windSpeed\": 3.5\n" +
@@ -88,7 +88,7 @@ class FakeForecastRepositoryImpl : ForecastRepository {
       "          \"uvIndexMax\": 7,\n" +
       "          \"uvIndexMin\": 1,\n" +
       "          \"visibilityAvg\": 9.5,\n" +
-      "          \"weatherCodeMax\": 1001,\n" +
+      "          \"weatherCodeMax\": 2100,\n" +
       "          \"weatherCodeMin\": 1000,\n" +
       "          \"windDirectionAvg\": 190,\n" +
       "          \"windGustMax\": 8.2,\n" +
@@ -137,7 +137,7 @@ class FakeForecastRepositoryImpl : ForecastRepository {
       "          \"uvIndexMax\": 6,\n" +
       "          \"uvIndexMin\": 0,\n" +
       "          \"visibilityAvg\": 8.2,\n" +
-      "          \"weatherCodeMax\": 1001,\n" +
+      "          \"weatherCodeMax\": 5122,\n" +
       "          \"weatherCodeMin\": 4201,\n" +
       "          \"windDirectionAvg\": 170,\n" +
       "          \"windGustMax\": 10.5,\n" +

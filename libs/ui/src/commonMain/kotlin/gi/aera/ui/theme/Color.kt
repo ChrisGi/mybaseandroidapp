@@ -1,6 +1,7 @@
 @file:Suppress("MagicNumber")
 
 package gi.aera.ui.theme
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
 val primaryLight = Color(0xFF705D0D)
@@ -74,3 +75,19 @@ val surfaceContainerLowDark = Color(0xFF1E1B13)
 val surfaceContainerDark = Color(0xFF221F17)
 val surfaceContainerHighDark = Color(0xFF2D2A21)
 val surfaceContainerHighestDark = Color(0xFF38342B)
+
+val backgroundGradientLight = Brush.linearGradient(
+  colorStops = arrayOf(
+    0.0f to Color(0xff90D5FF),
+    0.5f to Color(0xffcce3ed),
+    1.0f to Color(0xffffffff),
+  ),
+)
+
+val backgroundGradientDark = Brush.linearGradient(
+  colorStops = arrayOf(
+    0.0f to Color(0xff272757),
+    0.5f to Color(0xff4242b6),
+    1.0f to Color(0xff8686AC),
+  ),
+)

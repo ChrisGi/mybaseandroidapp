@@ -1,25 +1,27 @@
 package gi.aera.weather.feature.forecast.presentation
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
 import gi.aera.ui.LceState
 import gi.aera.ui.LceViewState
 import gi.aera.weather.Res
 import gi.aera.weather.feature.forecast.domain.WeatherConditions
 import gi.aera.weather.weather_temperature_degree
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -40,7 +42,10 @@ fun WeeklyForecast(
       items(forecast) { forecast ->
         Column(
           modifier = Modifier
-            .width(60.dp),
+            .width(60.dp)
+            .padding(horizontal = 4.dp)
+            .background(MaterialTheme.colorScheme.surfaceContainerLowest, RoundedCornerShape(16.dp)),
+          horizontalAlignment = Alignment.CenterHorizontally,
         ) {
           Text(
             color = MaterialTheme.colorScheme.onBackground,
@@ -49,9 +54,8 @@ fun WeeklyForecast(
               .align(Alignment.CenterHorizontally),
           )
           if (!LocalInspectionMode.current) {
-            AsyncImage(
-              colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
-              model = Res.getUri(forecast.conditionIcon),
+            Image(
+              painter = painterResource(forecast.conditionIcon),
               contentDescription = null,
               modifier = Modifier
                 .size(48.dp)

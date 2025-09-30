@@ -1,13 +1,11 @@
 package gi.aera.weather.feature.forecast.presentation
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
@@ -17,6 +15,7 @@ import dev.icerock.moko.permissions.compose.BindEffect
 import dev.icerock.moko.permissions.compose.PermissionsControllerFactory
 import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import gi.aera.ui.navigation.Route
+import gi.aera.ui.theme.extraColors
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -31,12 +30,12 @@ fun NavGraphBuilder.forecastNavScreen() {
     val forecastViewState by viewModel.forecastViewState.collectAsStateWithLifecycle()
     val currentWeatherViewState by viewModel.currentWeatherViewState.collectAsStateWithLifecycle()
 
-    Column(
-      horizontalAlignment = Alignment.CenterHorizontally,
+    Box(
       modifier = Modifier
-        .background(MaterialTheme.colorScheme.background)
-        .safeContentPadding()
-        .fillMaxSize(),
+        .fillMaxSize()
+        .background(
+          brush = MaterialTheme.extraColors.backgroundGradient,
+        ),
     ) {
       ForecastScreen(
         currentWeatherState = currentWeatherViewState,
