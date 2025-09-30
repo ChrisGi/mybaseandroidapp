@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,15 +46,19 @@ fun ForecastScreen(
     },
   ) { todayForecast ->
     Column {
-      Box(
+      Column(
         modifier = Modifier
           .padding(top = 64.dp, start = 32.dp)
-          .weight(1f),
+          .fillMaxWidth(),
       ) {
         Temperature(
           temperature = todayForecast.temperature,
           unit = todayForecast.unitSystem,
-          modifier = Modifier.fillMaxSize(),
+        )
+        Text(
+          text = todayForecast.temperatureApparent.asString(),
+          style = MaterialTheme.typography.bodyLarge,
+          color = MaterialTheme.colorScheme.onBackground,
         )
       }
 

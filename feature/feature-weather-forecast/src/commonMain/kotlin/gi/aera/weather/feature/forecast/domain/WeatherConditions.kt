@@ -6,6 +6,7 @@ import org.jetbrains.compose.resources.DrawableResource
 
 data class WeatherConditions(
   val temperature: String,
+  val temperatureApparent: UiString,
   val conditionTitle: UiString,
   val conditionIcon: DrawableResource,
   val weekday: String,

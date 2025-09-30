@@ -10,7 +10,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -27,17 +26,15 @@ fun Condition(
     verticalAlignment = Alignment.CenterVertically,
     modifier = modifier,
   ) {
-    if (!LocalInspectionMode.current) {
-      Image(
-        painter = painterResource(icon),
-        contentDescription = null,
-        modifier = Modifier
-          .fillMaxSize()
-          .align(Alignment.CenterVertically)
-          .weight(1f)
-          .padding(32.dp),
-      )
-    }
+    Image(
+      painter = painterResource(icon),
+      contentDescription = null,
+      modifier = Modifier
+        .fillMaxSize()
+        .align(Alignment.CenterVertically)
+        .weight(1f)
+        .padding(32.dp),
+    )
 
     Column(
       modifier = Modifier

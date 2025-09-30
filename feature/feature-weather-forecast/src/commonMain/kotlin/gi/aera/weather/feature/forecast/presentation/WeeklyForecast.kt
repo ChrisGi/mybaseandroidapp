@@ -14,7 +14,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.dp
 import gi.aera.ui.LceState
 import gi.aera.ui.LceViewState
@@ -29,7 +28,6 @@ fun WeeklyForecast(
   state: LceState<List<WeatherConditions>>,
   modifier: Modifier = Modifier,
 ) {
-
   LceViewState(
     state = state,
     errorContent = {
@@ -53,16 +51,14 @@ fun WeeklyForecast(
             modifier = Modifier
               .align(Alignment.CenterHorizontally),
           )
-          if (!LocalInspectionMode.current) {
-            Image(
-              painter = painterResource(forecast.conditionIcon),
-              contentDescription = null,
-              modifier = Modifier
-                .size(48.dp)
-                .align(Alignment.CenterHorizontally)
-                .padding(horizontal = 8.dp),
-            )
-          }
+          Image(
+            painter = painterResource(forecast.conditionIcon),
+            contentDescription = null,
+            modifier = Modifier
+              .size(48.dp)
+              .align(Alignment.CenterHorizontally)
+              .padding(horizontal = 8.dp),
+          )
           Text(
             color = MaterialTheme.colorScheme.onBackground,
             text = stringResource(Res.string.weather_temperature_degree, forecast.temperature),

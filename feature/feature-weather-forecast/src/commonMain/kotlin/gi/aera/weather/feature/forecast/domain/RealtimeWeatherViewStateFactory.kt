@@ -6,6 +6,7 @@ import gi.aera.weather.Res
 import gi.aera.weather.domain.model.WeatherCode
 import gi.aera.weather.forecast.domain.model.RealtimeWeatherResponse
 import gi.aera.weather.location_current
+import gi.aera.weather.weather_temperature_apparent
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
@@ -21,6 +22,7 @@ class RealtimeWeatherViewStateFactory {
   ) = response.data.values.let { weatherValues ->
     WeatherConditions(
       temperature = weatherValues.temperature?.toInt().toString(),
+      temperatureApparent = formatTemperatureApparent(weatherValues.temperatureApparent),
       conditionTitle = UiString.Resource(getWeatherCondition(weatherValues.weatherCode)),
       conditionIcon = getWeatherConditionIcon(weatherValues.weatherCode),
       weekday = formatWeekday(response.data.time),
@@ -47,4 +49,7 @@ class RealtimeWeatherViewStateFactory {
 
   private fun getWeatherConditionIcon(code: Int?) =
     code?.let { WeatherCode.fromCode(it).conditionIcon } ?: WeatherCode.UNKNOWN.conditionIcon
+
+  private fun formatTemperatureApparent(temperatureApparent: Double?) =
+    temperatureApparent?.let { UiString.Resource(Res.string.weather_temperature_apparent, it) } ?: UiString.Empty
 }
