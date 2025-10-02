@@ -76,18 +76,54 @@ val surfaceContainerDark = Color(0xFF221F17)
 val surfaceContainerHighDark = Color(0xFF2D2A21)
 val surfaceContainerHighestDark = Color(0xFF38342B)
 
+val backgroundGradientHigh = Color(0xff90D5FF)
+val backgroundGradientMid = Color(0xffcce3ed)
+val backgroundGradientLow = Color(0xffffffff)
+
+val backgroundGradientHighDark = Color(0xff272757)
+val backgroundGradientMidDark = Color(0xff4242b6)
+val backgroundGradientLowDark = Color(0xff8686AC)
+
 val backgroundGradientLight = Brush.linearGradient(
   colorStops = arrayOf(
-    0.0f to Color(0xff90D5FF),
-    0.5f to Color(0xffcce3ed),
-    1.0f to Color(0xffffffff),
+    0.0f to backgroundGradientHigh,
+    0.5f to backgroundGradientMid,
+    1.0f to backgroundGradientLow,
   ),
 )
 
 val backgroundGradientDark = Brush.linearGradient(
   colorStops = arrayOf(
-    0.0f to Color(0xff272757),
-    0.5f to Color(0xff4242b6),
-    1.0f to Color(0xff8686AC),
+    0.0f to backgroundGradientHighDark,
+    0.5f to backgroundGradientMidDark,
+    1.0f to backgroundGradientLowDark,
+  ),
+)
+
+val surfaceGradientLight = Brush.verticalGradient(
+  colorStops = arrayOf(
+    0.5f to Color.Transparent,
+    1f to backgroundGradientLow,
+  ),
+)
+
+val surfaceGradientDark = Brush.verticalGradient(
+  colorStops = arrayOf(
+    0.5f to Color.Transparent,
+    1f to backgroundGradientLowDark,
+  ),
+)
+
+val surfaceGradientReversedLight = Brush.verticalGradient(
+  colorStops = arrayOf(
+    0f to backgroundGradientLow,
+    1f to Color.Transparent,
+  ),
+)
+
+val surfaceGradientReversedDark = Brush.verticalGradient(
+  colorStops = arrayOf(
+    0f to backgroundGradientLowDark,
+    1f to Color.Transparent,
   ),
 )

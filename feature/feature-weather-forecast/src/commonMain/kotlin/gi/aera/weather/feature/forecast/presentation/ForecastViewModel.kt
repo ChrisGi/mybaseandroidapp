@@ -22,8 +22,9 @@ import gi.aera.ui.navigation.NavigationManager
 import gi.aera.ui.navigation.Route
 import gi.aera.ui.navigation.SettingType
 import gi.aera.weather.feature.forecast.domain.ForecastScreenViewEvent
-import gi.aera.weather.feature.forecast.domain.ForecastViewStateFactory
-import gi.aera.weather.feature.forecast.domain.RealtimeWeatherViewStateFactory
+import gi.aera.weather.feature.forecast.domain.WeeklyForecastViewStateFactory
+import gi.aera.weather.feature.forecast.domain.CurrentConditions
+import gi.aera.weather.feature.forecast.domain.CurrentWeatherViewStateFactory
 import gi.aera.weather.feature.forecast.domain.WeatherConditions
 import gi.aera.weather.forecast.domain.model.RealtimeWeatherResponse
 import gi.aera.weather.forecast.domain.usecase.GetCurrentWeatherUseCase
@@ -49,14 +50,14 @@ class ForecastViewModel(
   private val getDefaultLocationUseCase: GetDefaultLocationUseCase,
   private val getCurrentWeatherUseCase: GetCurrentWeatherUseCase,
   private val getDailyForecastUseCase: GetDailyForecastUseCase,
-  private val realtimeWeatherViewStateFactory: RealtimeWeatherViewStateFactory,
-  private val forecastViewStateFactory: ForecastViewStateFactory,
+  private val currentWeatherViewStateFactory: CurrentWeatherViewStateFactory,
+  private val weeklyForecastViewStateFactory: WeeklyForecastViewStateFactory,
   private val navigationManager: NavigationManager,
 ) : ViewModel(), EventHandler<ForecastScreenViewEvent> {
 
   private val permission = Permission.LOCATION
 
-  private val _currentWeatherViewState = MutableStateFlow<LceState<WeatherConditions>>(LceState.Loading)
+  private val _currentWeatherViewState = MutableStateFlow<LceState<CurrentConditions>>(LceState.Loading)
   val currentWeatherViewState = _currentWeatherViewState
     .onStart { getCurrentWeatherForLocation() }
     .stateIn(
@@ -96,7 +97,7 @@ class ForecastViewModel(
           }
 
           is ApiResponse.Success<RealtimeWeatherResponse> ->
-            LceState.Content(realtimeWeatherViewStateFactory.createState(response.data, location))
+            LceState.Content(currentWeatherViewStateFactory.createState(response.data, location))
         }
         _currentWeatherViewState.update { lceState }
 
@@ -118,7 +119,7 @@ class ForecastViewModel(
         LceState.Error(AppError.from(response))
 
       is ApiResponse.Success<ForecastDailyResponse> ->
-        LceState.Content(forecastViewStateFactory.createState(response.data, location))
+        LceState.Content(weeklyForecastViewStateFactory.createState(response.data, location))
     }
     emit(state)
   }.onEach { lceState -> _forecastViewState.update { lceState } }

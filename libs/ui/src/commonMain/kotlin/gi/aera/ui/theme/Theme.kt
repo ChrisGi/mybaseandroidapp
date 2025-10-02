@@ -89,14 +89,20 @@ private val darkScheme = darkColorScheme(
 
 data class ExtraColors(
   val backgroundGradient: Brush = backgroundGradientLight,
+  val surfaceGradient: Brush = surfaceGradientLight,
+  val surfaceGradientReversed: Brush = surfaceGradientReversedLight,
 )
 
 val lightExtraColors = ExtraColors(
   backgroundGradient = backgroundGradientLight,
+  surfaceGradient = surfaceGradientLight,
+  surfaceGradientReversed = surfaceGradientReversedLight,
 )
 
 val darkExtraColors = ExtraColors(
   backgroundGradient = backgroundGradientDark,
+  surfaceGradient = surfaceGradientDark,
+  surfaceGradientReversed = surfaceGradientReversedDark,
 )
 
 @Suppress("CompositionLocalAllowlist")

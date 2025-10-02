@@ -1,28 +1,33 @@
 package gi.aera.weather.feature.forecast.presentation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import gi.aera.ui.LceState
 import gi.aera.ui.LceViewState
-import gi.aera.weather.component.Temperature
+import gi.aera.ui.theme.extraColors
 import gi.aera.weather.error.AppErrorContentProvider
+import gi.aera.weather.feature.forecast.domain.CurrentConditions
 import gi.aera.weather.feature.forecast.domain.ForecastScreenViewEvent
 import gi.aera.weather.feature.forecast.domain.WeatherConditions
 
 @Suppress("LongMethod")
 @Composable
 fun ForecastScreen(
-  currentWeatherState: LceState<WeatherConditions>,
+  currentWeatherState: LceState<CurrentConditions>,
   forecastState: LceState<List<WeatherConditions>>,
   event: (ForecastScreenViewEvent) -> Unit,
   modifier: Modifier = Modifier,
@@ -44,52 +49,66 @@ fun ForecastScreen(
         },
       )
     },
-  ) { todayForecast ->
+  ) { currentConditions ->
     Column {
-      Column(
+      Box(
         modifier = Modifier
-          .padding(top = 64.dp, start = 32.dp)
-          .fillMaxWidth(),
+          .padding(top = 64.dp, start = 16.dp, end = 16.dp)
+          .background(
+            MaterialTheme.extraColors.surfaceGradient,
+            MaterialTheme.shapes.extraLarge,
+          ),
       ) {
-        Temperature(
-          temperature = todayForecast.temperature,
-          unit = todayForecast.unitSystem,
-        )
-        Text(
-          text = todayForecast.temperatureApparent.asString(),
-          style = MaterialTheme.typography.bodyLarge,
-          color = MaterialTheme.colorScheme.onBackground,
-        )
+        Column(
+          modifier = Modifier
+            .verticalScroll(rememberScrollState()),
+        ) {
+          ForecastLocation(
+            location = currentConditions.weatherConditions.location.asString(),
+            onClick = { event(ForecastScreenViewEvent.NavigateToSearchLocation()) },
+            modifier = Modifier
+              .fillMaxWidth()
+              .align(Alignment.CenterHorizontally)
+              .clickable { event(ForecastScreenViewEvent.NavigateToSearchLocation()) },
+          )
+
+          Condition(
+            state = currentConditions.weatherConditions,
+            modifier = Modifier.fillMaxSize(),
+          )
+
+          Spacer(modifier = Modifier.padding(vertical = 16.dp))
+
+          if (currentConditions.conditionValues.isNotEmpty()) {
+            ConditionValues(
+              state = currentConditions.conditionValues,
+              modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            )
+          }
+        }
       }
-
-      Condition(
-        icon = todayForecast.conditionIcon,
-        description = todayForecast.conditionTitle.asString(),
-        modifier = Modifier
-          .weight(2f),
-      )
-
-      ForecastLocation(
-        location = todayForecast.location.asString(),
-        onClick = { event(ForecastScreenViewEvent.NavigateToSearchLocation()) },
-        modifier = Modifier
-          .fillMaxWidth()
-          .align(Alignment.CenterHorizontally)
-          .padding(16.dp)
-          .clickable { event(ForecastScreenViewEvent.NavigateToSearchLocation()) },
-      )
 
       Box(
         modifier = Modifier
-          .weight(1f)
-          .padding(horizontal = 16.dp)
-          .fillMaxWidth(),
+          .padding(top = 12.dp, start = 16.dp, end = 16.dp)
+          .background(
+            MaterialTheme.extraColors.surfaceGradientReversed,
+            MaterialTheme.shapes.extraLarge,
+          ),
       ) {
-        WeeklyForecast(
-          forecastState,
-          Modifier
-            .align(Alignment.Center),
-        )
+        Column(
+          modifier = Modifier.fillMaxWidth(),
+          verticalArrangement = Arrangement.SpaceBetween,
+          horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+          WeeklyForecast(
+            forecastState,
+            Modifier
+              .padding(16.dp),
+          )
+        }
       }
     }
   }

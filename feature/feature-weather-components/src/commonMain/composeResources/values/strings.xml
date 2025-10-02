@@ -116,4 +116,11 @@
   <string name="error_network_not_available">Something is wrong with network, check your connection settings</string>
   <string name="error_network_check">Check network</string>
 
+  <string name="weather_condition_wind">Wind</string>
+  <string name="weather_condition_precipitation">Precipitation</string>
+  <string name="weather_condition_humidity">Humidity</string>
+  <string name="weather_condition_pressure">Pressure</string>
+  <string name="weather_condition_uv">UV</string>
+  <string name="weather_condition_visibility">Visibility</string>
+
 </resources>
