@@ -35,7 +35,7 @@ fun Condition(
     )
     Temperature(
       temperature = state.temperature,
-      unit = state.unitSystem,
+      unit = state.temperatureUnit,
     )
     Text(
       text = state.temperatureApparent.asString(),

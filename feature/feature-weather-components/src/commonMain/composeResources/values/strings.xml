@@ -94,6 +94,13 @@
   <string name="weather_code_8002">Mostly Cloudy and Thunderstorm</string>
   <string name="weather_code_8000">Thunderstorm</string>
 
+  <string name="uv_index_low">Low</string>
+  <string name="uv_index_moderate">Moderate</string>
+  <string name="uv_index_high">High</string>
+  <string name="uv_index_very_high">Very High</string>
+  <string name="uv_index_extreme">Extreme</string>
+  <string name="uv_index_unknown"></string>
+
   <string name="location_current">My Location</string>
 
   <string name="search_location_screen_title">Weather in your places</string>

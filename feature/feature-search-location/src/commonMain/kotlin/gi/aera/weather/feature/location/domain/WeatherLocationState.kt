@@ -1,6 +1,5 @@
 package gi.aera.weather.feature.location.domain
 
-import gi.aera.appsettings.domain.model.UnitSystem
 import gi.aera.domain.model.AppError
 import gi.aera.location.domain.model.SearchLocation
 import gi.aera.ui.compose.SwipeableItem
@@ -14,9 +13,9 @@ sealed interface WeatherLocationState {
     val location: UiString = UiString.Empty,
     val temperature: String = "",
     val temperatureApparent: String = "",
+    val temperatureUnit: String = "",
     val condition: UiString = UiString.Empty,
     val searchLocation: SearchLocation,
-    val unitSystem: UnitSystem,
   ) : WeatherLocationState, SwipeableItem {
 
     override fun isSwipeable(): Boolean = canBeDeleted

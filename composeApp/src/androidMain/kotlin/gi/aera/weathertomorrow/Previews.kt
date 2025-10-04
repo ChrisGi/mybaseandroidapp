@@ -18,6 +18,7 @@ import gi.aera.ui.theme.appTypography
 import gi.aera.ui.theme.extraColors
 import gi.aera.weather.Res
 import gi.aera.weather.domain.model.WeatherCode
+import gi.aera.weather.domain.model.toTemperatureUnit
 import gi.aera.weather.feature.forecast.domain.ConditionValue
 import gi.aera.weather.feature.forecast.domain.CurrentConditions
 import gi.aera.weather.feature.forecast.domain.WeatherConditions
@@ -62,11 +63,11 @@ private fun ForecScreenPreview(
 private val mockCondition = WeatherConditions(
   temperature = "100",
   temperatureApparent = UiString.Text("Odczuwalnie 10"),
+  temperatureUnit = UnitSystem.METRIC.toTemperatureUnit(),
   conditionTitle = UiString.Resource(WeatherCode.CLOUDY.conditionStringRes),
   conditionIcon = WeatherCode.CLOUDY.conditionIcon,
   weekday = "mon",
   location = UiString.Text("London"),
-  unitSystem = UnitSystem.IMPERIAL,
 )
 
 private val mockOtherConditions = listOf(

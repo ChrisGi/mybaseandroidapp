@@ -67,7 +67,7 @@ fun WeatherLocationCard(
         ) {
           Temperature(
             temperature = state.temperature,
-            unit = state.unitSystem,
+            unit = state.temperatureUnit,
             fontSize = 4,
           )
           Text(

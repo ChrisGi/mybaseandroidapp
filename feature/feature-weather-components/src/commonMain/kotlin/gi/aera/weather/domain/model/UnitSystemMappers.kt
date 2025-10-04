@@ -2,7 +2,10 @@ package gi.aera.weather.domain.model
 
 import gi.aera.appsettings.domain.model.UnitSystem
 
-fun UnitSystem.toTemperatureScale() = when (this) {
-  UnitSystem.METRIC -> "C"
-  UnitSystem.IMPERIAL -> "F"
+fun UnitSystem.unitSystemValues() = when (this) {
+  UnitSystem.METRIC -> UnitSystemValues.Metric
+  UnitSystem.IMPERIAL -> UnitSystemValues.Imperial
 }
+
+fun UnitSystem.toTemperatureUnit() = unitSystemValues().temperature
+fun uvHealthConcern(uvIndex: Int) = UvIndexRange.from(uvIndex)

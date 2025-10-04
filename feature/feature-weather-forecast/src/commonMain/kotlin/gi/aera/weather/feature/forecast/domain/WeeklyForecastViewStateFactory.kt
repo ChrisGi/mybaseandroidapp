@@ -5,6 +5,7 @@ import gi.aera.location.domain.model.SearchLocation
 import gi.aera.ui.text.UiString
 import gi.aera.weather.Res
 import gi.aera.weather.domain.model.WeatherCode
+import gi.aera.weather.domain.model.toTemperatureUnit
 import gi.aera.weather.location_current
 import gi.aera.weather.weather_temperature_apparent
 import kotlinx.datetime.Instant
@@ -25,11 +26,11 @@ class WeeklyForecastViewStateFactory {
     WeatherConditions(
       temperature = weatherValues.temperatureMax?.roundToInt().toString(),
       temperatureApparent = formatTemperatureApparent(weatherValues.temperatureApparentAvg),
+      temperatureUnit = response.unitSystem.toTemperatureUnit(),
       conditionTitle = UiString.Resource(getWeatherCondition(weatherValues.weatherCodeMax)),
       conditionIcon = getWeatherConditionIcon(weatherValues.weatherCodeMax),
       weekday = formatWeekday(daily.time),
       location = formatLocation(location),
-      unitSystem = response.unitSystem,
     )
   }
 

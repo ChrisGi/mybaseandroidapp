@@ -94,6 +94,13 @@
   <string name="weather_code_8002">Przeważnie pochmurno i burza</string>
   <string name="weather_code_8000">Burza</string>
 
+  <string name="uv_index_low">Niski</string>
+  <string name="uv_index_moderate">Średni</string>
+  <string name="uv_index_high">Wysoki</string>
+  <string name="uv_index_very_high">Bardzo wysoki</string>
+  <string name="uv_index_extreme">Ekstremalny</string>
+  <string name="uv_index_unknown"></string>
+
   <string name="location_current">Moje położenie</string>
 
   <string name="search_location_screen_title">Pogoda w twoich miejscach</string>

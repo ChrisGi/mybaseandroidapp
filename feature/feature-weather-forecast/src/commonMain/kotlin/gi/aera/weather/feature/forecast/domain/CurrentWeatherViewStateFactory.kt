@@ -1,9 +1,13 @@
 package gi.aera.weather.feature.forecast.domain
 
+import gi.aera.appsettings.domain.model.UnitSystem
 import gi.aera.location.domain.model.SearchLocation
 import gi.aera.ui.text.UiString
 import gi.aera.weather.Res
 import gi.aera.weather.domain.model.WeatherCode
+import gi.aera.weather.domain.model.toTemperatureUnit
+import gi.aera.weather.domain.model.uvHealthConcern
+import gi.aera.weather.domain.model.unitSystemValues
 import gi.aera.weather.forecast.domain.model.RealtimeWeatherResponse
 import gi.aera.weather.forecast.domain.model.RealtimeWeatherValues
 import gi.aera.weather.humidity
@@ -38,49 +42,54 @@ class CurrentWeatherViewStateFactory {
       weatherConditions = WeatherConditions(
         temperature = weatherValues.temperature.roundToInt().toString(),
         temperatureApparent = formatTemperatureApparent(weatherValues.temperatureApparent),
+        temperatureUnit = response.unitSystem.toTemperatureUnit(),
         conditionTitle = UiString.Resource(getWeatherCondition(weatherValues.weatherCode)),
         conditionIcon = getWeatherConditionIcon(weatherValues.weatherCode),
         weekday = formatWeekday(response.data.time),
         location = formatLocation(location),
-        unitSystem = response.unitSystem,
       ),
-      conditionValues = createOtherConditions(weatherValues),
+      conditionValues = createOtherConditions(weatherValues, response.unitSystem),
     )
   }
 
-  private fun createOtherConditions(weatherValues: RealtimeWeatherValues) =
-    listOf(
+  private fun createOtherConditions(
+    weatherValues: RealtimeWeatherValues,
+    unitSystem: UnitSystem,
+  ): List<ConditionValue> {
+    val unitSystemValues = unitSystem.unitSystemValues()
+    return listOf(
       ConditionValue(
         Res.drawable.wind,
-        UiString.Text(weatherValues.windSpeed.roundToInt().toString()),
+        UiString.Text("${weatherValues.windSpeed.roundToInt()}${unitSystemValues.windSpeed}"),
         UiString.Resource(Res.string.weather_condition_wind),
       ),
       ConditionValue(
         Res.drawable.water_drop,
-        UiString.Text(weatherValues.rainIntensity.toString()),
+        UiString.Text("${weatherValues.rainIntensity}${unitSystemValues.rainIntensity}"),
         UiString.Resource(Res.string.weather_condition_precipitation),
       ),
       ConditionValue(
         Res.drawable.pressure,
-        UiString.Text(weatherValues.pressureSurfaceLevel?.roundToInt().toString()),
+        UiString.Text("${weatherValues.pressureSurfaceLevel.toInt()}${unitSystemValues.pressure}"),
         UiString.Resource(Res.string.weather_condition_pressure),
       ),
       ConditionValue(
         Res.drawable.humidity,
-        UiString.Text(weatherValues.humidity?.roundToInt().toString()),
+        UiString.Text("${weatherValues.humidity.roundToInt()}${unitSystemValues.humidity}"),
         UiString.Resource(Res.string.weather_condition_humidity),
       ),
       ConditionValue(
         Res.drawable.visibility,
-        UiString.Text(weatherValues.visibility.toString()),
+        UiString.Text("${weatherValues.visibility}${unitSystemValues.visibility}"),
         UiString.Resource(Res.string.weather_condition_visibility),
       ),
       ConditionValue(
         Res.drawable.uv_index,
-        UiString.Text(weatherValues.uvHealthConcern?.roundToInt().toString()),
+        UiString.Resource(uvHealthConcern(weatherValues.uvIndex.toInt())),
         UiString.Resource(Res.string.weather_condition_uv),
       ),
     )
+  }
 
   private fun formatWeekday(date: String) =
     Instant.parse(date).toLocalDateTime(TimeZone.currentSystemDefault()).date.format(
