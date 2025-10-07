@@ -14,7 +14,7 @@ import gi.aera.location.domain.model.LocationSource
 import gi.aera.location.domain.model.SearchLocation
 import gi.aera.ui.text.UiString
 import gi.aera.ui.theme.AppTheme
-import gi.aera.ui.theme.appTypography
+import gi.aera.weathertomorrow.theme.appTypography
 import gi.aera.weather.Res
 import gi.aera.weather.domain.model.toTemperatureUnit
 import gi.aera.weather.feature.location.domain.WeatherLocationState

@@ -9,7 +9,7 @@ import gi.aera.ui.navigation.NavigationLaunchedEffect
 import gi.aera.ui.navigation.NavigationManager
 import gi.aera.ui.navigation.Route
 import gi.aera.ui.theme.AppTheme
-import gi.aera.ui.theme.appTypography
+import gi.aera.weathertomorrow.theme.appTypography
 import gi.aera.weather.feature.forecast.presentation.forecastNavScreen
 import gi.aera.weather.feature.search.presentation.searchLocationNavScreen
 import org.koin.compose.KoinContext
