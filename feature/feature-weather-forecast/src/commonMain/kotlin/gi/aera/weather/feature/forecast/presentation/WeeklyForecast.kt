@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import gi.aera.ui.LceState
 import gi.aera.ui.LceViewState
+import gi.aera.ui.theme.extraColors
 import gi.aera.weather.Res
 import gi.aera.weather.feature.forecast.domain.WeatherConditions
 import gi.aera.weather.weather_temperature_degree
@@ -28,6 +29,7 @@ fun WeeklyForecast(
   state: LceState<List<WeatherConditions>>,
   modifier: Modifier = Modifier,
 ) {
+  val textColor = MaterialTheme.colorScheme.onBackground
   LceViewState(
     state = state,
     errorContent = {
@@ -41,12 +43,12 @@ fun WeeklyForecast(
         Column(
           modifier = Modifier
             .width(60.dp)
-            .padding(horizontal = 4.dp)
-            .background(MaterialTheme.colorScheme.surfaceContainerLowest, RoundedCornerShape(16.dp)),
+            .padding(horizontal = 2.dp)
+            .background(MaterialTheme.extraColors.surfaceGradientReversed, RoundedCornerShape(16.dp)),
           horizontalAlignment = Alignment.CenterHorizontally,
         ) {
           Text(
-            color = MaterialTheme.colorScheme.onBackground,
+            color = textColor,
             text = forecast.weekday,
             modifier = Modifier
               .align(Alignment.CenterHorizontally),
@@ -57,10 +59,10 @@ fun WeeklyForecast(
             modifier = Modifier
               .size(48.dp)
               .align(Alignment.CenterHorizontally)
-              .padding(horizontal = 8.dp),
+              .padding(horizontal = 4.dp),
           )
           Text(
-            color = MaterialTheme.colorScheme.onBackground,
+            color = textColor,
             text = stringResource(Res.string.weather_temperature_degree, forecast.temperature),
             modifier = Modifier
               .align(Alignment.CenterHorizontally),

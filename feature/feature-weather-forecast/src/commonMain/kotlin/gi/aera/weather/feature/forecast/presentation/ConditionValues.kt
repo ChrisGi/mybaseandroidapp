@@ -34,6 +34,7 @@ fun ConditionValues(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly,
       ) {
+        val textColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
         rowItems.forEach { conditionValue ->
           Box(
             modifier = Modifier
@@ -46,22 +47,21 @@ fun ConditionValues(
                 .padding(8.dp),
             ) {
               Image(
-                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
+                colorFilter = ColorFilter.tint(textColor),
                 painter = painterResource(conditionValue.icon),
                 contentDescription = null,
                 modifier = Modifier
-                  .size(32.dp)
+                  .size(24.dp)
                   .align(Alignment.CenterHorizontally),
               )
               Text(
-                color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold),
                 text = conditionValue.value.asString(),
                 modifier = Modifier
                   .align(Alignment.CenterHorizontally),
               )
               Text(
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                color = textColor,
                 style = MaterialTheme.typography.bodySmall,
                 text = conditionValue.description.asString().lowercase(),
                 modifier = Modifier

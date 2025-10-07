@@ -31,7 +31,6 @@ fun Condition(
     Text(
       text = state.conditionTitle.asString(),
       style = MaterialTheme.typography.bodyLarge,
-      color = MaterialTheme.colorScheme.onSurfaceVariant,
     )
     Temperature(
       temperature = state.temperature,
@@ -40,7 +39,6 @@ fun Condition(
     Text(
       text = state.temperatureApparent.asString(),
       style = MaterialTheme.typography.bodySmall,
-      color = MaterialTheme.colorScheme.onSurfaceVariant,
     )
   }
 }

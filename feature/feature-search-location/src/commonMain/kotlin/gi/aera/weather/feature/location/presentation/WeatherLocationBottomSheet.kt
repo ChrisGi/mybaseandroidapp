@@ -41,7 +41,7 @@ fun WeatherLocationBottomSheet(
   ModalBottomSheet(
     sheetState = sheetState,
     onDismissRequest = { hideBottomSheet() },
-    containerColor = MaterialTheme.colorScheme.surface,
+    containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
     tonalElevation = 10.dp,
   ) {
     LceViewState(

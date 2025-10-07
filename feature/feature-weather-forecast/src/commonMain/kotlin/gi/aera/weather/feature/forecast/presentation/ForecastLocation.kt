@@ -31,12 +31,11 @@ fun ForecastLocation(
   ) {
     Text(
       text = location,
-      color = MaterialTheme.colorScheme.onBackground,
       style = MaterialTheme.typography.titleSmall,
       modifier = Modifier,
     )
     Image(
-      colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
+      colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
       imageVector = Icons.Outlined.AddLocationAlt,
       contentDescription = null,
       modifier = Modifier

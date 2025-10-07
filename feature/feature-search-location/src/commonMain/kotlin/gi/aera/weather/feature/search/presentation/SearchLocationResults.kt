@@ -42,7 +42,7 @@ fun SearchLocationResults(
             location.formatted?.let { Text(it, color = MaterialTheme.colorScheme.onSurface) }
           },
           colors = ListItemDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.surface,
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
           ),
         )
         HorizontalDivider(

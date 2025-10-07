@@ -2,7 +2,6 @@ package gi.aera.weather.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,19 +20,16 @@ fun Temperature(
     modifier = modifier,
   ) {
     Text(
-      color = MaterialTheme.colorScheme.onBackground,
       text = temperature,
       fontSize = (fontSize * 12).sp,
       modifier = Modifier,
     )
     Column {
       Text(
-        color = MaterialTheme.colorScheme.onBackground,
         text = "°",
         fontSize = (fontSize * 6).sp,
       )
       Text(
-        color = MaterialTheme.colorScheme.onBackground,
         text = unit,
         fontSize = (fontSize * 3).sp,
         modifier = Modifier.align(Alignment.CenterHorizontally),

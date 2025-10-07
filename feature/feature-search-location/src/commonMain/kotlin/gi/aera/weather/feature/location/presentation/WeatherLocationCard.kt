@@ -31,7 +31,6 @@ fun WeatherLocationCard(
     modifier = modifier,
     shape = RoundedCornerShape(16.dp),
   ) {
-
     Box(
       modifier = Modifier
         .height(CARD_HEIGHT)

@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -30,18 +31,20 @@ fun NavGraphBuilder.forecastNavScreen() {
     val forecastViewState by viewModel.forecastViewState.collectAsStateWithLifecycle()
     val currentWeatherViewState by viewModel.currentWeatherViewState.collectAsStateWithLifecycle()
 
-    Box(
-      modifier = Modifier
-        .fillMaxSize()
-        .background(
-          brush = MaterialTheme.extraColors.backgroundGradient,
-        ),
-    ) {
-      ForecastScreen(
-        currentWeatherState = currentWeatherViewState,
-        forecastState = forecastViewState,
-        event = viewModel::obtainEvent,
-      )
+    Surface {
+      Box(
+        modifier = Modifier
+          .fillMaxSize()
+          .background(
+            brush = MaterialTheme.extraColors.backgroundGradient,
+          ),
+      ) {
+        ForecastScreen(
+          currentWeatherState = currentWeatherViewState,
+          forecastState = forecastViewState,
+          event = viewModel::obtainEvent,
+        )
+      }
     }
   }
 }

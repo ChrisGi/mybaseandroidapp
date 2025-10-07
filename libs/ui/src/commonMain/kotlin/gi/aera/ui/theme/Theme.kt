@@ -7,9 +7,6 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.ReadOnlyComposable
-import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.ui.graphics.Brush
 
 private val lightScheme = lightColorScheme(
   primary = primaryLight,
@@ -86,32 +83,6 @@ private val darkScheme = darkColorScheme(
   surfaceContainerHigh = surfaceContainerHighDark,
   surfaceContainerHighest = surfaceContainerHighestDark,
 )
-
-data class ExtraColors(
-  val backgroundGradient: Brush = backgroundGradientLight,
-  val surfaceGradient: Brush = surfaceGradientLight,
-  val surfaceGradientReversed: Brush = surfaceGradientReversedLight,
-)
-
-val lightExtraColors = ExtraColors(
-  backgroundGradient = backgroundGradientLight,
-  surfaceGradient = surfaceGradientLight,
-  surfaceGradientReversed = surfaceGradientReversedLight,
-)
-
-val darkExtraColors = ExtraColors(
-  backgroundGradient = backgroundGradientDark,
-  surfaceGradient = surfaceGradientDark,
-  surfaceGradientReversed = surfaceGradientReversedDark,
-)
-
-@Suppress("CompositionLocalAllowlist")
-val LocalExtraColors = compositionLocalOf { ExtraColors() }
-
-val MaterialTheme.extraColors: ExtraColors
-  @Composable
-  @ReadOnlyComposable
-  get() = LocalExtraColors.current
 
 @Composable
 fun AppTheme(

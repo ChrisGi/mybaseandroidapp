@@ -1,11 +1,9 @@
 package gi.aera.weather.feature.search.presentation
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -80,7 +78,6 @@ fun NavGraphBuilder.searchLocationNavScreen(
     Column(
       horizontalAlignment = Alignment.CenterHorizontally,
       modifier = Modifier
-        .background(MaterialTheme.colorScheme.background)
         .fillMaxSize(),
     ) {
       if (showLocationWeather) {

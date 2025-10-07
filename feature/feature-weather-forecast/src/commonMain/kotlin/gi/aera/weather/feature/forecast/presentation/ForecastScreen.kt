@@ -1,7 +1,6 @@
 package gi.aera.weather.feature.forecast.presentation
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -68,8 +67,9 @@ fun ForecastScreen(
             onClick = { event(ForecastScreenViewEvent.NavigateToSearchLocation()) },
             modifier = Modifier
               .fillMaxWidth()
-              .align(Alignment.CenterHorizontally)
-              .clickable { event(ForecastScreenViewEvent.NavigateToSearchLocation()) },
+              .align(
+                Alignment.CenterHorizontally,
+              ),
           )
 
           Condition(
