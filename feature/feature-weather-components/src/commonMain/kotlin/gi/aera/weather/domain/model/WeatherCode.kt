@@ -1,5 +1,6 @@
 package gi.aera.weather.domain.model
 
+import gi.aera.ui.text.UiString
 import gi.aera.weather.Res
 import gi.aera.weather.clear_day
 import gi.aera.weather.cloudy
@@ -225,7 +226,10 @@ enum class WeatherCode(
 
   companion object {
     fun fromCode(code: Int): WeatherCode {
-      return values().find { it.code == code } ?: UNKNOWN
+      return entries.find { it.code == code } ?: UNKNOWN
     }
+
+    fun getTitle(code: Int): UiString =
+      entries.find { it.code == code }?.let { UiString.Resource(it.conditionStringRes) } ?: UiString.Empty
   }
 }

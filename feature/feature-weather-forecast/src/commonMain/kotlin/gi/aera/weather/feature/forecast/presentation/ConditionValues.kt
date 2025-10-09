@@ -2,13 +2,13 @@ package gi.aera.weather.feature.forecast.presentation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,44 +30,41 @@ fun ConditionValues(
     modifier = modifier,
   ) {
     state.chunked(SHOW_3_ITEMS_IN_ROW).forEach { rowItems ->
-      Row(
-        modifier = Modifier.fillMaxWidth(),
+      LazyRow(
         horizontalArrangement = Arrangement.SpaceEvenly,
+        modifier = Modifier
+          .fillMaxWidth(),
       ) {
-        val textColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
-        rowItems.forEach { conditionValue ->
-          Box(
+        items(rowItems) { conditionValue ->
+          val textColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
+          Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-              .padding(4.dp),
+              .width(100.dp)
+              .padding(top = 12.dp),
           ) {
-            Column(
-              horizontalAlignment = Alignment.CenterHorizontally,
+            Image(
+              colorFilter = ColorFilter.tint(textColor),
+              painter = painterResource(conditionValue.icon),
+              contentDescription = null,
               modifier = Modifier
-                .width(100.dp)
-                .padding(8.dp),
-            ) {
-              Image(
-                colorFilter = ColorFilter.tint(textColor),
-                painter = painterResource(conditionValue.icon),
-                contentDescription = null,
-                modifier = Modifier
-                  .size(24.dp)
-                  .align(Alignment.CenterHorizontally),
-              )
-              Text(
-                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold),
-                text = conditionValue.value.asString(),
-                modifier = Modifier
-                  .align(Alignment.CenterHorizontally),
-              )
-              Text(
-                color = textColor,
-                style = MaterialTheme.typography.bodySmall,
-                text = conditionValue.description.asString().lowercase(),
-                modifier = Modifier
-                  .align(Alignment.CenterHorizontally),
-              )
-            }
+                .size(24.dp)
+                .align(Alignment.CenterHorizontally),
+            )
+            Text(
+              style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold),
+              text = conditionValue.value.asString(),
+              modifier = Modifier
+                .align(Alignment.CenterHorizontally),
+            )
+            Text(
+              color = textColor,
+              style = MaterialTheme.typography.bodySmall,
+              text = conditionValue.description.asString().lowercase(),
+              modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(horizontal = 8.dp),
+            )
           }
         }
       }

@@ -20,3 +20,8 @@ sealed class ApiResponse<out T> {
     data object TimeoutError : Error(null)
   }
 }
+
+fun <T> ApiResponse<T>.successData() = when (this) {
+  is ApiResponse.Success<*> -> data as T
+  is ApiResponse.Error -> error("Error response")
+}

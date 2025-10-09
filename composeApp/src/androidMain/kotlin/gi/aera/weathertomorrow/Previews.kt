@@ -20,6 +20,7 @@ import gi.aera.weather.domain.model.WeatherCode
 import gi.aera.weather.domain.model.toTemperatureUnit
 import gi.aera.weather.feature.forecast.domain.ConditionValue
 import gi.aera.weather.feature.forecast.domain.CurrentConditions
+import gi.aera.weather.domain.model.WeatherDateTimeFormatter
 import gi.aera.weather.feature.forecast.domain.WeatherConditions
 import gi.aera.weather.feature.forecast.presentation.ForecastScreen
 import gi.aera.weather.humidity
@@ -64,7 +65,7 @@ private val mockCondition = WeatherConditions(
   temperatureUnit = UnitSystem.METRIC.toTemperatureUnit(),
   conditionTitle = UiString.Resource(WeatherCode.CLOUDY.conditionStringRes),
   conditionIcon = WeatherCode.CLOUDY.conditionIcon,
-  weekday = "mon",
+  moment = WeatherDateTimeFormatter.formatWeekdayShort("2025-08-18T10:00:00Z"),
   location = UiString.Text("London"),
 )
 

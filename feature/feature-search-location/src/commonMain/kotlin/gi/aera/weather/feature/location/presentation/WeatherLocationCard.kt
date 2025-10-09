@@ -70,7 +70,7 @@ fun WeatherLocationCard(
             fontSize = 4,
           )
           Text(
-            text = state.temperatureApparentFormatted.asString(),
+            text = state.temperatureApparent.asString(),
             style = MaterialTheme.typography.bodyMedium,
           )
         }

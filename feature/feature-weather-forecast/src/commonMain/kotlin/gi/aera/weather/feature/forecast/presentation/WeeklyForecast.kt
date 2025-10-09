@@ -41,15 +41,15 @@ fun WeeklyForecast(
     ) {
       items(forecast) { forecast ->
         Column(
+          horizontalAlignment = Alignment.CenterHorizontally,
           modifier = Modifier
             .width(60.dp)
             .padding(horizontal = 2.dp)
             .background(MaterialTheme.extraColors.surfaceGradientReversed, RoundedCornerShape(16.dp)),
-          horizontalAlignment = Alignment.CenterHorizontally,
         ) {
           Text(
             color = textColor,
-            text = forecast.weekday,
+            text = forecast.moment,
             modifier = Modifier
               .align(Alignment.CenterHorizontally),
           )

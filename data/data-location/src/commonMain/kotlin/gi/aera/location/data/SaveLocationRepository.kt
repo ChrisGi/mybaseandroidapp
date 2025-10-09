@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import gi.aera.location.domain.model.LocationNotFoundException
 import gi.aera.location.domain.model.SearchLocation
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.builtins.ListSerializer
@@ -20,6 +21,7 @@ internal class SaveLocationRepository(private val dataStore: DataStore<Preferenc
       preferences[locationKey] ?: throw LocationNotFoundException()
     }
     .map { json -> Json.decodeFromString(ListSerializer(SearchLocation.serializer()), json) }
+    .catch { emit(emptyList()) }
 
   suspend fun saveLocations(locations: List<SearchLocation>) {
     val locationJson = Json.encodeToString(ListSerializer(SearchLocation.serializer()), locations)

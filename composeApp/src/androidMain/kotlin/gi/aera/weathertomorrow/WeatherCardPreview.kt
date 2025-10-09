@@ -20,6 +20,7 @@ import gi.aera.weather.domain.model.toTemperatureUnit
 import gi.aera.weather.feature.location.domain.WeatherLocationState
 import gi.aera.weather.feature.location.presentation.WeatherLocationCard
 import gi.aera.weather.weather_code_1101
+import gi.aera.weather.weather_temperature_apparent
 
 @Preview
 @Composable
@@ -35,7 +36,7 @@ private fun WeatherCardPreview() {
         state = WeatherLocationState.WeatherLocation(
           location = UiString.Text("London"),
           temperature = "25",
-          temperatureApparent = "16",
+          temperatureApparent = UiString.Resource(Res.string.weather_temperature_apparent, "16"),
           temperatureUnit = UnitSystem.METRIC.toTemperatureUnit(),
           condition = UiString.Resource(Res.string.weather_code_1101),
           searchLocation = DEFAULT_LOCATION,

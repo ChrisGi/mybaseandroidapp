@@ -9,6 +9,6 @@ data class WeatherConditions(
   val temperatureUnit: String,
   val conditionTitle: UiString,
   val conditionIcon: DrawableResource,
-  val weekday: String,
+  val moment: String,
   val location: UiString,
 )
