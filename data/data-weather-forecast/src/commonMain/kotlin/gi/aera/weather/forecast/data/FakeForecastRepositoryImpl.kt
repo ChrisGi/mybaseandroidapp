@@ -41,6 +41,7 @@ class FakeForecastRepositoryImpl : ForecastRepository {
     val response = Json.decodeFromString(RealtimeWeatherResponse.serializer(), json)
     return ApiResponse.Success(response)
   }
+
   @Suppress("LongMethod")
   override suspend fun forecastDaily(params: ForecastParams): ApiResponse<ForecastDailyResponse> {
     val json = "{\n" +

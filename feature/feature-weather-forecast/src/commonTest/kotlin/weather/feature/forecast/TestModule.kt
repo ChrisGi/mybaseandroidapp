@@ -3,6 +3,8 @@ package weather.feature.forecast
 import gi.aera.appsettings.appSettingsDataModule
 import gi.aera.appsettings.data.FakeGetUnitSettingsRepositoryImpl
 import gi.aera.appsettings.domain.model.UnitSettingsRepository
+import gi.aera.location.locationModule
+import gi.aera.ui.navigation.navigationModule
 import gi.aera.weather.feature.forecast.weatherForecastFeatureModule
 import gi.aera.weather.forecast.data.FakeForecastRepositoryImpl
 import gi.aera.weather.forecast.data.ForecastRepository
@@ -18,6 +20,8 @@ internal val testModule = module {
 internal val featureModules = module {
   includes(
     listOf(
+      locationModule,
+      navigationModule,
       appSettingsDataModule,
       weatherForecastDataModule,
       weatherForecastFeatureModule,

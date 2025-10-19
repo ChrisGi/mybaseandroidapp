@@ -3,6 +3,7 @@ package gi.aera.weather.feature.forecast.presentation
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
@@ -28,8 +29,8 @@ fun NavGraphBuilder.forecastNavScreen() {
 
     val viewModel: ForecastViewModel = koinViewModel { parametersOf(controller) }
 
-    val forecastViewState by viewModel.forecastViewState.collectAsStateWithLifecycle()
     val currentWeatherViewState by viewModel.currentWeatherViewState.collectAsStateWithLifecycle()
+    val forecastViewState by viewModel.forecastViewState.collectAsStateWithLifecycle()
 
     Surface {
       Box(
@@ -37,7 +38,8 @@ fun NavGraphBuilder.forecastNavScreen() {
           .fillMaxSize()
           .background(
             brush = MaterialTheme.extraColors.backgroundGradient,
-          ),
+          )
+          .systemBarsPadding(),
       ) {
         ForecastScreen(
           currentWeatherState = currentWeatherViewState,

@@ -1,5 +1,8 @@
 package gi.aera.location.data
 
-internal interface LocationRepository {
-  suspend fun getLastLocation(): Pair<Double, Double>
+import gi.aera.location.domain.model.GpsCoordinates
+import kotlinx.coroutines.flow.Flow
+
+interface LocationRepository {
+  fun getLastGpsLocation(): Flow<GpsCoordinates>
 }

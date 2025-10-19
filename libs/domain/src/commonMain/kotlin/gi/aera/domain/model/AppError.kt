@@ -10,11 +10,13 @@ sealed interface AppError {
     fun from(error: ApiResponse.Error) = when (error) {
       ApiResponse.Error.TimeoutError,
       ApiResponse.Error.NetworkError,
-        -> NetworkError
+      -> NetworkError
 
       is ApiResponse.Error.HttpError -> HttpError(error.code)
       is ApiResponse.Error.SerializationError -> BusinessError(error.errorMessage)
       is ApiResponse.Error.UnknownError -> FatalError
     }
+
+    fun from(exception: Throwable) = FatalError
   }
 }

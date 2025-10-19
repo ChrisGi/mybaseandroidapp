@@ -3,6 +3,7 @@ package gi.aera.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavHostController
+import gi.aera.ui.navigation.domain.model.NavigationManager
 
 @Composable
 fun NavigationLaunchedEffect(

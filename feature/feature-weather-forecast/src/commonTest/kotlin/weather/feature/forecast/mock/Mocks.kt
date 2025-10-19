@@ -1,9 +1,10 @@
-package weather.feature.forecast.domain
+package weather.feature.forecast.mock
 
 import gi.aera.location.domain.model.LocationSource
 import gi.aera.location.domain.model.SearchLocation
 
 internal const val CITY = "Warsaw"
+
 internal val fakeSearchLocation = SearchLocation(
   placeId = "1234",
   city = CITY,

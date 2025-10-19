@@ -9,7 +9,7 @@ import gi.aera.domain.model.ApiResponse
 import gi.aera.domain.model.AppError
 import gi.aera.location.domain.model.LocationSource
 import gi.aera.location.domain.model.SearchLocation
-import gi.aera.location.domain.usecase.GetLastLocationUseCase
+import gi.aera.location.domain.usecase.GetLastGpsLocationUseCase
 import gi.aera.location.domain.usecase.GetSavedLocationUseCase
 import gi.aera.location.domain.usecase.RemoveDefaultLocationUseCase
 import gi.aera.location.domain.usecase.RemoveSavedLocationUseCase
@@ -18,8 +18,8 @@ import gi.aera.location.domain.usecase.SaveLocationUseCase
 import gi.aera.ui.C
 import gi.aera.ui.EventHandler
 import gi.aera.ui.LceState
-import gi.aera.ui.navigation.NavigationManager
 import gi.aera.ui.navigation.SettingType
+import gi.aera.ui.navigation.domain.model.NavigationManager
 import gi.aera.weather.feature.location.domain.WeatherLocationEvent
 import gi.aera.weather.feature.location.domain.WeatherLocationStateFactory
 import gi.aera.weather.feature.location.domain.WeatherLocationState
@@ -40,7 +40,7 @@ import kotlinx.coroutines.launch
 @Suppress("LongParameterList")
 class WeatherLocationViewModel(
   private val permissionsController: PermissionsController,
-  private val getLastLocationsUseCase: GetLastLocationUseCase,
+  private val getLastGpsLocationsUseCase: GetLastGpsLocationUseCase,
   private val getSavedLocationsUseCase: GetSavedLocationUseCase,
   private val saveDefaultLocationUseCase: SaveDefaultLocationUseCase,
   private val removeDefaultLocationUseCase: RemoveDefaultLocationUseCase,
@@ -126,16 +126,15 @@ class WeatherLocationViewModel(
       }
   }
 
-  @Suppress("TooGenericExceptionCaught", "SwallowedException")
   private fun getLastLocation() = flow {
     if (permissionsController.isPermissionGranted(Permission.LOCATION)) {
-      emit(getLastLocationsUseCase())
+      emit(getLastGpsLocationsUseCase())
     } else {
       try {
         permissionsController.providePermission(Permission.LOCATION)
 
-        emit(getLastLocationsUseCase())
-      } catch (e: Exception) {
+        emit(getLastGpsLocationsUseCase())
+      } catch (_: Exception) {
         emit(null)
       }
     }

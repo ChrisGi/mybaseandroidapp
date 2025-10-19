@@ -12,7 +12,6 @@ fun NavGraphBuilder.appSettingsNavScreen(
   navigateBack: () -> Unit = {},
 ) {
   composable<AppSettingsNavScreen> {
-
     val viewModel: UnitSystemSettingViewModel = koinViewModel()
     val state by viewModel.unitSettingsViewState.collectAsStateWithLifecycle()
 

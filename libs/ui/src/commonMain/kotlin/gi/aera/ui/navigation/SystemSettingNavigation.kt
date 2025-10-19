@@ -1,5 +1,7 @@
 package gi.aera.ui.navigation
 
-expect class SystemSettingNavigation {
-  fun openSystemSettings(settingType: SettingType)
+import gi.aera.ui.navigation.domain.model.SystemNavigation
+
+expect class SystemSettingNavigation : SystemNavigation {
+  override fun openSystemSettings(settingType: SettingType)
 }

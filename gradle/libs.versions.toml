@@ -2,7 +2,7 @@
 agp = "8.9.1"
 coil = "3.2.0"
 datastore = "1.1.7"
-kotlin = "2.1.21"
+kotlin = "2.2.0"
 coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -31,7 +31,8 @@ navigationCompose = "2.9.0-beta03"
 detekt = "1.23.8"
 detektCompose = "0.4.12"
 buildKonfig="0.15.1"
-test-mockk = "1.14.6"
+test-mokkery = "2.10.1"
+turbine = "1.2.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -88,8 +89,8 @@ play-services-location = { module = "com.google.android.gms:play-services-locati
 slf4j-android = { module = "org.slf4j:slf4j-android", version.ref = "slf4jAndroid" }
 detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detekt" }
 detekt-compose = { group = "io.nlopez.compose.rules", name = "detekt", version.ref = "detektCompose"}
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 ui-backhandler = { module = "org.jetbrains.compose.ui:ui-backhandler", version.ref = "composeMultiplatform" }
-test-mockk = { module = "io.mockk:mockk", version.ref = "test-mockk" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -102,3 +103,4 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 detekt-plugin = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 build-konfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildKonfig" }
+mokkery = { id = "dev.mokkery", version.ref = "test-mokkery" }

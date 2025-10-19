@@ -21,6 +21,8 @@ import org.koin.test.KoinTest
 import org.koin.test.inject
 import org.koin.test.mock.declare
 import weather.feature.forecast.featureModules
+import weather.feature.forecast.mock.CITY
+import weather.feature.forecast.mock.fakeSearchLocation
 import weather.feature.forecast.testModule
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest

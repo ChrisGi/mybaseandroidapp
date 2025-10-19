@@ -9,10 +9,20 @@ sealed class UnitSystemValues(
   val visibility: String,
 ) {
   data object Metric : UnitSystemValues(
-    "C", "m/s", "mm", "hPa", "%", "km",
+    "C",
+    "m/s",
+    "mm",
+    "hPa",
+    "%",
+    "km",
   )
 
   data object Imperial : UnitSystemValues(
-    "F", "mph", "in", "inHg", "%", "mi",
+    "F",
+    "mph",
+    "in",
+    "inHg",
+    "%",
+    "mi",
   )
 }

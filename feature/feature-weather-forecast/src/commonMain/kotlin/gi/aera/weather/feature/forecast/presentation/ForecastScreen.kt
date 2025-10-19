@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -32,14 +33,15 @@ fun ForecastScreen(
   modifier: Modifier = Modifier,
 ) {
   LceViewState(
-    modifier = modifier,
+    modifier = modifier
+      .systemBarsPadding(),
     state = currentWeatherState,
     errorContent = {
       AppErrorContentProvider(
         it,
         Modifier
           .fillMaxSize()
-          .padding(vertical = 64.dp, horizontal = 32.dp),
+          .padding(horizontal = 32.dp),
         onRetry = {
           event(ForecastScreenViewEvent.Retry)
         },
@@ -52,7 +54,7 @@ fun ForecastScreen(
     Column {
       Box(
         modifier = Modifier
-          .padding(top = 64.dp, start = 16.dp, end = 16.dp)
+          .padding(start = 16.dp, end = 16.dp)
           .background(
             MaterialTheme.extraColors.surfaceGradient,
             MaterialTheme.shapes.extraLarge,
@@ -67,6 +69,7 @@ fun ForecastScreen(
             onClick = { event(ForecastScreenViewEvent.NavigateToSearchLocation()) },
             modifier = Modifier
               .fillMaxWidth()
+              .padding(top = 16.dp)
               .align(
                 Alignment.CenterHorizontally,
               ),

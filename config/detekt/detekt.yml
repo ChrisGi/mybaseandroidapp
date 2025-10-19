@@ -133,7 +133,7 @@ complexity:
   LongParameterList:
     active: true
     functionThreshold: 6
-    constructorThreshold: 7
+    constructorThreshold: 10
     ignoreDefaultParameters: false
     ignoreDataClasses: true
     ignoreAnnotatedParameter: []
@@ -644,7 +644,7 @@ style:
     maxChainedCalls: 5
   MaxLineLength:
     active: true
-    maxLineLength: 120
+    maxLineLength: 170
     excludePackageStatements: true
     excludeImportStatements: true
     excludeCommentStatements: false
@@ -834,7 +834,7 @@ formatting:
     indentSize: 2
   MaximumLineLength:
     active: true
-    maxLineLength: 120
+    maxLineLength: 170
   ModifierOrdering:
     active: true
     autoCorrect: true
