@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+  <debug-overrides>
+    <trust-anchors>
+      <certificates
+        src="user"
+        overridePins="false" /> <!-- trust Charles cert -->
+    </trust-anchors>
+  </debug-overrides>
+
+  <domain-config>
+    <domain includeSubdomains="true">api.tomorrow.io</domain>
+    <pin-set expiration="2029-02-20">
+      <pin digest="SHA-256">zA9fkD/u7PwzoZ9v4UIOHvDs7Ab8Y6qU4E7AMb52aw8=</pin> <!--"notAfter": "Dec  8 16:34:39 2025 GMT"-->
+      <pin digest="SHA-256">kIdp6NNEd8wsugYyyIYFsi1ylMCED3hZbSR8ZFsa/A4=</pin> <!--"notAfter": "Feb 20 14:00:00 2029 GMT"-->
+    </pin-set>
+  </domain-config>
+</network-security-config>
