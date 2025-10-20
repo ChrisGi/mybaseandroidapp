@@ -1,12 +1,12 @@
 package gi.aera.network.config
 
 import gi.aera.lib.network.ApiKeys
+import gi.aera.network.cache.ForceCachePluginInstaller
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.HttpResponseValidator
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.cache.HttpCache
-import io.ktor.client.plugins.cache.storage.CacheStorage
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
@@ -22,13 +22,11 @@ import kotlinx.serialization.json.Json
 
 internal class WeatherApiHttpClientConfiguration(
   private val httpClient: HttpClient,
-  private val cacheStorage: CacheStorage,
 ) {
 
   fun getHttpClient(): HttpClient = httpClient.config {
-    install(HttpCache) {
-      publicStorage(cacheStorage)
-    }
+    ForceCachePluginInstaller(maxAge = 60)
+    install(HttpCache)
     install(Resources)
     install(Logging) {
       logger = Logger.SIMPLE

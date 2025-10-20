@@ -11,7 +11,7 @@ val networkModule = module {
   includes(platformModule)
 
   single<HttpClient>(named(WEATHER_HTTP_CLIENT)) {
-    WeatherApiHttpClientConfiguration(get(), get()).getHttpClient()
+    WeatherApiHttpClientConfiguration(get()).getHttpClient()
   }
   single<HttpClient>(named(LOCATION_HTTP_CLIENT)) {
     LocationApiHttpClientConfiguration(get()).getHttpClient()
