@@ -4,8 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -18,9 +20,11 @@ import dev.icerock.moko.permissions.compose.PermissionsControllerFactory
 import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import gi.aera.ui.navigation.Route
 import gi.aera.ui.theme.extraColors
+import gi.aera.weather.feature.forecast.domain.ForecastScreenViewEvent
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
+@OptIn(ExperimentalMaterial3Api::class)
 fun NavGraphBuilder.forecastNavScreen() {
   composable<Route.ForecastNavScreen> {
     val factory: PermissionsControllerFactory = rememberPermissionsControllerFactory()
@@ -31,6 +35,7 @@ fun NavGraphBuilder.forecastNavScreen() {
 
     val currentWeatherViewState by viewModel.currentWeatherViewState.collectAsStateWithLifecycle()
     val forecastViewState by viewModel.forecastViewState.collectAsStateWithLifecycle()
+    val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle(false)
 
     Surface {
       Box(
@@ -41,11 +46,16 @@ fun NavGraphBuilder.forecastNavScreen() {
           )
           .systemBarsPadding(),
       ) {
-        ForecastScreen(
-          currentWeatherState = currentWeatherViewState,
-          forecastState = forecastViewState,
-          event = viewModel::obtainEvent,
-        )
+        PullToRefreshBox(
+          isRefreshing = isRefreshing,
+          onRefresh = { viewModel.obtainEvent(ForecastScreenViewEvent.Retry) },
+        ) {
+          ForecastScreen(
+            currentWeatherState = currentWeatherViewState,
+            forecastState = forecastViewState,
+            event = viewModel::obtainEvent,
+          )
+        }
       }
     }
   }

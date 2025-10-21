@@ -21,6 +21,7 @@ import gi.aera.ui.navigation.NavigationArgs
 import gi.aera.ui.navigation.Route
 import gi.aera.ui.navigation.SettingType
 import gi.aera.ui.navigation.domain.model.NavigationManager
+import gi.aera.ui.updateLoading
 import gi.aera.weather.feature.forecast.domain.CurrentConditions
 import gi.aera.weather.feature.forecast.domain.CurrentWeatherViewStateFactory
 import gi.aera.weather.feature.forecast.domain.ForecastScreenViewEvent
@@ -35,6 +36,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
@@ -43,7 +45,7 @@ import kotlinx.coroutines.launch
 
 class ForecastViewModel(
   private val permissionsController: PermissionsController,
-  getDefaultLocationUseCase: GetDefaultLocationUseCase,
+  private val getDefaultLocationUseCase: GetDefaultLocationUseCase,
   private val getCurrentWeatherUseCase: GetCurrentWeatherUseCase,
   private val getDailyForecastUseCase: GetDailyForecastUseCase,
   private val currentWeatherViewStateFactory: CurrentWeatherViewStateFactory,
@@ -53,24 +55,19 @@ class ForecastViewModel(
 
   private val permission = Permission.LOCATION
 
-  private val reloadDataTrigger = MutableSharedFlow<Unit>(replay = 1)
-  private val reloadLocationTrigger = MutableSharedFlow<Unit>(replay = 1)
+  private val refreshDataTrigger = MutableSharedFlow<Unit>(replay = 1)
+  private val refreshLocationTrigger = MutableSharedFlow<Unit>(replay = 1)
 
-  private val location = reloadLocationTrigger
+  private val location = refreshLocationTrigger
     .onStart { emit(Unit) }
-    .flatMapLatest {
-      getDefaultLocationUseCase()
-        .transform { locationResult ->
-          when (locationResult) {
-            LocationResult.NotFound -> navigateToSearchLocation(true)
-            LocationResult.PermissionRequired -> provideLocationPermission()
-            is LocationResult.Success -> emit(locationResult.location)
-          }
-        }
-    }
-    .shareIn(viewModelScope, SharingStarted.WhileSubscribed(C.RELOADING_TIMEOUT), replay = 1)
+    .flatMapLatest { getDefaultLocation() }
+    .shareIn(
+      viewModelScope,
+      SharingStarted.WhileSubscribed(C.RELOADING_TIMEOUT),
+      replay = 1,
+    )
 
-  val currentWeatherViewState = reloadDataTrigger
+  val currentWeatherViewState = refreshDataTrigger
     .onStart { emit(Unit) }
     .flatMapLatest { getCurrentWeather() }
     .stateIn(
@@ -79,7 +76,7 @@ class ForecastViewModel(
       LceState.Loading,
     )
 
-  val forecastViewState = reloadDataTrigger
+  val forecastViewState = refreshDataTrigger
     .onStart { emit(Unit) }
     .flatMapLatest { getForecastWeather() }
     .stateIn(
@@ -87,6 +84,9 @@ class ForecastViewModel(
       SharingStarted.WhileSubscribed(C.RELOADING_TIMEOUT),
       LceState.Loading,
     )
+
+  val isRefreshing = currentWeatherViewState
+    .map { it is LceState.Refreshing }
 
   override fun obtainEvent(event: ForecastScreenViewEvent) {
     when (event) {
@@ -98,12 +98,21 @@ class ForecastViewModel(
     }
   }
 
+  private fun getDefaultLocation() = getDefaultLocationUseCase()
+    .transform { locationResult ->
+      when (locationResult) {
+        LocationResult.NotFound -> navigateToSearchLocation(true)
+        LocationResult.PermissionRequired -> provideLocationPermission()
+        is LocationResult.Success -> emit(locationResult.location)
+      }
+    }
+
   private fun getCurrentWeather() = location
     .flatMapLatest { loadCurrentWeatherForLocation(it) }
     .catchLceError()
 
   private fun loadCurrentWeatherForLocation(location: SearchLocation): Flow<LceState<CurrentConditions>> = flow {
-    emit(LceState.Loading)
+    currentWeatherViewState.value.updateLoading { state -> emit(state) }
 
     val currentWeatherState = when (
       val response = getCurrentWeatherUseCase(
@@ -113,7 +122,7 @@ class ForecastViewModel(
       is ApiResponse.Error -> LceState.Error(AppError.from(response))
 
       is ApiResponse.Success<RealtimeWeatherResponse> -> LceState.Content(
-        currentWeatherViewStateFactory.createState(response.data, location),
+        content = currentWeatherViewStateFactory.createState(response.data, location),
       )
     }
 
@@ -125,8 +134,6 @@ class ForecastViewModel(
     .catchLceError()
 
   private fun getForecastForLocation(location: SearchLocation) = flow {
-    emit(LceState.Loading)
-
     val forecastState = when (
       val response = getDailyForecastUseCase(
         location = "${location.latitude}, ${location.longitude}",
@@ -146,15 +153,12 @@ class ForecastViewModel(
       try {
         permissionsController.providePermission(permission)
 
-        reloadLocationTrigger.emit(Unit)
-      } catch (e: DeniedAlwaysException) {
-        e.printStackTrace()
+        refreshLocationTrigger.emit(Unit)
+      } catch (_: DeniedAlwaysException) {
         navigateToSearchLocation(true)
-      } catch (e: DeniedException) {
-        e.printStackTrace()
+      } catch (_: DeniedException) {
         navigateToSearchLocation(true)
-      } catch (e: RequestCanceledException) {
-        e.printStackTrace()
+      } catch (_: RequestCanceledException) {
         navigateToSearchLocation(true)
       }
     }
@@ -162,7 +166,7 @@ class ForecastViewModel(
 
   private fun refreshAllWeatherData() {
     viewModelScope.launch {
-      reloadDataTrigger.emit(Unit)
+      refreshDataTrigger.emit(Unit)
     }
   }
 

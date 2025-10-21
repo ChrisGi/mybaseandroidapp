@@ -10,8 +10,17 @@ import gi.aera.domain.model.AppError
 
 sealed class LceState<out T> {
   data object Loading : LceState<Nothing>()
+  data class Refreshing<T>(val content: T) : LceState<T>()
   data class Content<T>(val content: T) : LceState<T>()
   data class Error(val appError: AppError) : LceState<Nothing>()
+}
+
+suspend fun <T> LceState<T>.updateLoading(block: suspend (content: LceState<T>) -> Unit) {
+  if (this is LceState.Content) {
+    block(LceState.Refreshing(this.content))
+  } else {
+    block(LceState.Loading)
+  }
 }
 
 @Composable
@@ -24,9 +33,8 @@ fun <T> LceViewState(
 ) {
   when (state) {
     is LceState.Loading -> loading()
-
     is LceState.Content -> content(state.content)
-
+    is LceState.Refreshing -> content(state.content)
     is LceState.Error -> errorContent(state.appError)
   }
 }

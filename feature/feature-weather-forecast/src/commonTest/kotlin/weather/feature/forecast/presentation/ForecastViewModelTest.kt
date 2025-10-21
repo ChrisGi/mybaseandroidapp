@@ -10,10 +10,8 @@ import dev.mokkery.MockMode
 import dev.mokkery.annotations.DelicateMokkeryApi
 import dev.mokkery.answering.returns
 import dev.mokkery.answering.throws
-import dev.mokkery.debug.MokkeryCallLogger
 import dev.mokkery.every
 import dev.mokkery.everySuspend
-import dev.mokkery.interceptor.MokkeryCallInterceptor
 import dev.mokkery.matcher.any
 import dev.mokkery.mock
 import dev.mokkery.verify.VerifyMode
@@ -130,7 +128,6 @@ class ForecastViewModelTest : KoinTest {
   @OptIn(DelicateMokkeryApi::class)
   @Test
   fun `when there is no default location, and system location permission is not granted then should ask for permission`() = runTest {
-    MokkeryCallInterceptor.beforeAnswering.register(MokkeryCallLogger())
     val mockPermissionsController = mock<PermissionsController>(MockMode.autoUnit) {
       everySuspend { isPermissionGranted(any()) } returns false
     }
@@ -169,20 +166,21 @@ class ForecastViewModelTest : KoinTest {
   }
 
   @Test
-  fun `when user triggers refresh, loading state is emitted again before content`() = runTest {
+  fun `when user triggers refresh, refreshing state is emitted before content`() = runTest {
     declare { lastLocationRepository }
     declare { defaultLocationRepository }
 
     viewModel.currentWeatherViewState.test {
-      assertEquals(LceState.Loading, awaitItem(), "Initial loading state")
-      val firstContent = awaitItem()
-      assertTrue(firstContent is LceState.Content, "Initial content loaded")
+      assertEquals(LceState.Loading, awaitItem())
+      val currentWeatherStateContent = awaitItem()
+      assertTrue(currentWeatherStateContent is LceState.Content, "Initial content should be loaded")
 
       viewModel.obtainEvent(gi.aera.weather.feature.forecast.domain.ForecastScreenViewEvent.Retry)
 
-      assertEquals(LceState.Loading, awaitItem(), "Loading state should be emitted on refresh")
-      val secondContent = awaitItem()
-      assertTrue(secondContent is LceState.Content, "Content should be loaded after refresh")
+      val refreshingState = awaitItem()
+      assertTrue(refreshingState is LceState.Refreshing)
+      assertEquals(currentWeatherStateContent.content, refreshingState.content, "Content should be loaded alongside refresh")
+      assertTrue(awaitItem() is LceState.Content, "Content should be loaded after refresh")
     }
   }
 
