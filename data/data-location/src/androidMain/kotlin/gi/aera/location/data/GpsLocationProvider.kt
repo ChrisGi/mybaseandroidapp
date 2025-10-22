@@ -14,22 +14,21 @@ class GpsLocationProvider(private val fusedLocationClient: FusedLocationProvider
 
   @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
   fun getLastGpsLocation(): Flow<GpsCoordinates> = callbackFlow {
-    try {
-      fusedLocationClient.lastLocation
-        .addOnSuccessListener { location ->
-          if (location == null) {
-            close(LocationNotFoundException())
-          } else {
-            trySend(GpsCoordinates(location.latitude, location.longitude))
-            close()
-          }
+    fusedLocationClient.lastLocation
+      .addOnSuccessListener { location ->
+        if (location == null) {
+          close(LocationNotFoundException())
+        } else {
+          trySend(GpsCoordinates(location.latitude, location.longitude))
+          close()
         }
-        .addOnFailureListener { exception ->
-          close(exception)
+      }
+      .addOnFailureListener { exception ->
+        when (exception) {
+          is SecurityException -> close(PermissionException())
+          else -> close(exception)
         }
-    } catch (_: SecurityException) {
-      close(PermissionException())
-    }
+      }
 
     awaitClose()
   }
