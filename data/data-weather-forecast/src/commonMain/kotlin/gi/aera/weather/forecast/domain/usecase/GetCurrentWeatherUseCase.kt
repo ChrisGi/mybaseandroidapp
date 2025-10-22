@@ -15,8 +15,8 @@ class GetCurrentWeatherUseCase internal constructor(
   private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
 
-  suspend operator fun invoke(location: String) = withContext(dispatcher) {
+  suspend operator fun invoke(location: String, forceRefresh: Boolean = false) = withContext(dispatcher) {
     val units = getUnitSettingsUseCase().first()
-    forecastRepository.realtimeWeather(ForecastParams(location, units))
+    forecastRepository.realtimeWeather(ForecastParams(location, units, forceRefresh))
   }
 }

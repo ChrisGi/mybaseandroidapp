@@ -1,6 +1,7 @@
 package gi.aera.weather.forecast.data
 
 import ForecastDailyResponse
+import gi.aera.network.cache.applyCacheControl
 import gi.aera.network.domain.apiRequest
 import gi.aera.network.domain.map
 import gi.aera.weather.forecast.domain.model.ForecastHourlyResponse
@@ -19,7 +20,9 @@ internal class ForecastApi(private val httpClient: HttpClient) {
         location = params.location,
         units = params.units.name.lowercase(),
       ),
-    )
+    ) {
+      applyCacheControl(params.forceFreshData)
+    }
   }.map { it.copy(unitSystem = params.units) }
 
   suspend fun forecastDaily(params: ForecastParams) = apiRequest<ForecastDailyResponse> {
@@ -29,7 +32,9 @@ internal class ForecastApi(private val httpClient: HttpClient) {
         timesteps = "1d",
         units = params.units.name.lowercase(),
       ),
-    )
+    ) {
+      applyCacheControl(params.forceFreshData)
+    }
   }.map { it.copy(unitSystem = params.units) }
 
   suspend fun forecastHourly(params: ForecastParams) = apiRequest<ForecastHourlyResponse> {
@@ -39,6 +44,8 @@ internal class ForecastApi(private val httpClient: HttpClient) {
         timesteps = "1h",
         units = params.units.name.lowercase(),
       ),
-    )
+    ) {
+      applyCacheControl(params.forceFreshData)
+    }
   }.map { it.copy(unitSystem = params.units) }
 }

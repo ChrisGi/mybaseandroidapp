@@ -55,7 +55,7 @@ class ForecastViewModel(
 
   private val permission = Permission.LOCATION
 
-  private val refreshDataTrigger = MutableSharedFlow<Unit>(replay = 1)
+  private val refreshDataTrigger = MutableSharedFlow<Boolean>(replay = 1)
   private val refreshLocationTrigger = MutableSharedFlow<Unit>(replay = 1)
 
   private val location = refreshLocationTrigger
@@ -68,8 +68,8 @@ class ForecastViewModel(
     )
 
   val currentWeatherViewState = refreshDataTrigger
-    .onStart { emit(Unit) }
-    .flatMapLatest { getCurrentWeather() }
+    .onStart { emit(false) }
+    .flatMapLatest { forceRefresh -> getCurrentWeather(forceRefresh) }
     .stateIn(
       viewModelScope,
       SharingStarted.WhileSubscribed(C.RELOADING_TIMEOUT),
@@ -77,8 +77,8 @@ class ForecastViewModel(
     )
 
   val forecastViewState = refreshDataTrigger
-    .onStart { emit(Unit) }
-    .flatMapLatest { getForecastWeather() }
+    .onStart { emit(false) }
+    .flatMapLatest { forceRefresh -> getForecastWeather(forceRefresh) }
     .stateIn(
       viewModelScope,
       SharingStarted.WhileSubscribed(C.RELOADING_TIMEOUT),
@@ -107,16 +107,17 @@ class ForecastViewModel(
       }
     }
 
-  private fun getCurrentWeather() = location
-    .flatMapLatest { loadCurrentWeatherForLocation(it) }
+  private fun getCurrentWeather(forceRefresh: Boolean) = location
+    .flatMapLatest { loadCurrentWeatherForLocation(it, forceRefresh) }
     .catchLceError()
 
-  private fun loadCurrentWeatherForLocation(location: SearchLocation): Flow<LceState<CurrentConditions>> = flow {
+  private fun loadCurrentWeatherForLocation(location: SearchLocation, forceRefresh: Boolean): Flow<LceState<CurrentConditions>> = flow {
     currentWeatherViewState.value.updateLoading { state -> emit(state) }
 
     val currentWeatherState = when (
       val response = getCurrentWeatherUseCase(
         location = "${location.latitude}, ${location.longitude}",
+        forceRefresh = forceRefresh,
       )
     ) {
       is ApiResponse.Error -> LceState.Error(AppError.from(response))
@@ -129,14 +130,15 @@ class ForecastViewModel(
     emit(currentWeatherState)
   }
 
-  private fun getForecastWeather() = location
-    .flatMapLatest { getForecastForLocation(it) }
+  private fun getForecastWeather(forceRefresh: Boolean) = location
+    .flatMapLatest { getForecastForLocation(it, forceRefresh) }
     .catchLceError()
 
-  private fun getForecastForLocation(location: SearchLocation) = flow {
+  private fun getForecastForLocation(location: SearchLocation, forceRefresh: Boolean) = flow {
     val forecastState = when (
       val response = getDailyForecastUseCase(
         location = "${location.latitude}, ${location.longitude}",
+        forceRefresh = forceRefresh,
       )
     ) {
       is ApiResponse.Error -> LceState.Error(AppError.from(response))
@@ -166,7 +168,7 @@ class ForecastViewModel(
 
   private fun refreshAllWeatherData() {
     viewModelScope.launch {
-      refreshDataTrigger.emit(Unit)
+      refreshDataTrigger.emit(true)
     }
   }
 
