@@ -1,6 +1,6 @@
 package gi.aera.location.domain.usecase
 
-import gi.aera.location.data.LocationRepository
+import gi.aera.location.domain.model.GpsLocationRepository
 import gi.aera.location.domain.model.LocationSource
 import gi.aera.location.domain.model.SearchLocation
 import kotlinx.coroutines.CoroutineDispatcher
@@ -11,13 +11,13 @@ import kotlinx.coroutines.withContext
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-class GetLastGpsLocationUseCase internal constructor(
-  private val locationRepository: LocationRepository,
+class GetLastGpsLocationUseCase(
+  private val gpsLocationRepository: GpsLocationRepository,
   private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
 
   suspend operator fun invoke(): SearchLocation = withContext(dispatcher) {
-    val gpsCoordinates = locationRepository.getLastGpsLocation().first()
+    val gpsCoordinates = gpsLocationRepository.getLastGpsLocation().first()
     return@withContext SearchLocation(
       PLACE_ID,
       null,

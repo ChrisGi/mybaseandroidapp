@@ -16,9 +16,10 @@ import dev.mokkery.matcher.any
 import dev.mokkery.mock
 import dev.mokkery.verify.VerifyMode
 import dev.mokkery.verifySuspend
-import gi.aera.location.data.LocationRepository
+import gi.aera.common.dispatchers.IoDispatcher
 import gi.aera.location.domain.model.DefaultLocationRepository
 import gi.aera.location.domain.model.GpsCoordinates
+import gi.aera.location.domain.model.GpsLocationRepository
 import gi.aera.location.domain.model.LocationNotFoundException
 import gi.aera.location.domain.model.LocationResult
 import gi.aera.location.domain.model.PermissionException
@@ -28,17 +29,18 @@ import gi.aera.ui.navigation.Route
 import gi.aera.ui.navigation.domain.model.NavigationManager
 import gi.aera.ui.navigation.domain.model.SystemNavigation
 import gi.aera.weather.feature.forecast.presentation.ForecastViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.core.parameter.parametersOf
+import org.koin.core.qualifier.named
 import org.koin.test.KoinTest
 import org.koin.test.inject
 import org.koin.test.mock.declare
@@ -54,12 +56,12 @@ import kotlin.test.assertTrue
 
 class ForecastViewModelTest : KoinTest {
 
-  private val testDispatcher = StandardTestDispatcher()
+  private val testDispatcher: CoroutineDispatcher by inject(named(IoDispatcher))
 
   private val permissionsController: PermissionsController = mock(MockMode.autoUnit) {
     everySuspend { isPermissionGranted(any()) } returns true
   }
-  private val lastLocationRepository: LocationRepository = mock {
+  private val lastGpsLocationRepository: GpsLocationRepository = mock {
     everySuspend { getLastGpsLocation() } returns flowOf(GpsCoordinates(1.0, 1.0))
   }
   private val defaultLocationRepository: DefaultLocationRepository = mock(MockMode.autoUnit) {
@@ -74,8 +76,6 @@ class ForecastViewModelTest : KoinTest {
   @OptIn(ExperimentalCoroutinesApi::class)
   @BeforeTest
   fun setup() {
-    Dispatchers.setMain(testDispatcher)
-
     startKoin {
       modules(
         featureModules,
@@ -85,6 +85,8 @@ class ForecastViewModelTest : KoinTest {
 
     declare { systemSettingNavigation }
     declare { navigationManager }
+
+    Dispatchers.setMain(testDispatcher)
   }
 
   @OptIn(ExperimentalCoroutinesApi::class)
@@ -96,7 +98,7 @@ class ForecastViewModelTest : KoinTest {
 
   @Test
   fun `when start collecting, loading state is emitted and then weather content is loaded`() = runTest {
-    declare { lastLocationRepository }
+    declare { lastGpsLocationRepository }
     declare { defaultLocationRepository }
 
     viewModel.currentWeatherViewState.test {
@@ -110,12 +112,12 @@ class ForecastViewModelTest : KoinTest {
     val mockDefaultLocationRepository: DefaultLocationRepository = mock(MockMode.autoUnit) {
       every { getLocation() } returns flow { throw LocationNotFoundException() }
     }
-    val mockLocationRepository = mock<LocationRepository> {
+    val mockGpsLocationRepository = mock<GpsLocationRepository> {
       everySuspend { getLastGpsLocation() } throws PermissionException()
     }
 
     declare { mockDefaultLocationRepository }
-    declare { mockLocationRepository }
+    declare { mockGpsLocationRepository }
 
     val getDefaultLocationUseCase: GetDefaultLocationUseCase by inject()
 
@@ -136,7 +138,7 @@ class ForecastViewModelTest : KoinTest {
     }
 
     var locationCallCount = 0
-    val mockLocationRepository = mock<LocationRepository> {
+    val mockGpsLocationRepository = mock<GpsLocationRepository> {
       everySuspend { getLastGpsLocation() } returns flow {
         locationCallCount++
         if (locationCallCount == 1) {
@@ -147,7 +149,7 @@ class ForecastViewModelTest : KoinTest {
       }
     }
 
-    declare { mockLocationRepository }
+    declare { mockGpsLocationRepository }
     declare { mockDefaultLocationRepository }
 
     val testViewModel: ForecastViewModel by inject { parametersOf(mockPermissionsController) }
@@ -167,7 +169,7 @@ class ForecastViewModelTest : KoinTest {
 
   @Test
   fun `when user triggers refresh, refreshing state is emitted before content`() = runTest {
-    declare { lastLocationRepository }
+    declare { lastGpsLocationRepository }
     declare { defaultLocationRepository }
 
     viewModel.currentWeatherViewState.test {
@@ -195,14 +197,14 @@ class ForecastViewModelTest : KoinTest {
       every { getLocation() } returns flow { throw LocationNotFoundException() }
     }
 
-    val mockLocationRepository = mock<LocationRepository> {
+    val mockGpsLocationRepository = mock<GpsLocationRepository> {
       everySuspend { getLastGpsLocation() } throws PermissionException()
     }
     val navigatorManager = FakeNavigatorManager()
 
     declare<NavigationManager> { navigatorManager }
     declare { mockPermissionsController }
-    declare { mockLocationRepository }
+    declare { mockGpsLocationRepository }
     declare { mockDefaultLocationRepository }
 
     val testViewModel: ForecastViewModel by inject { parametersOf(mockPermissionsController) }
@@ -224,7 +226,7 @@ class ForecastViewModelTest : KoinTest {
       every { getLocation() } returns flow { throw LocationNotFoundException() }
     }
 
-    val mockLocationRepository = mock<LocationRepository> {
+    val mockGpsLocationRepository = mock<GpsLocationRepository> {
       everySuspend { getLastGpsLocation() } throws PermissionException()
     }
 
@@ -232,7 +234,7 @@ class ForecastViewModelTest : KoinTest {
 
     declare<NavigationManager> { navigatorManager }
     declare { mockPermissionsController }
-    declare { mockLocationRepository }
+    declare { mockGpsLocationRepository }
     declare { mockDefaultLocationRepository }
 
     val testViewModel: ForecastViewModel by inject { parametersOf(mockPermissionsController) }

@@ -1,5 +1,6 @@
 package weather.feature.forecast.domain
 
+import gi.aera.common.dispatchers.IoDispatcher
 import gi.aera.domain.model.successData
 import gi.aera.ui.C.DEFAULT_UI_VALUE
 import gi.aera.ui.text.UiString
@@ -8,15 +9,20 @@ import gi.aera.weather.Res
 import gi.aera.weather.domain.model.UnitSystemValues
 import gi.aera.weather.domain.model.WeatherCode
 import gi.aera.weather.feature.forecast.domain.CurrentWeatherViewStateFactory
-import gi.aera.weather.forecast.data.FakeInvalidValuesForecastRepositoryImpl
 import gi.aera.weather.forecast.data.ForecastRepository
+import gi.aera.weather.forecast.data.StubInvalidValuesForecastRepositoryImpl
 import gi.aera.weather.forecast.domain.usecase.GetCurrentWeatherUseCase
 import gi.aera.weather.weather_condition_wind
 import gi.aera.weather.weather_temperature_apparent
 import gi.aera.weather.wind
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
+import org.koin.core.qualifier.named
 import org.koin.test.KoinTest
 import org.koin.test.inject
 import org.koin.test.mock.declare
@@ -32,6 +38,8 @@ import kotlin.test.assertTrue
 
 class CurrentWeatherViewStateFactoryTest : KoinTest {
 
+  private val testDispatcher: CoroutineDispatcher by inject(named(IoDispatcher))
+
   private val currentWeatherViewStateFactory by inject<CurrentWeatherViewStateFactory>()
   private val getCurrentWeatherUseCase by inject<GetCurrentWeatherUseCase>()
 
@@ -43,11 +51,14 @@ class CurrentWeatherViewStateFactoryTest : KoinTest {
         testModule,
       )
     }
+
+    Dispatchers.setMain(testDispatcher)
   }
 
   @AfterTest
   fun tearDown() {
     stopKoin()
+    Dispatchers.resetMain()
   }
 
   @Test
@@ -71,7 +82,7 @@ class CurrentWeatherViewStateFactoryTest : KoinTest {
   @Test
   fun `should return default when condition is not available`() = runTest {
     declare<ForecastRepository> {
-      FakeInvalidValuesForecastRepositoryImpl()
+      StubInvalidValuesForecastRepositoryImpl()
     }
     val responseData = getCurrentWeatherUseCase(CITY).successData()
 
@@ -101,7 +112,7 @@ class CurrentWeatherViewStateFactoryTest : KoinTest {
   @Test
   fun `should return empty when temperature apparent is not available`() = runTest {
     declare<ForecastRepository> {
-      FakeInvalidValuesForecastRepositoryImpl()
+      StubInvalidValuesForecastRepositoryImpl()
     }
     val responseData = getCurrentWeatherUseCase(CITY).successData()
 
@@ -128,7 +139,7 @@ class CurrentWeatherViewStateFactoryTest : KoinTest {
   @Test
   fun `should return unknown condition icon when weather code is not known`() = runTest {
     declare<ForecastRepository> {
-      FakeInvalidValuesForecastRepositoryImpl()
+      StubInvalidValuesForecastRepositoryImpl()
     }
     val responseData = getCurrentWeatherUseCase(CITY).successData()
 
@@ -155,7 +166,7 @@ class CurrentWeatherViewStateFactoryTest : KoinTest {
   @Test
   fun `should return empty condition title when weather code is not known`() = runTest {
     declare<ForecastRepository> {
-      FakeInvalidValuesForecastRepositoryImpl()
+      StubInvalidValuesForecastRepositoryImpl()
     }
     val responseData = getCurrentWeatherUseCase(CITY).successData()
 

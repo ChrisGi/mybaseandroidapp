@@ -7,7 +7,7 @@ import gi.aera.weather.forecast.domain.model.ForecastParams
 import gi.aera.weather.forecast.domain.model.RealtimeWeatherResponse
 import kotlinx.serialization.json.Json
 
-class FakeForecastRepositoryImpl : ForecastRepository {
+class StubForecastRepositoryImpl : ForecastRepository {
 
   override suspend fun realtimeWeather(params: ForecastParams): ApiResponse<RealtimeWeatherResponse> {
     val json = "{\n" +

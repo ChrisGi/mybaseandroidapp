@@ -51,6 +51,7 @@ kotlin {
         implementation(project(":data-weather-forecast"))
         implementation(project(":data-location"))
         implementation(project(":data-app-settings"))
+        implementation(project(":common"))
 
         api(project(":ui"))
         api(project(":network"))
