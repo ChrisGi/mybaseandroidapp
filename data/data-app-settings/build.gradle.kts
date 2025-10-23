@@ -45,6 +45,7 @@ kotlin {
     commonMain {
       dependencies {
         implementation(project(":preferences"))
+        implementation(project(":common"))
 
         implementation(libs.kotlin.stdlib)
 

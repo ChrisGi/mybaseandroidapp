@@ -7,7 +7,7 @@ plugins {
 kotlin {
 
   androidLibrary {
-    namespace = "gi.aera.weather.data.forecast"
+    namespace = "gi.aera.common"
     compileSdk = AndroidConfig.COMPILE_SDK
     minSdk = AndroidConfig.MIN_SDK
 
@@ -21,7 +21,7 @@ kotlin {
     }
   }
 
-  val xcfName = "weather-forecastKit"
+  val xcfName = "domainKit"
 
   iosX64 {
     binaries.framework {
@@ -44,20 +44,11 @@ kotlin {
   sourceSets {
     commonMain {
       dependencies {
-        implementation(project(":network"))
-        implementation(project(":data-app-settings"))
-        implementation(project(":domain"))
-        implementation(project(":common"))
+        api(libs.ktor.serialization.kotlinx.json)
 
         implementation(libs.kotlin.stdlib)
 
-        implementation(libs.ktor.client.core)
-        implementation(libs.ktor.client.resources)
-        implementation(libs.ktor.client.content.negotiation)
-        implementation(libs.ktor.serialization.kotlinx.json)
-
         implementation(libs.koin.core)
-        implementation(libs.koin.test)
       }
     }
 
@@ -87,5 +78,4 @@ kotlin {
       }
     }
   }
-
 }

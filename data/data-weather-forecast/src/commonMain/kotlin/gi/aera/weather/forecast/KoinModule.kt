@@ -1,5 +1,6 @@
 package gi.aera.weather.forecast
 
+import gi.aera.common.dispatchers.IoDispatcher
 import gi.aera.network.WEATHER_HTTP_CLIENT
 import gi.aera.weather.forecast.data.ForecastApi
 import gi.aera.weather.forecast.data.ForecastRepository
@@ -14,6 +15,6 @@ import org.koin.dsl.module
 val weatherForecastDataModule = module {
   single { ForecastApi(get(named(WEATHER_HTTP_CLIENT))) }
   singleOf(::ForecastRepositoryImpl) bind ForecastRepository::class
-  single { GetDailyForecastUseCase(get(), get()) }
-  single { GetCurrentWeatherUseCase(get(), get()) }
+  single { GetDailyForecastUseCase(get(), get(), get(named(IoDispatcher))) }
+  single { GetCurrentWeatherUseCase(get(), get(), get(named(IoDispatcher))) }
 }

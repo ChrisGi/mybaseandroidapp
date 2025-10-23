@@ -1,5 +1,6 @@
 package gi.aera.location
 
+import gi.aera.common.dispatchers.IoDispatcher
 import gi.aera.location.data.DefaultLocationRepositoryImpl
 import gi.aera.location.data.LocationApi
 import gi.aera.location.data.SaveLocationRepository
@@ -25,19 +26,19 @@ val locationModule = module {
 
   single { LocationApi(get(named(LOCATION_HTTP_CLIENT))) }
   singleOf(::SearchLocationRepository)
-  single { SearchLocationUseCase(get()) }
+  single { SearchLocationUseCase(get(), get(named(IoDispatcher))) }
 
   singleOf(::SaveLocationRepository)
-  single { SaveLocationUseCase(get()) }
-  single { GetSavedLocationUseCase(get()) }
-  single { RemoveSavedLocationUseCase(get(), get()) }
+  single { SaveLocationUseCase(get(), get(named(IoDispatcher))) }
+  single { GetSavedLocationUseCase(get(), get(named(IoDispatcher))) }
+  single { RemoveSavedLocationUseCase(get(), get(), get(named(IoDispatcher))) }
 
   singleOf(::DefaultLocationRepositoryImpl) bind DefaultLocationRepository::class
-  single { SaveDefaultLocationUseCase(get()) }
-  single { GetDefaultLocationUseCase(get(), get()) }
-  single { RemoveDefaultLocationUseCase(get()) }
+  single { SaveDefaultLocationUseCase(get(), get(named(IoDispatcher))) }
+  single { GetDefaultLocationUseCase(get(), get(), get(named(IoDispatcher))) }
+  single { RemoveDefaultLocationUseCase(get(), get(named(IoDispatcher))) }
 
-  factory { GetLastGpsLocationUseCase(get()) }
+  factory { GetLastGpsLocationUseCase(get(), get(named(IoDispatcher))) }
 }
 
 expect val platformModule: Module

@@ -1,6 +1,7 @@
 package gi.aera.shared.di
 
 import gi.aera.appsettings.appSettingsDataModule
+import gi.aera.common.dispatchers.dispatchersKoinModule
 import gi.aera.feature.settings.appSettingsFeatureModule
 import gi.aera.location.locationModule
 import gi.aera.network.networkModule
@@ -16,6 +17,7 @@ val appModules = listOf(
   locationModule,
   preferencesModule,
   navigationModule,
+  dispatchersKoinModule,
 
   weatherForecastDataModule,
   appSettingsDataModule,

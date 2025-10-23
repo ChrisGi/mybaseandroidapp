@@ -45,6 +45,7 @@ kotlin {
         api(project(":network"))
         api(project(":ui"))
         api(project(":preferences"))
+        api(project(":common"))
 
         api(project(":data-weather-forecast"))
         api(project(":data-location"))
