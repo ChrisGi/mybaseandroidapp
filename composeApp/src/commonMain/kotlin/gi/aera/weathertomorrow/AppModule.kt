@@ -1,4 +1,4 @@
-package gi.aera.shared.di
+package gi.aera.weathertomorrow
 
 import gi.aera.appsettings.appSettingsDataModule
 import gi.aera.common.dispatchers.dispatchersKoinModule

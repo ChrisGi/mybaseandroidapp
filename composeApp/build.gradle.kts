@@ -37,7 +37,20 @@ kotlin {
       implementation(libs.koin.android)
     }
     commonMain.dependencies {
-      implementation(project(":shared"))
+      implementation(project(":network"))
+      implementation(project(":ui"))
+      implementation(project(":preferences"))
+      implementation(project(":common"))
+
+      implementation(project(":data-weather-forecast"))
+      implementation(project(":data-location"))
+      implementation(project(":data-app-settings"))
+
+      implementation(project(":feature-weather-forecast"))
+      implementation(project(":feature-search-location"))
+      implementation(project(":feature-weather-components"))
+      implementation(project(":feature-app-settings"))
+
 
       implementation(libs.koin.core)
       implementation(libs.koin.compose)
