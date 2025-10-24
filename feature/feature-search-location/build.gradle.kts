@@ -47,13 +47,12 @@ kotlin {
   sourceSets {
     commonMain {
       dependencies {
+        implementation(project(":ui"))
+        implementation(project(":common"))
+
         implementation(project(":data-location"))
         implementation(project(":data-weather-forecast"))
         implementation(project(":data-app-settings"))
-
-        implementation(project(":ui"))
-        implementation(project(":network"))
-        implementation(project(":domain"))
 
         implementation(project(":feature-weather-components"))
 

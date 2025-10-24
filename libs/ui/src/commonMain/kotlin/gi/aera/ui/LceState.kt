@@ -6,7 +6,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import gi.aera.domain.model.AppError
+import gi.aera.common.model.AppError
 
 sealed class LceState<out T> {
   data object Loading : LceState<Nothing>()

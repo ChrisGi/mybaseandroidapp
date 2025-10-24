@@ -1,6 +1,6 @@
 package gi.aera.location.data
 
-import gi.aera.domain.model.ApiResponse
+import gi.aera.common.model.ApiResponse
 import gi.aera.location.domain.model.SearchLocationRepository
 
 internal class SearchLocationRepositoryImpl(

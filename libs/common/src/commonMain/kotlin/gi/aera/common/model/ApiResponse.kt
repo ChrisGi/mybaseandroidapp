@@ -1,4 +1,4 @@
-package gi.aera.domain.model
+package gi.aera.common.model
 
 sealed class ApiResponse<out T> {
 

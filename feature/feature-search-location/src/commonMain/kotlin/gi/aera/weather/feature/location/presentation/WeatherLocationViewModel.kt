@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.PermissionsController
 import dev.icerock.moko.permissions.location.LOCATION
-import gi.aera.domain.model.ApiResponse
-import gi.aera.domain.model.AppError
+import gi.aera.common.model.ApiResponse
+import gi.aera.common.model.AppError
 import gi.aera.location.domain.model.LocationSource
 import gi.aera.location.domain.model.SearchLocation
 import gi.aera.location.domain.usecase.GetLastGpsLocationUseCase
@@ -21,8 +21,8 @@ import gi.aera.ui.LceState
 import gi.aera.ui.navigation.SettingType
 import gi.aera.ui.navigation.domain.model.NavigationManager
 import gi.aera.weather.feature.location.domain.WeatherLocationEvent
-import gi.aera.weather.feature.location.domain.WeatherLocationStateFactory
 import gi.aera.weather.feature.location.domain.WeatherLocationState
+import gi.aera.weather.feature.location.domain.WeatherLocationStateFactory
 import gi.aera.weather.forecast.domain.model.RealtimeWeatherResponse
 import gi.aera.weather.forecast.domain.usecase.GetCurrentWeatherUseCase
 import kotlinx.coroutines.flow.MutableStateFlow

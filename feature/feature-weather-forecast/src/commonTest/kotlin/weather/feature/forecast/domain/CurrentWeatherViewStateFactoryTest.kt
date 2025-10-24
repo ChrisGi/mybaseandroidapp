@@ -1,7 +1,7 @@
 package weather.feature.forecast.domain
 
 import gi.aera.common.dispatchers.IoDispatcher
-import gi.aera.domain.model.successData
+import gi.aera.common.model.successData
 import gi.aera.ui.C.DEFAULT_UI_VALUE
 import gi.aera.ui.text.UiString
 import gi.aera.ui.text.getText

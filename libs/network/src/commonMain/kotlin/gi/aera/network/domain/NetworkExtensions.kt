@@ -1,6 +1,6 @@
 package gi.aera.network.domain
 
-import gi.aera.domain.model.ApiResponse
+import gi.aera.common.model.ApiResponse
 import io.ktor.client.call.body
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.HttpRequestTimeoutException

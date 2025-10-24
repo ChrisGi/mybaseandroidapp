@@ -9,8 +9,8 @@ import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.PermissionsController
 import dev.icerock.moko.permissions.RequestCanceledException
 import dev.icerock.moko.permissions.location.LOCATION
-import gi.aera.domain.model.ApiResponse
-import gi.aera.domain.model.AppError
+import gi.aera.common.model.ApiResponse
+import gi.aera.common.model.AppError
 import gi.aera.location.domain.model.LocationResult
 import gi.aera.location.domain.model.SearchLocation
 import gi.aera.location.domain.usecase.GetDefaultLocationUseCase

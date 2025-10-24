@@ -47,11 +47,11 @@ kotlin {
   sourceSets {
     commonMain {
       dependencies {
+        implementation(project(":ui"))
+        implementation(project(":common"))
+
         implementation(project(":data-app-settings"))
         implementation(project(":data-location"))
-        implementation(project(":ui"))
-        implementation(project(":network"))
-        implementation(project(":domain"))
 
         implementation(libs.kotlin.stdlib)
 

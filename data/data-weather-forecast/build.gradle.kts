@@ -45,9 +45,9 @@ kotlin {
     commonMain {
       dependencies {
         implementation(project(":network"))
-        implementation(project(":data-app-settings"))
-        implementation(project(":domain"))
         implementation(project(":common"))
+
+        implementation(project(":data-app-settings"))
 
         implementation(libs.kotlin.stdlib)
 

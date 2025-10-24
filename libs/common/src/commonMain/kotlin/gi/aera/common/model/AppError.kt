@@ -1,4 +1,4 @@
-package gi.aera.domain.model
+package gi.aera.common.model
 
 sealed interface AppError {
   data class BusinessError(val message: String?) : AppError

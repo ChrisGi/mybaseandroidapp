@@ -1,6 +1,6 @@
 package gi.aera.network.domain
 
-import gi.aera.domain.model.ApiResponse
+import gi.aera.common.model.ApiResponse
 import java.io.IOException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException

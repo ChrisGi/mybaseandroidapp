@@ -19,7 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
-import gi.aera.domain.model.AppError
+import gi.aera.common.model.AppError
 import gi.aera.ui.text.UiString
 import gi.aera.weather.Res
 import gi.aera.weather.error_fatal

@@ -31,7 +31,6 @@
             <option value="$PROJECT_DIR$/feature/feature-weather-components" />
             <option value="$PROJECT_DIR$/feature/feature-weather-forecast" />
             <option value="$PROJECT_DIR$/libs/common" />
-            <option value="$PROJECT_DIR$/libs/domain" />
             <option value="$PROJECT_DIR$/libs/network" />
             <option value="$PROJECT_DIR$/libs/preferences" />
             <option value="$PROJECT_DIR$/libs/ui" />

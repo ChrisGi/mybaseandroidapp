@@ -76,7 +76,7 @@ kotlin {
   sourceSets {
     commonMain {
       dependencies {
-        implementation(project(":domain"))
+        implementation(project(":common"))
 
         implementation(libs.kotlin.stdlib)
 
