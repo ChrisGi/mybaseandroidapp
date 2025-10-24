@@ -1,9 +1,9 @@
 package gi.aera.weather.forecast.data
 
 import ForecastDailyResponse
+import gi.aera.common.model.map
 import gi.aera.network.cache.applyCacheControl
 import gi.aera.network.domain.apiRequest
-import gi.aera.network.domain.map
 import gi.aera.weather.forecast.domain.model.ForecastHourlyResponse
 import gi.aera.weather.forecast.domain.model.ForecastParams
 import gi.aera.weather.forecast.domain.model.ForecastResource

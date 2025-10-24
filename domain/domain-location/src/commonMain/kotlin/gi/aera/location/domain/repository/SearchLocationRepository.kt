@@ -1,7 +1,7 @@
-package gi.aera.location.domain.model
+package gi.aera.location.domain.repository
 
 import gi.aera.common.model.ApiResponse
-import gi.aera.location.data.LocationSearchResponse
+import gi.aera.location.domain.model.LocationSearchResponse
 
 interface SearchLocationRepository {
 

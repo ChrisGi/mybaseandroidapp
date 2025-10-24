@@ -2,7 +2,7 @@ package gi.aera.location.data
 
 import android.Manifest
 import androidx.annotation.RequiresPermission
-import gi.aera.location.domain.model.GpsLocationRepository
+import gi.aera.location.domain.repository.GpsLocationRepository
 
 internal actual class GpsLocationRepositoryImpl(private val locationProvider: GpsLocationProvider) : GpsLocationRepository {
 

@@ -48,6 +48,8 @@ kotlin {
         implementation(project(":preferences"))
         implementation(project(":common"))
 
+        api(project(":domain-location"))
+
         implementation(libs.kotlin.stdlib)
 
         implementation(libs.kotlinx.coroutines.core)

@@ -1,9 +1,9 @@
 package gi.aera.location.domain.usecase
 
-import gi.aera.location.domain.model.DefaultLocationRepository
 import gi.aera.location.domain.model.LocationNotFoundException
 import gi.aera.location.domain.model.LocationResult
 import gi.aera.location.domain.model.PermissionException
+import gi.aera.location.domain.repository.DefaultLocationRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO

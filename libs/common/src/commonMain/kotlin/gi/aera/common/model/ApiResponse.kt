@@ -25,3 +25,10 @@ fun <T> ApiResponse<T>.successData() = when (this) {
   is ApiResponse.Success<*> -> data as T
   is ApiResponse.Error -> error("Error response")
 }
+
+inline fun <T, S> ApiResponse<T>.map(crossinline mapper: (T) -> S): ApiResponse<S> {
+  return when (this) {
+    is ApiResponse.Error -> this
+    is ApiResponse.Success<*> -> mapper(data as T).let { ApiResponse.Success(it) }
+  }
+}

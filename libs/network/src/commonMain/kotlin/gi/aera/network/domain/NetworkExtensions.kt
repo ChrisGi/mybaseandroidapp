@@ -29,10 +29,3 @@ suspend inline fun <reified T> apiRequest(
   } catch (e: Exception) {
     mapException(e)
   }
-
-inline fun <T, S> ApiResponse<T>.map(crossinline mapper: (T) -> S): ApiResponse<S> {
-  return when (this) {
-    is ApiResponse.Error -> this
-    is ApiResponse.Success<*> -> mapper(data as T).let { ApiResponse.Success(it) }
-  }
-}

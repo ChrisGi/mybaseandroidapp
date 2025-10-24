@@ -1,7 +1,9 @@
 package gi.aera.location.data
 
 import gi.aera.common.model.ApiResponse
-import gi.aera.location.domain.model.SearchLocationRepository
+import gi.aera.location.source.LocationApi
+import gi.aera.location.domain.model.LocationSearchResponse
+import gi.aera.location.domain.repository.SearchLocationRepository
 
 internal class SearchLocationRepositoryImpl(
   private val locationApi: LocationApi,

@@ -1,6 +1,6 @@
-package gi.aera.location.data
+package gi.aera.location.source
 
-import gi.aera.location.domain.model.LocationResource
+import gi.aera.location.domain.model.LocationSearchResponse
 import gi.aera.network.domain.apiRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.resources.get

@@ -1,6 +1,6 @@
 package gi.aera.location.domain.usecase
 
-import gi.aera.location.domain.model.DefaultLocationRepository
+import gi.aera.location.domain.repository.DefaultLocationRepository
 import gi.aera.location.domain.model.SearchLocation
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

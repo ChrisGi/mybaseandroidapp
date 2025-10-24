@@ -4,8 +4,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import gi.aera.location.domain.model.DefaultLocationRepository
 import gi.aera.location.domain.model.LocationNotFoundException
+import gi.aera.location.domain.repository.DefaultLocationRepository
 import gi.aera.location.domain.model.SearchLocation
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

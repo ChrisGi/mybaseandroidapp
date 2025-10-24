@@ -1,4 +1,4 @@
-package gi.aera.location.domain.model
+package gi.aera.location.source
 
 import io.ktor.resources.Resource
 

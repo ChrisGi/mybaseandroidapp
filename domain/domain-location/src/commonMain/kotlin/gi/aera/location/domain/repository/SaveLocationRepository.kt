@@ -1,5 +1,6 @@
-package gi.aera.location.domain.model
+package gi.aera.location.domain.repository
 
+import gi.aera.location.domain.model.SearchLocation
 import kotlinx.coroutines.flow.Flow
 
 interface SaveLocationRepository {

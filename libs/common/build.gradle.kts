@@ -5,7 +5,7 @@ plugins {
 }
 
 kotlin {
-
+  jvm()
   androidLibrary {
     namespace = "gi.aera.common"
     compileSdk = AndroidConfig.COMPILE_SDK

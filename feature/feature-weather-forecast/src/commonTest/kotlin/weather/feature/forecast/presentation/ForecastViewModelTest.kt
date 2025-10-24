@@ -17,9 +17,9 @@ import dev.mokkery.mock
 import dev.mokkery.verify.VerifyMode
 import dev.mokkery.verifySuspend
 import gi.aera.common.dispatchers.IoDispatcher
-import gi.aera.location.domain.model.DefaultLocationRepository
+import gi.aera.location.domain.repository.DefaultLocationRepository
 import gi.aera.location.domain.model.GpsCoordinates
-import gi.aera.location.domain.model.GpsLocationRepository
+import gi.aera.location.domain.repository.GpsLocationRepository
 import gi.aera.location.domain.model.LocationNotFoundException
 import gi.aera.location.domain.model.LocationResult
 import gi.aera.location.domain.model.PermissionException

@@ -2,7 +2,7 @@ package gi.aera.location
 
 import com.google.android.gms.location.LocationServices
 import gi.aera.location.data.GpsLocationProvider
-import gi.aera.location.domain.model.GpsLocationRepository
+import gi.aera.location.domain.repository.GpsLocationRepository
 import gi.aera.location.data.GpsLocationRepositoryImpl
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.factoryOf
