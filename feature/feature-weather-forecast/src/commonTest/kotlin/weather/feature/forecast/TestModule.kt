@@ -2,13 +2,13 @@ package weather.feature.forecast
 
 import gi.aera.appsettings.appSettingsDataModule
 import gi.aera.appsettings.data.FakeGetUnitSettingsRepositoryImpl
-import gi.aera.appsettings.domain.model.UnitSettingsRepository
+import gi.aera.appsettings.domain.repository.UnitSettingsRepository
 import gi.aera.common.dispatchers.IoDispatcher
 import gi.aera.location.locationModule
 import gi.aera.ui.navigation.navigationModule
 import gi.aera.weather.feature.forecast.weatherForecastFeatureModule
-import gi.aera.weather.forecast.data.StubForecastRepositoryImpl
 import gi.aera.weather.forecast.data.ForecastRepository
+import gi.aera.weather.forecast.data.StubForecastRepositoryImpl
 import gi.aera.weather.forecast.weatherForecastDataModule
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.test.StandardTestDispatcher

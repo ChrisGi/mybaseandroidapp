@@ -1,6 +1,6 @@
 package gi.aera.appsettings.domain.usecase
 
-import gi.aera.appsettings.domain.model.UnitSettingsRepository
+import gi.aera.appsettings.domain.repository.UnitSettingsRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO

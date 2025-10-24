@@ -1,8 +1,8 @@
 package gi.aera.appsettings.data
 
-import gi.aera.appsettings.domain.model.UnitSettingsRepository
 import gi.aera.appsettings.domain.model.UnitSystem
 import gi.aera.appsettings.domain.model.UnitsSettings
+import gi.aera.appsettings.domain.repository.UnitSettingsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 

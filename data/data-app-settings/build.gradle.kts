@@ -47,6 +47,8 @@ kotlin {
         implementation(project(":preferences"))
         implementation(project(":common"))
 
+        api(project(":domain-app-settings"))
+
         implementation(libs.kotlin.stdlib)
 
         implementation(libs.kotlinx.coroutines.core)

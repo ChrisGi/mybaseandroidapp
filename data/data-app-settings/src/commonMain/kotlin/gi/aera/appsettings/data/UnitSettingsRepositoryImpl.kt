@@ -4,10 +4,9 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import gi.aera.appsettings.domain.model.C
-import gi.aera.appsettings.domain.model.UnitSettingsRepository
 import gi.aera.appsettings.domain.model.UnitSystem
 import gi.aera.appsettings.domain.model.UnitsSettings
+import gi.aera.appsettings.domain.repository.UnitSettingsRepository
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
 
