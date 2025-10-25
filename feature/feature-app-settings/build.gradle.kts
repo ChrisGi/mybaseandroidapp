@@ -54,7 +54,7 @@ kotlin {
 
         implementation(project(":domain-app-settings"))
 
-        implementation(project(":feature-weather-components"))
+        implementation(project(":feature-shared-components"))
 
         implementation(libs.kotlin.stdlib)
 

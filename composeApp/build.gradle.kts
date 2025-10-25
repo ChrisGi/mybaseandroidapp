@@ -52,9 +52,8 @@ kotlin {
 
       implementation(project(":feature-weather-forecast"))
       implementation(project(":feature-search-location"))
-      implementation(project(":feature-weather-components"))
+      implementation(project(":feature-shared-components"))
       implementation(project(":feature-app-settings"))
-
 
       implementation(libs.koin.core)
       implementation(libs.koin.compose)
