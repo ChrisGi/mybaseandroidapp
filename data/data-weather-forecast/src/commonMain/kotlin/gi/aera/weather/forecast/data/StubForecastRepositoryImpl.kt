@@ -5,6 +5,7 @@ import gi.aera.common.model.ApiResponse
 import gi.aera.weather.forecast.domain.model.ForecastHourlyResponse
 import gi.aera.weather.forecast.domain.model.ForecastParams
 import gi.aera.weather.forecast.domain.model.RealtimeWeatherResponse
+import gi.aera.weather.forecast.domain.repository.ForecastRepository
 import kotlinx.serialization.json.Json
 
 class StubForecastRepositoryImpl : ForecastRepository {

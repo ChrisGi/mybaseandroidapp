@@ -48,6 +48,7 @@ kotlin {
         implementation(project(":common"))
 
         implementation(project(":data-app-settings"))
+        api(project(":domain-weather-forecast"))
 
         implementation(libs.kotlin.stdlib)
 

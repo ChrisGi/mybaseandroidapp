@@ -1,4 +1,4 @@
-package gi.aera.weather.forecast.data
+package gi.aera.weather.forecast.domain.repository
 
 import ForecastDailyResponse
 import gi.aera.common.model.ApiResponse

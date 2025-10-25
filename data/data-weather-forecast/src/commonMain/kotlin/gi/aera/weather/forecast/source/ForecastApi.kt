@@ -1,4 +1,4 @@
-package gi.aera.weather.forecast.data
+package gi.aera.weather.forecast.source
 
 import ForecastDailyResponse
 import gi.aera.common.model.map
@@ -6,8 +6,6 @@ import gi.aera.network.cache.applyCacheControl
 import gi.aera.network.domain.apiRequest
 import gi.aera.weather.forecast.domain.model.ForecastHourlyResponse
 import gi.aera.weather.forecast.domain.model.ForecastParams
-import gi.aera.weather.forecast.domain.model.ForecastResource
-import gi.aera.weather.forecast.domain.model.RealtimeWeatherResource
 import gi.aera.weather.forecast.domain.model.RealtimeWeatherResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.resources.get

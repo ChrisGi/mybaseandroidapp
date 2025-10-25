@@ -9,7 +9,7 @@ import gi.aera.weather.Res
 import gi.aera.weather.domain.model.UnitSystemValues
 import gi.aera.weather.domain.model.WeatherCode
 import gi.aera.weather.feature.forecast.domain.CurrentWeatherViewStateFactory
-import gi.aera.weather.forecast.data.ForecastRepository
+import gi.aera.weather.forecast.domain.repository.ForecastRepository
 import gi.aera.weather.forecast.data.StubInvalidValuesForecastRepositoryImpl
 import gi.aera.weather.forecast.domain.usecase.GetCurrentWeatherUseCase
 import gi.aera.weather.weather_condition_wind

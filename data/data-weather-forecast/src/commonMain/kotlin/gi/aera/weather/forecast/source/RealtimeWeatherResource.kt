@@ -1,4 +1,4 @@
-package gi.aera.weather.forecast.domain.model
+package gi.aera.weather.forecast.source
 
 import io.ktor.resources.Resource
 

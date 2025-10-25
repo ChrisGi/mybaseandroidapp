@@ -7,7 +7,7 @@ import gi.aera.common.dispatchers.IoDispatcher
 import gi.aera.location.locationModule
 import gi.aera.ui.navigation.navigationModule
 import gi.aera.weather.feature.forecast.weatherForecastFeatureModule
-import gi.aera.weather.forecast.data.ForecastRepository
+import gi.aera.weather.forecast.domain.repository.ForecastRepository
 import gi.aera.weather.forecast.data.StubForecastRepositoryImpl
 import gi.aera.weather.forecast.weatherForecastDataModule
 import kotlinx.coroutines.CoroutineDispatcher
