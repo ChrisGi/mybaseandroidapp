@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import gi.aera.location.domain.model.SearchLocation
 import gi.aera.ui.compose.SwipeToDeleteContainer
-import gi.aera.weather.feature.location.domain.WeatherLocationState
+import gi.aera.weather.feature.location.presentation.model.WeatherLocationState
 
 @Composable
 fun WeatherLocationList(

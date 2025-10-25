@@ -46,6 +46,10 @@ kotlin {
       implementation(project(":data-location"))
       implementation(project(":data-app-settings"))
 
+      implementation(project(":domain-weather-forecast"))
+      implementation(project(":domain-location"))
+      implementation(project(":domain-app-settings"))
+
       implementation(project(":feature-weather-forecast"))
       implementation(project(":feature-search-location"))
       implementation(project(":feature-weather-components"))

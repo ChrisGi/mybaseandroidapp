@@ -18,7 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import gi.aera.location.domain.model.SearchLocation
 import gi.aera.weather.component.Temperature
-import gi.aera.weather.feature.location.domain.WeatherLocationState
+import gi.aera.weather.feature.location.presentation.model.WeatherLocationState
 
 @Composable
 fun WeatherLocationCard(

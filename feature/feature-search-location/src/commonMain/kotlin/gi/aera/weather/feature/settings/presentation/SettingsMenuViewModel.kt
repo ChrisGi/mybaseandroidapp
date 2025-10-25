@@ -3,11 +3,11 @@ package gi.aera.weather.feature.settings.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import gi.aera.ui.text.UiString
-import gi.aera.weather.feature.settings.domain.SettingMenuItem
-import gi.aera.weather.feature.settings.domain.SettingMenuItemId
-import gi.aera.weather.feature.settings.domain.SettingMenuViewEffect
-import gi.aera.weather.feature.settings.domain.SettingsMenuViewState
-import gi.aera.weather.feature.settings.domain.toTitle
+import gi.aera.weather.feature.settings.presentation.model.SettingMenuItem
+import gi.aera.weather.feature.settings.presentation.model.SettingMenuItemId
+import gi.aera.weather.feature.settings.presentation.model.SettingMenuViewEffect
+import gi.aera.weather.feature.settings.presentation.model.SettingsMenuViewState
+import gi.aera.weather.feature.settings.presentation.model.toTitle
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

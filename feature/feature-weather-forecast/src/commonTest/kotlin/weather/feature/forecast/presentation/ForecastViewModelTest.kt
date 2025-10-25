@@ -29,6 +29,7 @@ import gi.aera.ui.navigation.Route
 import gi.aera.ui.navigation.domain.model.NavigationManager
 import gi.aera.ui.navigation.domain.model.SystemNavigation
 import gi.aera.weather.feature.forecast.presentation.ForecastViewModel
+import gi.aera.weather.feature.forecast.presentation.model.ForecastScreenViewEvent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -177,7 +178,7 @@ class ForecastViewModelTest : KoinTest {
       val currentWeatherStateContent = awaitItem()
       assertTrue(currentWeatherStateContent is LceState.Content, "Initial content should be loaded")
 
-      viewModel.obtainEvent(gi.aera.weather.feature.forecast.domain.ForecastScreenViewEvent.Retry)
+      viewModel.obtainEvent(ForecastScreenViewEvent.Retry)
 
       val refreshingState = awaitItem()
       assertTrue(refreshingState is LceState.Refreshing)

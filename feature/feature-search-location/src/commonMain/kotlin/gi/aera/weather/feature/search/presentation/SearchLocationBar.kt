@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
-import gi.aera.weather.feature.search.domain.model.LocationSearchBarState
+import gi.aera.weather.feature.search.presentation.model.LocationSearchBarState
 
 @Suppress("LongMethod")
 @OptIn(ExperimentalMaterial3Api::class)

@@ -22,10 +22,10 @@ import gi.aera.ui.navigation.Route
 import gi.aera.ui.navigation.SettingType
 import gi.aera.ui.navigation.domain.model.NavigationManager
 import gi.aera.ui.updateLoading
-import gi.aera.weather.feature.forecast.domain.CurrentConditions
-import gi.aera.weather.feature.forecast.domain.CurrentWeatherViewStateFactory
-import gi.aera.weather.feature.forecast.domain.ForecastScreenViewEvent
-import gi.aera.weather.feature.forecast.domain.WeeklyForecastViewStateFactory
+import gi.aera.weather.feature.forecast.presentation.model.CurrentConditions
+import gi.aera.weather.feature.forecast.presentation.model.CurrentWeatherViewStateFactory
+import gi.aera.weather.feature.forecast.presentation.model.ForecastScreenViewEvent
+import gi.aera.weather.feature.forecast.presentation.model.WeeklyForecastViewStateFactory
 import gi.aera.weather.forecast.domain.model.RealtimeWeatherResponse
 import gi.aera.weather.forecast.domain.usecase.GetCurrentWeatherUseCase
 import gi.aera.weather.forecast.domain.usecase.GetDailyForecastUseCase

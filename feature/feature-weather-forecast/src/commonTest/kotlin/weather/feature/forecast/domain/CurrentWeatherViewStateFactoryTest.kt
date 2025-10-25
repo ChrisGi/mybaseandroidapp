@@ -6,9 +6,9 @@ import gi.aera.ui.C.DEFAULT_UI_VALUE
 import gi.aera.ui.text.UiString
 import gi.aera.ui.text.getText
 import gi.aera.weather.Res
-import gi.aera.weather.domain.model.UnitSystemValues
-import gi.aera.weather.domain.model.WeatherCode
-import gi.aera.weather.feature.forecast.domain.CurrentWeatherViewStateFactory
+import gi.aera.weather.presentation.model.UnitSystemValues
+import gi.aera.weather.presentation.model.WeatherCode
+import gi.aera.weather.feature.forecast.presentation.model.CurrentWeatherViewStateFactory
 import gi.aera.weather.forecast.domain.repository.ForecastRepository
 import gi.aera.weather.forecast.data.StubInvalidValuesForecastRepositoryImpl
 import gi.aera.weather.forecast.domain.usecase.GetCurrentWeatherUseCase

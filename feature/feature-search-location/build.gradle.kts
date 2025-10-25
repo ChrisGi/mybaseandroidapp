@@ -51,8 +51,10 @@ kotlin {
         implementation(project(":common"))
 
         implementation(project(":data-location"))
-        implementation(project(":data-weather-forecast"))
-        implementation(project(":data-app-settings"))
+
+        implementation(project(":domain-weather-forecast"))
+        implementation(project(":domain-app-settings"))
+        implementation(project(":domain-location"))
 
         implementation(project(":feature-weather-components"))
 

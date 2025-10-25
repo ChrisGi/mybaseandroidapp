@@ -2,6 +2,8 @@ package gi.aera.weather.domain.model
 
 import gi.aera.ui.text.UiString
 import gi.aera.weather.Res
+import gi.aera.weather.presentation.model.WeatherCode
+import gi.aera.weather.presentation.formatter.WeatherConditionsFormatter
 import gi.aera.weather.weather_temperature_apparent
 import kotlin.test.Test
 import kotlin.test.assertEquals

@@ -15,7 +15,7 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-val locationModule = module {
+val locationDataModule = module {
   includes(platformModule)
 
   single { LocationApi(get(named(LOCATION_HTTP_CLIENT))) }

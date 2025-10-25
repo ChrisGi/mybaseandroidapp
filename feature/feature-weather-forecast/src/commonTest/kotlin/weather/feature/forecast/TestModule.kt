@@ -4,7 +4,7 @@ import gi.aera.appsettings.appSettingsDataModule
 import gi.aera.appsettings.data.FakeGetUnitSettingsRepositoryImpl
 import gi.aera.appsettings.domain.repository.UnitSettingsRepository
 import gi.aera.common.dispatchers.IoDispatcher
-import gi.aera.location.locationModule
+import gi.aera.location.locationDataModule
 import gi.aera.ui.navigation.navigationModule
 import gi.aera.weather.feature.forecast.weatherForecastFeatureModule
 import gi.aera.weather.forecast.domain.repository.ForecastRepository
@@ -26,7 +26,7 @@ internal val testModule = module {
 internal val featureModules = module {
   includes(
     listOf(
-      locationModule,
+      locationDataModule,
       navigationModule,
       appSettingsDataModule,
       weatherForecastDataModule,

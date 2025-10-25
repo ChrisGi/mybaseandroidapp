@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import gi.aera.weather.feature.forecast.domain.ConditionValue
+import gi.aera.weather.feature.forecast.presentation.model.ConditionValue
 import org.jetbrains.compose.resources.painterResource
 
 @Composable

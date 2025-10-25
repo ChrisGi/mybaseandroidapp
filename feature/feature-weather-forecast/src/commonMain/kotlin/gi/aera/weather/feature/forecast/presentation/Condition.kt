@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import gi.aera.weather.component.Temperature
-import gi.aera.weather.feature.forecast.domain.WeatherConditions
+import gi.aera.weather.feature.forecast.presentation.model.WeatherConditions
 import org.jetbrains.compose.resources.painterResource
 
 @Composable

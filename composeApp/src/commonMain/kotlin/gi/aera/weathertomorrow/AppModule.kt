@@ -3,7 +3,7 @@ package gi.aera.weathertomorrow
 import gi.aera.appsettings.appSettingsDataModule
 import gi.aera.common.dispatchers.dispatchersKoinModule
 import gi.aera.feature.settings.appSettingsFeatureModule
-import gi.aera.location.locationModule
+import gi.aera.location.locationDataModule
 import gi.aera.network.networkModule
 import gi.aera.prefrences.preferencesModule
 import gi.aera.ui.navigation.navigationModule
@@ -14,7 +14,7 @@ import gi.aera.weather.forecast.weatherForecastDataModule
 
 val appModules = listOf(
   networkModule,
-  locationModule,
+  locationDataModule,
   preferencesModule,
   navigationModule,
   dispatchersKoinModule,

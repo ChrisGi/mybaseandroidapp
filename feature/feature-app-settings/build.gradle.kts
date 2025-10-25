@@ -52,6 +52,8 @@ kotlin {
 
         implementation(project(":data-app-settings"))
 
+        implementation(project(":domain-app-settings"))
+
         implementation(project(":feature-weather-components"))
 
         implementation(libs.kotlin.stdlib)

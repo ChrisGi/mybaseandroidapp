@@ -16,8 +16,8 @@ import gi.aera.ui.text.UiString
 import gi.aera.ui.theme.AppTheme
 import gi.aera.weathertomorrow.theme.appTypography
 import gi.aera.weather.Res
-import gi.aera.weather.domain.model.toTemperatureUnit
-import gi.aera.weather.feature.location.domain.WeatherLocationState
+import gi.aera.weather.presentation.model.toTemperatureUnit
+import gi.aera.weather.feature.location.presentation.model.WeatherLocationState
 import gi.aera.weather.feature.location.presentation.WeatherLocationCard
 import gi.aera.weather.weather_code_1101
 import gi.aera.weather.weather_temperature_apparent

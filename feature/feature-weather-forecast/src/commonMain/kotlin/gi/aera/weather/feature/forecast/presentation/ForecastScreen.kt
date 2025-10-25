@@ -20,9 +20,9 @@ import gi.aera.ui.LceState
 import gi.aera.ui.LceViewState
 import gi.aera.ui.theme.extraColors
 import gi.aera.weather.error.AppErrorContentProvider
-import gi.aera.weather.feature.forecast.domain.CurrentConditions
-import gi.aera.weather.feature.forecast.domain.ForecastScreenViewEvent
-import gi.aera.weather.feature.forecast.domain.WeatherConditions
+import gi.aera.weather.feature.forecast.presentation.model.CurrentConditions
+import gi.aera.weather.feature.forecast.presentation.model.ForecastScreenViewEvent
+import gi.aera.weather.feature.forecast.presentation.model.WeatherConditions
 
 @Suppress("LongMethod")
 @Composable

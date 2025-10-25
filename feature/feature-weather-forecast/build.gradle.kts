@@ -48,13 +48,14 @@ kotlin {
   sourceSets {
     commonMain {
       dependencies {
-        implementation(project(":data-weather-forecast"))
-        implementation(project(":data-location"))
-        implementation(project(":data-app-settings"))
         implementation(project(":common"))
-
         implementation(project(":ui"))
-//        implementation(project(":network"))
+
+        implementation(project(":data-weather-forecast"))
+
+        implementation(project(":domain-app-settings"))
+        implementation(project(":domain-location"))
+        implementation(project(":domain-weather-forecast"))
 
         implementation(project(":feature-weather-components"))
 
@@ -99,6 +100,9 @@ kotlin {
         implementation(libs.koin.test)
         implementation(libs.koin.core)
         implementation(libs.turbine)
+
+        implementation(project(":data-app-settings"))
+        implementation(project(":data-location"))
       }
     }
 

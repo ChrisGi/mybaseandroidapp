@@ -8,9 +8,9 @@ import gi.aera.location.domain.usecase.SearchLocationUseCase
 import gi.aera.ui.C
 import gi.aera.ui.EventHandler
 import gi.aera.ui.LceState
-import gi.aera.weather.feature.search.domain.model.SearchLocationEffect
-import gi.aera.weather.feature.search.domain.model.SearchLocationEvent
-import gi.aera.weather.feature.search.domain.model.SearchLocationViewState
+import gi.aera.weather.feature.search.presentation.model.SearchLocationEffect
+import gi.aera.weather.feature.search.presentation.model.SearchLocationEvent
+import gi.aera.weather.feature.search.presentation.model.SearchLocationViewState
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import gi.aera.appsettings.domain.model.UnitSystem
-import gi.aera.feature.settings.domain.model.UnitSettingsViewState
+import gi.aera.feature.settings.presentation.model.UnitSettingsViewState
 import gi.aera.weather.Res
 import gi.aera.weather.settings_unit_system
 import org.jetbrains.compose.resources.stringResource

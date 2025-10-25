@@ -5,6 +5,7 @@ import gi.aera.location.domain.model.SearchLocation
 import gi.aera.ui.text.UiString
 import gi.aera.weather.Res
 import gi.aera.weather.location_current
+import gi.aera.weather.presentation.formatter.formatLocation
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

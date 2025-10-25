@@ -18,8 +18,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import gi.aera.weather.feature.settings.domain.SettingMenuItem
-import gi.aera.weather.feature.settings.domain.SettingMenuItemId
+import gi.aera.weather.feature.settings.presentation.model.SettingMenuItem
+import gi.aera.weather.feature.settings.presentation.model.SettingMenuItemId
 
 @Composable
 fun SettingsDropdown(

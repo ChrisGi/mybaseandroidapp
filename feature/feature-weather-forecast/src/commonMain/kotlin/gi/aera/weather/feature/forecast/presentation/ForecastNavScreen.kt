@@ -20,7 +20,7 @@ import dev.icerock.moko.permissions.compose.PermissionsControllerFactory
 import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import gi.aera.ui.navigation.Route
 import gi.aera.ui.theme.extraColors
-import gi.aera.weather.feature.forecast.domain.ForecastScreenViewEvent
+import gi.aera.weather.feature.forecast.presentation.model.ForecastScreenViewEvent
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 

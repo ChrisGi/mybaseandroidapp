@@ -47,8 +47,9 @@ kotlin {
         implementation(project(":network"))
         implementation(project(":common"))
 
-        implementation(project(":data-app-settings"))
-        api(project(":domain-weather-forecast"))
+//        implementation(project(":data-app-settings"))
+        implementation(project(":domain-app-settings"))
+        implementation(project(":domain-weather-forecast"))
 
         implementation(libs.kotlin.stdlib)
 

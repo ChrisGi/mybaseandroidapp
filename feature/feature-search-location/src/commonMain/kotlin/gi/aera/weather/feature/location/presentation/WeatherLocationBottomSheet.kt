@@ -21,8 +21,8 @@ import gi.aera.ui.LceState
 import gi.aera.ui.LceViewState
 import gi.aera.weather.Res
 import gi.aera.weather.error.AppErrorContentProvider
-import gi.aera.weather.feature.location.domain.WeatherLocationEvent
-import gi.aera.weather.feature.location.domain.WeatherLocationState
+import gi.aera.weather.feature.location.presentation.model.WeatherLocationEvent
+import gi.aera.weather.feature.location.presentation.model.WeatherLocationState
 import gi.aera.weather.weather_location_add
 import gi.aera.weather.weather_location_cancel
 import org.jetbrains.compose.resources.stringResource

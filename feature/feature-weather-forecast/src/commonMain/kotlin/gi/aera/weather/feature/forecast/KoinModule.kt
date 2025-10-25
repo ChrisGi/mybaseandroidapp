@@ -1,7 +1,7 @@
 package gi.aera.weather.feature.forecast
 
-import gi.aera.weather.feature.forecast.domain.CurrentWeatherViewStateFactory
-import gi.aera.weather.feature.forecast.domain.WeeklyForecastViewStateFactory
+import gi.aera.weather.feature.forecast.presentation.model.CurrentWeatherViewStateFactory
+import gi.aera.weather.feature.forecast.presentation.model.WeeklyForecastViewStateFactory
 import gi.aera.weather.feature.forecast.presentation.ForecastViewModel
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.viewModelOf

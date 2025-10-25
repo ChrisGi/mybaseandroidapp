@@ -11,10 +11,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import gi.aera.weather.feature.search.domain.model.SearchLocationEvent
-import gi.aera.weather.feature.search.domain.model.SearchLocationViewState
-import gi.aera.weather.feature.settings.domain.SettingMenuItemId
-import gi.aera.weather.feature.settings.domain.SettingsMenuViewState
+import gi.aera.weather.feature.search.presentation.model.SearchLocationEvent
+import gi.aera.weather.feature.search.presentation.model.SearchLocationViewState
+import gi.aera.weather.feature.settings.presentation.model.SettingMenuItemId
+import gi.aera.weather.feature.settings.presentation.model.SettingsMenuViewState
 import gi.aera.weather.feature.settings.presentation.SettingsDropdown
 
 @Suppress("LongParameterList")

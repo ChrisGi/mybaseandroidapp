@@ -22,12 +22,12 @@ import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import gi.aera.ui.LceViewState
 import gi.aera.ui.navigation.Route
 import gi.aera.weather.error.AppErrorContentProvider
-import gi.aera.weather.feature.location.domain.WeatherLocationEvent
+import gi.aera.weather.feature.location.presentation.model.WeatherLocationEvent
 import gi.aera.weather.feature.location.presentation.WeatherLocationBottomSheet
 import gi.aera.weather.feature.location.presentation.WeatherLocationList
 import gi.aera.weather.feature.location.presentation.WeatherLocationViewModel
-import gi.aera.weather.feature.search.domain.model.SearchLocationEffect
-import gi.aera.weather.feature.settings.domain.SettingMenuViewEffect
+import gi.aera.weather.feature.search.presentation.model.SearchLocationEffect
+import gi.aera.weather.feature.settings.presentation.model.SettingMenuViewEffect
 import gi.aera.weather.feature.settings.presentation.SettingsMenuViewModel
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf

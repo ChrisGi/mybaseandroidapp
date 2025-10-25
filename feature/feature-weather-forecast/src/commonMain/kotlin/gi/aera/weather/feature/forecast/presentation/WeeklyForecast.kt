@@ -19,7 +19,7 @@ import gi.aera.ui.LceState
 import gi.aera.ui.LceViewState
 import gi.aera.ui.theme.extraColors
 import gi.aera.weather.Res
-import gi.aera.weather.feature.forecast.domain.WeatherConditions
+import gi.aera.weather.feature.forecast.presentation.model.WeatherConditions
 import gi.aera.weather.weather_temperature_degree
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource

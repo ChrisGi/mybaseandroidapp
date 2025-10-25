@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import gi.aera.appsettings.domain.model.UnitSystem
 import gi.aera.appsettings.domain.usecase.GetUnitSettingsUseCase
 import gi.aera.appsettings.domain.usecase.SaveUnitSettingsUseCase
-import gi.aera.feature.settings.domain.model.UnitSettingsViewState
-import gi.aera.feature.settings.domain.model.UnitSystemItem
-import gi.aera.feature.settings.domain.model.toTitle
+import gi.aera.feature.settings.presentation.model.UnitSettingsViewState
+import gi.aera.feature.settings.presentation.model.UnitSystemItem
+import gi.aera.feature.settings.presentation.model.toTitle
 import gi.aera.ui.text.UiString
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

@@ -48,7 +48,7 @@ kotlin {
         implementation(project(":preferences"))
         implementation(project(":common"))
 
-        api(project(":domain-location"))
+        implementation(project(":domain-location"))
 
         implementation(libs.kotlin.stdlib)
 

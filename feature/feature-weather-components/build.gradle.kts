@@ -52,6 +52,8 @@ kotlin {
 
         implementation(project(":data-app-settings"))
         implementation(project(":data-location"))
+        implementation(project(":domain-location"))
+        implementation(project(":domain-app-settings"))
 
         implementation(libs.kotlin.stdlib)
 

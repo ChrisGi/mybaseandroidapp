@@ -20,9 +20,9 @@ import gi.aera.ui.EventHandler
 import gi.aera.ui.LceState
 import gi.aera.ui.navigation.SettingType
 import gi.aera.ui.navigation.domain.model.NavigationManager
-import gi.aera.weather.feature.location.domain.WeatherLocationEvent
-import gi.aera.weather.feature.location.domain.WeatherLocationState
-import gi.aera.weather.feature.location.domain.WeatherLocationStateFactory
+import gi.aera.weather.feature.location.presentation.model.WeatherLocationEvent
+import gi.aera.weather.feature.location.presentation.model.WeatherLocationState
+import gi.aera.weather.feature.location.presentation.model.WeatherLocationStateFactory
 import gi.aera.weather.forecast.domain.model.RealtimeWeatherResponse
 import gi.aera.weather.forecast.domain.usecase.GetCurrentWeatherUseCase
 import kotlinx.coroutines.flow.MutableStateFlow

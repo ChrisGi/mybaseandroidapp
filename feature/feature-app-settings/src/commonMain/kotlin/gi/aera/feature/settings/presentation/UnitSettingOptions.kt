@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import gi.aera.appsettings.domain.model.UnitSystem
-import gi.aera.feature.settings.domain.model.UnitSettingsViewState
+import gi.aera.feature.settings.presentation.model.UnitSettingsViewState
 
 @Composable
 fun UnitSettingOptions(
