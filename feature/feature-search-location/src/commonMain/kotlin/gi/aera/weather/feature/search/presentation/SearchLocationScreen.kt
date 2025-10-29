@@ -11,13 +11,15 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import gi.aera.ui.LceViewState
+import gi.aera.weather.error.AppErrorContentProvider
 import gi.aera.weather.feature.search.presentation.model.SearchLocationEvent
 import gi.aera.weather.feature.search.presentation.model.SearchLocationViewState
 import gi.aera.weather.feature.settings.presentation.model.SettingMenuItemId
 import gi.aera.weather.feature.settings.presentation.model.SettingsMenuViewState
 import gi.aera.weather.feature.settings.presentation.SettingsDropdown
 
-@Suppress("LongParameterList")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchLocationScreen(
@@ -25,8 +27,7 @@ fun SearchLocationScreen(
   menuState: SettingsMenuViewState,
   event: (event: SearchLocationEvent) -> Unit,
   menuEvent: (SettingMenuItemId) -> Unit,
-  modifier: Modifier = Modifier
-    .fillMaxSize(),
+  modifier: Modifier = Modifier.fillMaxSize(),
   content: @Composable () -> Unit,
 ) {
   Scaffold(
@@ -43,12 +44,12 @@ fun SearchLocationScreen(
         .padding(innerPadding),
     ) {
       Column(
-        modifier = Modifier
-          .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
       ) {
         SearchLocationBar(
           state = state.locationSearchBarState,
           search = { event(SearchLocationEvent.Search(it)) },
+          clearSearch = { event(SearchLocationEvent.ClearSearch) },
         ) {
           if (state.isEmpty) {
             SearchLocationEmpty(
@@ -57,16 +58,31 @@ fun SearchLocationScreen(
                 .align(Alignment.CenterHorizontally),
             )
           } else {
-            SearchLocationResults(
-              state.content,
-              state.isLoading,
-              { event(SearchLocationEvent.ShowLocationWeather(it)) },
-              Modifier
-                .weight(1f),
-            )
+            if (state.displayState != null) {
+              LceViewState(
+                state = state.displayState,
+                modifier = Modifier.weight(1f),
+                errorContent = { appError ->
+                  AppErrorContentProvider(
+                    appError,
+                    Modifier
+                      .fillMaxSize()
+                      .padding(32.dp),
+                    onCheckNetwork = { event(SearchLocationEvent.NavigateToNetworkSettings) },
+                    onRetry = { event(SearchLocationEvent.RetrySearch) },
+                  )
+                },
+              ) { content ->
+                SearchLocationResults(
+                  state.content,
+                  state.isLoading,
+                  { event(SearchLocationEvent.ShowLocationWeather(it)) },
+                  Modifier.weight(1f),
+                )
+              }
+            }
           }
         }
-
         content()
       }
     }

@@ -27,6 +27,7 @@ import gi.aera.weather.feature.location.presentation.WeatherLocationBottomSheet
 import gi.aera.weather.feature.location.presentation.WeatherLocationList
 import gi.aera.weather.feature.location.presentation.WeatherLocationViewModel
 import gi.aera.weather.feature.search.presentation.model.SearchLocationEffect
+import gi.aera.weather.feature.search.presentation.model.SearchLocationEvent
 import gi.aera.weather.feature.settings.presentation.model.SettingMenuViewEffect
 import gi.aera.weather.feature.settings.presentation.SettingsMenuViewModel
 import org.koin.compose.viewmodel.koinViewModel
@@ -40,7 +41,7 @@ fun NavGraphBuilder.searchLocationNavScreen(
 ) {
   composable<Route.SearchLocationNavScreen> {
     val searchLocationViewModel = koinViewModel<SearchLocationViewModel>()
-    val state by searchLocationViewModel.searchLocationViewState.collectAsStateWithLifecycle()
+    val searchLocationViewState by searchLocationViewModel.searchLocationViewState.collectAsStateWithLifecycle()
 
     val factory: PermissionsControllerFactory = rememberPermissionsControllerFactory()
     val controller: PermissionsController = remember(factory) { factory.createPermissionsController() }
@@ -87,7 +88,7 @@ fun NavGraphBuilder.searchLocationNavScreen(
           event = {
             when (it) {
               is WeatherLocationEvent.Save -> {
-                searchLocationViewModel.closeSearch()
+                searchLocationViewModel.obtainEvent(SearchLocationEvent.ClearSearch)
               }
             }
             weatherLocationViewModel.obtainEvent(it)
@@ -96,7 +97,7 @@ fun NavGraphBuilder.searchLocationNavScreen(
       }
 
       SearchLocationScreen(
-        state = state,
+        state = searchLocationViewState,
         menuState = menuSettingsState,
         event = searchLocationViewModel::obtainEvent,
         menuEvent = menuSettingsViewModel::obtainMenuClick,

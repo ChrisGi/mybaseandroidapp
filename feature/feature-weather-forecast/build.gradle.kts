@@ -101,6 +101,8 @@ kotlin {
         implementation(libs.koin.core)
         implementation(libs.turbine)
 
+        implementation(project(":ui"))
+
         implementation(project(":data-app-settings"))
         implementation(project(":data-location"))
       }

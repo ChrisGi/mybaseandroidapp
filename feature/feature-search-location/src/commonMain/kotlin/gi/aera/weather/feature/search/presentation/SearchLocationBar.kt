@@ -29,6 +29,7 @@ import gi.aera.weather.feature.search.presentation.model.LocationSearchBarState
 fun SearchLocationBar(
   state: LocationSearchBarState,
   search: (query: String) -> Unit,
+  clearSearch: () -> Unit,
   modifier: Modifier = Modifier
     .fillMaxWidth()
     .padding(PaddingValues(horizontal = 16.dp, vertical = 8.dp)),
@@ -58,7 +59,7 @@ fun SearchLocationBar(
           if (state.queryValue.isNotEmpty()) {
             IconButton(
               onClick = {
-                search("")
+                clearSearch()
                 focusManager.clearFocus()
               },
             ) {

@@ -33,7 +33,7 @@ import org.jetbrains.compose.resources.stringResource
 fun AppErrorContentProvider(
   appError: AppError,
   modifier: Modifier = Modifier,
-  onRetry: () -> Unit = {},
+  onRetry: (() -> Unit)? = null,
   onCheckNetwork: () -> Unit = {},
 ) {
   when (appError) {
@@ -70,7 +70,7 @@ fun BusinessError(
 fun HttpError(
   appError: AppError.HttpError,
   modifier: Modifier = Modifier,
-  onBack: () -> Unit = {},
+  onRetry: (() -> Unit)? = {},
 ) {
   val message = remember { UiString.Resource(Res.string.error_network, appError.errorCode) }
   Column(
@@ -89,12 +89,14 @@ fun HttpError(
         )
       },
     )
-    Button(
-      onClick = { onBack() },
-      modifier = Modifier
-        .fillMaxWidth(),
-    ) {
-      Text(text = stringResource(Res.string.error_retry))
+    if (onRetry != null) {
+      Button(
+        onClick = { onRetry() },
+        modifier = Modifier
+          .fillMaxWidth(),
+      ) {
+        Text(text = stringResource(Res.string.error_retry))
+      }
     }
   }
 }
@@ -128,7 +130,7 @@ fun FatalError(
 fun NetworkError(
   modifier: Modifier = Modifier,
   onCheckNetwork: () -> Unit = {},
-  onBack: () -> Unit = {},
+  onRetry: (() -> Unit)? = {},
 ) {
   val message = remember { UiString.Resource(Res.string.error_network_not_available) }
   Column(
@@ -155,13 +157,15 @@ fun NetworkError(
       Text(text = stringResource(Res.string.error_network_check))
     }
 
-    TextButton(
-      onClick = { onBack() },
-      modifier = Modifier
-        .padding(top = 8.dp)
-        .fillMaxWidth(),
-    ) {
-      Text(text = stringResource(Res.string.error_retry))
+    if (onRetry != null) {
+      TextButton(
+        onClick = { onRetry() },
+        modifier = Modifier
+          .padding(top = 8.dp)
+          .fillMaxWidth(),
+      ) {
+        Text(text = stringResource(Res.string.error_retry))
+      }
     }
   }
 }

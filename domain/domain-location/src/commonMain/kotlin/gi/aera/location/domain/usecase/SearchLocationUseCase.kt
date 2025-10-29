@@ -25,5 +25,5 @@ class SearchLocationUseCase internal constructor(
 }
 
 private fun SearchResult.toDomain(): SearchLocation {
-  return SearchLocation(placeId, city, formatted, lat, lon, LocationSource.SEARCH)
+  return SearchLocation(placeId.orEmpty(), city, formatted, lat ?: 0.0, lon ?: 0.0, LocationSource.SEARCH)
 }

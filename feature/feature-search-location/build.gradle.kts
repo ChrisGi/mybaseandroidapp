@@ -4,6 +4,7 @@ plugins {
   alias(libs.plugins.compose.multiplatform)
   alias(libs.plugins.kotlin.compose)
   alias(libs.plugins.kotlin.serialization)
+  alias(libs.plugins.mokkery)
 }
 
 kotlin {
@@ -94,7 +95,13 @@ kotlin {
     }
     commonTest {
       dependencies {
+        implementation(project(":data-location"))
+
         implementation(libs.kotlin.test)
+        implementation(libs.kotlinx.coroutines.test)
+        implementation(libs.koin.test)
+        implementation(libs.koin.core)
+        implementation(libs.turbine)
       }
     }
 

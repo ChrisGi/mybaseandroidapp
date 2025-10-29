@@ -92,9 +92,7 @@ class ForecastViewModel(
     when (event) {
       is ForecastScreenViewEvent.Retry -> refreshAllWeatherData()
       is ForecastScreenViewEvent.NavigateToSearchLocation -> navigateToSearchLocation(event.popUpInclusive)
-      is ForecastScreenViewEvent.NavigateToNetworkSettings -> navigationManager.navigateTo(
-        NavigationArgs(Route.SystemSettings(SettingType.NETWORK)),
-      )
+      is ForecastScreenViewEvent.NavigateToNetworkSettings -> navigationManager.openSystemSettings(SettingType.NETWORK)
     }
   }
 

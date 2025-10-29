@@ -14,7 +14,7 @@ data class SearchLocationViewState(
     expanded = false,
     placeholder = UiString.Resource(Res.string.search_location_label),
   ),
-  private val displayState: LceState<List<SearchLocation>>? = null,
+  val displayState: LceState<List<SearchLocation>>? = null,
 ) {
 
   val isLoading: Boolean

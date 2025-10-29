@@ -2,12 +2,15 @@ package gi.aera.location.domain.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonIgnoreUnknownKeys
 
+@JsonIgnoreUnknownKeys
 @Serializable
 class LocationSearchResponse(
   val results: List<SearchResult>,
 )
 
+@JsonIgnoreUnknownKeys
 @Serializable
 data class SearchResult(
   val datasource: Datasource,
@@ -18,8 +21,8 @@ data class SearchResult(
   val city: String? = null,
   @SerialName("iso3166_2")
   val iso31662: String? = null,
-  val lon: Double,
-  val lat: Double,
+  val lon: Double? = null,
+  val lat: Double? = null,
   @SerialName("result_type")
   val resultType: String? = null,
   val formatted: String? = null,
@@ -35,10 +38,11 @@ data class SearchResult(
   val plusCodeShort: String? = null,
   val rank: Rank? = null,
   @SerialName("place_id")
-  val placeId: String,
+  val placeId: String? = null,
   val county: String? = null,
 )
 
+@JsonIgnoreUnknownKeys
 @Serializable
 data class Datasource(
   val sourcename: String? = null,
@@ -47,6 +51,7 @@ data class Datasource(
   val url: String? = null,
 )
 
+@JsonIgnoreUnknownKeys
 @Serializable
 data class Timezone(
   val name: String? = null,
@@ -64,6 +69,7 @@ data class Timezone(
   val abbreviationDst: String? = null,
 )
 
+@JsonIgnoreUnknownKeys
 @Serializable
 data class Rank(
   val importance: Double? = null,
