@@ -95,7 +95,8 @@ kotlin {
     }
     commonTest {
       dependencies {
-        implementation(project(":data-location"))
+        implementation(project(":data-weather-forecast"))
+        implementation(project(":data-app-settings"))
 
         implementation(libs.kotlin.test)
         implementation(libs.kotlinx.coroutines.test)

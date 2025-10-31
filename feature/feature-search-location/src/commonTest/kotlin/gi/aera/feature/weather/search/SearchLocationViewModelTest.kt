@@ -11,6 +11,7 @@ import dev.mokkery.mock
 import gi.aera.common.dispatchers.IoDispatcher
 import gi.aera.common.model.ApiResponse
 import gi.aera.common.model.AppError
+import gi.aera.feature.weather.doubles.FakeNavigatorManager
 import gi.aera.location.domain.repository.SearchLocationRepository
 import gi.aera.ui.LceState
 import gi.aera.ui.navigation.SettingType
@@ -162,11 +163,6 @@ class SearchLocationViewModelTest : KoinTest {
 
   @Test
   fun `when navigate to network settings event emitted, then open system settings`() = runTest {
-    val searchLocationRepository: SearchLocationRepository = mock(MockMode.autoUnit) {
-      everySuspend { searchLocation(any()) } returns ApiResponse.Error.NetworkError
-    }
-
-    declare<SearchLocationRepository> { searchLocationRepository }
 
     viewModel.obtainEvent(SearchLocationEvent.NavigateToNetworkSettings)
 

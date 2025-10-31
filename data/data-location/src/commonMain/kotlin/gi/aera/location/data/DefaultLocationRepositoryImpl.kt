@@ -22,7 +22,7 @@ internal class DefaultLocationRepositoryImpl(private val dataStore: DataStore<Pr
     }
   }
 
-  @Suppress("TooGenericExceptionCaught", "SwallowedException")
+  @Suppress("TooGenericExceptionCaught")
   override fun getLocation(): Flow<SearchLocation> = dataStore.data
     .map { preferences ->
       preferences[locationKey] ?: throw LocationNotFoundException()

@@ -6,16 +6,16 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import gi.aera.location.domain.model.LocationNotFoundException
 import gi.aera.location.domain.model.SearchLocation
-import gi.aera.location.domain.repository.SaveLocationRepository
+import gi.aera.location.domain.repository.LocationRepository
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 
-internal class SaveLocationRepositoryImpl(
+internal class LocationRepositoryImpl(
   private val dataStore: DataStore<Preferences>,
-) : SaveLocationRepository {
+) : LocationRepository {
 
   private val locationKey = stringPreferencesKey(C.DATA_STORE_LOCATION_KEY)
 

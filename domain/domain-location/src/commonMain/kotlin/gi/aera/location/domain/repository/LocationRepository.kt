@@ -3,7 +3,7 @@ package gi.aera.location.domain.repository
 import gi.aera.location.domain.model.SearchLocation
 import kotlinx.coroutines.flow.Flow
 
-interface SaveLocationRepository {
+interface LocationRepository {
 
   fun getLocations(): Flow<List<SearchLocation>>
 

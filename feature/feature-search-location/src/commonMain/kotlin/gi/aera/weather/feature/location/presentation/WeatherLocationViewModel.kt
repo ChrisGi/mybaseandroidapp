@@ -25,19 +25,22 @@ import gi.aera.weather.feature.location.presentation.model.WeatherLocationState
 import gi.aera.weather.feature.location.presentation.model.WeatherLocationStateFactory
 import gi.aera.weather.forecast.domain.model.RealtimeWeatherResponse
 import gi.aera.weather.forecast.domain.usecase.GetCurrentWeatherUseCase
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 
-@Suppress("LongParameterList")
 class WeatherLocationViewModel(
   private val permissionsController: PermissionsController,
   private val getLastGpsLocationsUseCase: GetLastGpsLocationUseCase,
@@ -78,10 +81,8 @@ class WeatherLocationViewModel(
     viewModelScope.launch {
       when (location.source) {
         LocationSource.GPS -> removeDefaultLocationUseCase()
-          .onFailure { println("Error on removing default location:\n$it") }
 
         LocationSource.SEARCH -> saveDefaultLocationUseCase(location)
-          .onFailure { println("Error on saving default location:\n$it") }
       }
     }
   }
@@ -107,11 +108,12 @@ class WeatherLocationViewModel(
         .filterNotNull()
     }
       .transform {
-        val weatherLocations = it.map { location -> getWeatherForecast(location) }
+        val weatherLocations = it.map { location -> async { getWeatherForecast(location) } }
+          .awaitAll()
         emit(weatherLocations)
       }
       .catch { e -> e.printStackTrace() }
-      .collect { weatherLocations ->
+      .collectLatest { weatherLocations ->
         when {
           weatherLocations.any { it is WeatherLocationState.WeatherLocationError } ->
             _savedLocationsWeatherState.update {
@@ -138,19 +140,29 @@ class WeatherLocationViewModel(
         emit(null)
       }
     }
-  }.catch { emit(null) }
+  }
+    .catch { emit(null) }
+    .shareIn(viewModelScope, SharingStarted.Lazily, 1)
 
   private fun getSavedLocations() = getSavedLocationsUseCase()
     .catch { emit(emptyList()) }
+    .shareIn(viewModelScope, SharingStarted.Lazily, 1)
 
   private fun removeLocation(location: SearchLocation) = viewModelScope.launch {
+    val currentList = when (val stateContent = _savedLocationsWeatherState.value) {
+      is LceState.Content<List<WeatherLocationState.WeatherLocation>> -> stateContent.content
+      else -> return@launch
+    }
+    val update = currentList - currentList.find { it.searchLocation.placeId == location.placeId }
+    _savedLocationsWeatherState.update { LceState.Content(update.filterNotNull()) }
+
     removeLocationUseCase(location)
+      .onFailure { _savedLocationsWeatherState.update { LceState.Content(currentList) } }
   }
 
   private fun saveLocation(location: SearchLocation) = viewModelScope.launch {
     saveLocationUseCase(location)
       .onSuccess { getLocationsWeather() }
-      .onFailure { println(it) }
   }
 
   private suspend fun getWeatherForecast(location: SearchLocation): WeatherLocationState {

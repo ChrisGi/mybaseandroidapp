@@ -1,4 +1,4 @@
-package gi.aera.feature.weather.search
+package gi.aera.feature.weather.doubles
 
 import app.cash.turbine.Turbine
 import gi.aera.ui.navigation.NavigationArgs

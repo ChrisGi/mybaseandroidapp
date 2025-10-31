@@ -6,7 +6,7 @@ import gi.aera.appsettings.domain.repository.UnitSettingsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
-class FakeGetUnitSettingsRepositoryImpl : UnitSettingsRepository {
+class StubGetUnitSettingsRepositoryImpl : UnitSettingsRepository {
 
   override suspend fun saveUnits(units: UnitsSettings) = Unit
 
