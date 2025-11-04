@@ -1,4 +1,4 @@
-package gi.aera.weather.feature.settings.presentation.model
+package gi.aera.feature.settings.presentation.model
 
 import gi.aera.ui.text.UiString
 

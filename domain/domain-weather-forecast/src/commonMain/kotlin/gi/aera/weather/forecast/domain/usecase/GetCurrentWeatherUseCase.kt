@@ -1,8 +1,8 @@
 package gi.aera.weather.forecast.domain.usecase
 
 import gi.aera.appsettings.domain.usecase.GetUnitSettingsUseCase
-import gi.aera.weather.forecast.domain.repository.ForecastRepository
 import gi.aera.weather.forecast.domain.model.ForecastParams
+import gi.aera.weather.forecast.domain.repository.ForecastRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO

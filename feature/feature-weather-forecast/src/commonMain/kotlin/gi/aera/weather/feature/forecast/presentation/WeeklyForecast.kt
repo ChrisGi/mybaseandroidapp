@@ -3,6 +3,7 @@ package gi.aera.weather.feature.forecast.presentation
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -38,6 +39,7 @@ fun WeeklyForecast(
   ) { forecast ->
     LazyRow(
       modifier = modifier,
+      contentPadding = PaddingValues(8.dp),
     ) {
       items(forecast) { forecast ->
         Column(

@@ -1,6 +1,7 @@
 package gi.aera.weather.forecast.data
 
 import ForecastDailyResponse
+import gi.aera.appsettings.domain.model.UnitSystem
 import gi.aera.common.model.ApiResponse
 import gi.aera.weather.forecast.domain.model.ForecastHourlyResponse
 import gi.aera.weather.forecast.domain.model.ForecastParams
@@ -8,6 +9,7 @@ import gi.aera.weather.forecast.domain.model.RealtimeWeatherResponse
 import gi.aera.weather.forecast.domain.repository.ForecastRepository
 import kotlinx.serialization.json.Json
 
+@Suppress("MagicNumber")
 class StubForecastRepositoryImpl : ForecastRepository {
 
   override suspend fun realtimeWeather(params: ForecastParams): ApiResponse<RealtimeWeatherResponse> {
@@ -26,7 +28,7 @@ class StubForecastRepositoryImpl : ForecastRepository {
       "      \"rainIntensity\": 2,\n" +
       "      \"sleetIntensity\": 0,\n" +
       "      \"snowIntensity\": 0,\n" +
-      "      \"temperature\": 22.4,\n" +
+      "      \"temperature\": ${params.units.temp(22.4)},\n" +
       "      \"temperatureApparent\": 23.0,\n" +
       "      \"uvHealthConcern\": 1,\n" +
       "      \"uvIndex\": 5,\n" +
@@ -45,6 +47,7 @@ class StubForecastRepositoryImpl : ForecastRepository {
 
   @Suppress("LongMethod")
   override suspend fun forecastDaily(params: ForecastParams): ApiResponse<ForecastDailyResponse> {
+
     val json = "{\n" +
       "  \"timelines\": {\n" +
       "    \"daily\": [\n" +
@@ -84,7 +87,7 @@ class StubForecastRepositoryImpl : ForecastRepository {
       "          \"temperatureApparentMax\": 28.0,\n" +
       "          \"temperatureApparentMin\": 19.5,\n" +
       "          \"temperatureAvg\": 22.5,\n" +
-      "          \"temperatureMax\": 27.0,\n" +
+      "          \"temperatureMax\": ${params.units.temp(27.0)},\n" +
       "          \"temperatureMin\": 18.0,\n" +
       "          \"temperature\": 22.5,\n" +
       "          \"uvIndexMax\": 7,\n" +
@@ -133,7 +136,7 @@ class StubForecastRepositoryImpl : ForecastRepository {
       "          \"temperatureApparentMax\": 25.5,\n" +
       "          \"temperatureApparentMin\": 17.2,\n" +
       "          \"temperatureAvg\": 20.9,\n" +
-      "          \"temperatureMax\": 25.0,\n" +
+      "          \"temperatureMax\": ${params.units.temp(25.0)},\n" +
       "          \"temperatureMin\": 17.0,\n" +
       "          \"temperature\": null,\n" +
       "          \"uvIndexMax\": 6,\n" +
@@ -156,5 +159,10 @@ class StubForecastRepositoryImpl : ForecastRepository {
 
   override suspend fun forecastHourly(params: ForecastParams): ApiResponse<ForecastHourlyResponse> {
     TODO("Not yet implemented")
+  }
+
+  private fun UnitSystem.temp(temp: Double) = when (this) {
+    UnitSystem.METRIC -> temp
+    UnitSystem.IMPERIAL -> (temp * 1.8) + 32
   }
 }

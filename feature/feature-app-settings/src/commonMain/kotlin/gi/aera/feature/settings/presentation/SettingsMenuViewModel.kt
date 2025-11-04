@@ -1,13 +1,13 @@
-package gi.aera.weather.feature.settings.presentation
+package gi.aera.feature.settings.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import gi.aera.feature.settings.presentation.model.SettingMenuItem
+import gi.aera.feature.settings.presentation.model.SettingMenuItemId
+import gi.aera.feature.settings.presentation.model.SettingMenuViewEffect
+import gi.aera.feature.settings.presentation.model.SettingsMenuViewState
+import gi.aera.feature.settings.presentation.model.toTitle
 import gi.aera.ui.text.UiString
-import gi.aera.weather.feature.settings.presentation.model.SettingMenuItem
-import gi.aera.weather.feature.settings.presentation.model.SettingMenuItemId
-import gi.aera.weather.feature.settings.presentation.model.SettingMenuViewEffect
-import gi.aera.weather.feature.settings.presentation.model.SettingsMenuViewState
-import gi.aera.weather.feature.settings.presentation.model.toTitle
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

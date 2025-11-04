@@ -16,17 +16,12 @@ import gi.aera.ui.LceViewState
 import gi.aera.weather.error.AppErrorContentProvider
 import gi.aera.weather.feature.search.presentation.model.SearchLocationEvent
 import gi.aera.weather.feature.search.presentation.model.SearchLocationViewState
-import gi.aera.weather.feature.settings.presentation.model.SettingMenuItemId
-import gi.aera.weather.feature.settings.presentation.model.SettingsMenuViewState
-import gi.aera.weather.feature.settings.presentation.SettingsDropdown
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchLocationScreen(
   state: SearchLocationViewState,
-  menuState: SettingsMenuViewState,
   event: (event: SearchLocationEvent) -> Unit,
-  menuEvent: (SettingMenuItemId) -> Unit,
   modifier: Modifier = Modifier.fillMaxSize(),
   content: @Composable () -> Unit,
 ) {
@@ -34,7 +29,6 @@ fun SearchLocationScreen(
     topBar = {
       TopAppBar(
         title = { Text(text = state.toolbarTitle.asString()) },
-        actions = { SettingsDropdown(menuState.settingsMenuState) { menuEvent(it) } },
       )
     },
     modifier = modifier,

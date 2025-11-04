@@ -1,9 +1,11 @@
-package gi.aera.weather.feature.settings.presentation
+package gi.aera.feature.settings.presentation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -18,8 +20,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import gi.aera.weather.feature.settings.presentation.model.SettingMenuItem
-import gi.aera.weather.feature.settings.presentation.model.SettingMenuItemId
+import gi.aera.feature.settings.presentation.model.SettingMenuItem
+import gi.aera.feature.settings.presentation.model.SettingMenuItemId
 
 @Composable
 fun SettingsDropdown(
@@ -37,6 +39,7 @@ fun SettingsDropdown(
     DropdownMenu(
       expanded = expanded,
       onDismissRequest = { expanded = false },
+      modifier = Modifier.width(150.dp),
     ) {
       for (item in state) {
         key(item.id) {
@@ -45,6 +48,12 @@ fun SettingsDropdown(
             onClick = {
               expanded = false
               onClick(item.id)
+            },
+            trailingIcon = {
+              Icon(
+                imageVector = Icons.Default.Settings,
+                contentDescription = null,
+              )
             },
           )
         }

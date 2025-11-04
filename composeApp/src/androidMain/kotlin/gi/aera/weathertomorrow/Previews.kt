@@ -40,7 +40,7 @@ private fun ForecScreenPreview(
       modifier = Modifier
         .fillMaxSize(),
     ) {
-      val state = LceState.Content(listOf(mockCondition, mockCondition, mockCondition, mockCondition, mockCondition))
+      val state = LceState.Content(listOf(mockCondition, mockCondition, mockCondition, mockCondition, mockCondition, mockCondition))
       val currentWeatherState = LceState.Content(CurrentConditions(mockCondition, mockOtherConditions))
       Box(
         modifier = Modifier

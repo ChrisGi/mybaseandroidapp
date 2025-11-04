@@ -28,15 +28,16 @@ fun App(
       navController = navController,
       startDestination = Route.ForecastNavScreen,
     ) {
-      forecastNavScreen()
+      forecastNavScreen(
+        showSettingsScreen = {
+          navController.navigate(AppSettingsNavScreen)
+        },
+      )
       searchLocationNavScreen(
         onBack = {
           navController.navigate(Route.ForecastNavScreen) {
             popUpTo(0) { inclusive = true }
           }
-        },
-        showSettingsScreen = {
-          navController.navigate(AppSettingsNavScreen)
         },
       )
       appSettingsNavScreen {

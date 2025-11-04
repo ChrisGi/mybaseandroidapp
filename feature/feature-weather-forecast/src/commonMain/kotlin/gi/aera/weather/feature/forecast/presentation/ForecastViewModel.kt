@@ -9,6 +9,7 @@ import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.PermissionsController
 import dev.icerock.moko.permissions.RequestCanceledException
 import dev.icerock.moko.permissions.location.LOCATION
+import gi.aera.appsettings.domain.usecase.GetUnitSettingsUseCase
 import gi.aera.common.model.ApiResponse
 import gi.aera.common.model.AppError
 import gi.aera.location.domain.model.LocationResult
@@ -50,6 +51,7 @@ class ForecastViewModel(
   private val getDailyForecastUseCase: GetDailyForecastUseCase,
   private val currentWeatherViewStateFactory: CurrentWeatherViewStateFactory,
   private val weeklyForecastViewStateFactory: WeeklyForecastViewStateFactory,
+  private val getUnitSettingsUseCase: GetUnitSettingsUseCase,
   private val navigationManager: NavigationManager,
 ) : ViewModel(), EventHandler<ForecastScreenViewEvent> {
 
@@ -109,44 +111,50 @@ class ForecastViewModel(
     .flatMapLatest { loadCurrentWeatherForLocation(it, forceRefresh) }
     .catchLceError()
 
-  private fun loadCurrentWeatherForLocation(location: SearchLocation, forceRefresh: Boolean): Flow<LceState<CurrentConditions>> = flow {
-    currentWeatherViewState.value.updateLoading { state -> emit(state) }
+  private fun loadCurrentWeatherForLocation(location: SearchLocation, forceRefresh: Boolean): Flow<LceState<CurrentConditions>> = getUnitSettingsUseCase()
+    .flatMapLatest { response ->
+      flow {
+        currentWeatherViewState.value.updateLoading { state -> emit(state) }
 
-    val currentWeatherState = when (
-      val response = getCurrentWeatherUseCase(
-        location = "${location.latitude}, ${location.longitude}",
-        forceRefresh = forceRefresh,
-      )
-    ) {
-      is ApiResponse.Error -> LceState.Error(AppError.from(response))
+        val response = getCurrentWeatherUseCase.invoke(
+          location = "${location.latitude}, ${location.longitude}",
+          forceRefresh = forceRefresh,
+        )
 
-      is ApiResponse.Success<RealtimeWeatherResponse> -> LceState.Content(
-        content = currentWeatherViewStateFactory.createState(response.data, location),
-      )
+        val currentWeatherState = when (response) {
+          is ApiResponse.Error -> LceState.Error(AppError.from(response))
+
+          is ApiResponse.Success<RealtimeWeatherResponse> -> LceState.Content(
+            content = currentWeatherViewStateFactory.createState(response.data, location),
+          )
+        }
+
+        emit(currentWeatherState)
+      }
     }
-
-    emit(currentWeatherState)
-  }
 
   private fun getForecastWeather(forceRefresh: Boolean) = location
     .flatMapLatest { getForecastForLocation(it, forceRefresh) }
     .catchLceError()
 
-  private fun getForecastForLocation(location: SearchLocation, forceRefresh: Boolean) = flow {
-    val forecastState = when (
-      val response = getDailyForecastUseCase(
-        location = "${location.latitude}, ${location.longitude}",
-        forceRefresh = forceRefresh,
-      )
-    ) {
-      is ApiResponse.Error -> LceState.Error(AppError.from(response))
+  private fun getForecastForLocation(location: SearchLocation, forceRefresh: Boolean) = getUnitSettingsUseCase()
+    .flatMapLatest { response ->
+      flow {
+        val forecastState = when (
+          val response = getDailyForecastUseCase(
+            location = "${location.latitude}, ${location.longitude}",
+            forceRefresh = forceRefresh,
+          )
+        ) {
+          is ApiResponse.Error -> LceState.Error(AppError.from(response))
 
-      is ApiResponse.Success<ForecastDailyResponse> ->
-        LceState.Content(weeklyForecastViewStateFactory.createState(response.data, location))
+          is ApiResponse.Success<ForecastDailyResponse> ->
+            LceState.Content(weeklyForecastViewStateFactory.createState(response.data, location))
+        }
+
+        emit(forecastState)
+      }
     }
-
-    emit(forecastState)
-  }
 
   private fun provideLocationPermission() {
     viewModelScope.launch {

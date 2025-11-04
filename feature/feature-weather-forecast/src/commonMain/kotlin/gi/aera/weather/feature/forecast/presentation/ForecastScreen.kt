@@ -4,11 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -33,8 +31,7 @@ fun ForecastScreen(
   modifier: Modifier = Modifier,
 ) {
   LceViewState(
-    modifier = modifier
-      .systemBarsPadding(),
+    modifier = modifier,
     state = currentWeatherState,
     errorContent = {
       AppErrorContentProvider(
@@ -51,7 +48,10 @@ fun ForecastScreen(
       )
     },
   ) { currentConditions ->
-    Column {
+    Column(
+      modifier = Modifier
+        .verticalScroll(rememberScrollState()),
+    ) {
       Box(
         modifier = Modifier
           .padding(start = 16.dp, end = 16.dp)
@@ -61,8 +61,7 @@ fun ForecastScreen(
           ),
       ) {
         Column(
-          modifier = Modifier
-            .verticalScroll(rememberScrollState()),
+          modifier = Modifier,
         ) {
           ForecastLocation(
             location = currentConditions.weatherConditions.location.asString(),
@@ -80,8 +79,6 @@ fun ForecastScreen(
             modifier = Modifier.fillMaxSize(),
           )
 
-          Spacer(modifier = Modifier.padding(vertical = 16.dp))
-
           if (currentConditions.conditionValues.isNotEmpty()) {
             ConditionValues(
               state = currentConditions.conditionValues,
@@ -95,7 +92,7 @@ fun ForecastScreen(
 
       Box(
         modifier = Modifier
-          .padding(top = 12.dp, start = 16.dp, end = 16.dp)
+          .padding(vertical = 12.dp, horizontal = 16.dp)
           .background(
             MaterialTheme.extraColors.surfaceGradientReversed,
             MaterialTheme.shapes.extraLarge,
@@ -109,7 +106,7 @@ fun ForecastScreen(
           WeeklyForecast(
             forecastState,
             Modifier
-              .padding(16.dp),
+              .padding(8.dp),
           )
         }
       }

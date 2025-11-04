@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.PermissionsController
 import dev.icerock.moko.permissions.location.LOCATION
+import gi.aera.appsettings.domain.usecase.GetUnitSettingsUseCase
 import gi.aera.common.model.ApiResponse
 import gi.aera.common.model.AppError
 import gi.aera.location.domain.model.LocationSource
@@ -32,6 +33,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.shareIn
@@ -51,6 +53,7 @@ class WeatherLocationViewModel(
   private val weatherLocationFactory: WeatherLocationStateFactory,
   private val removeLocationUseCase: RemoveSavedLocationUseCase,
   private val saveLocationUseCase: SaveLocationUseCase,
+  private val getUnitSystemUseCase: GetUnitSettingsUseCase,
   private val navigationManager: NavigationManager,
 ) : ViewModel(), EventHandler<WeatherLocationEvent> {
 
@@ -102,11 +105,14 @@ class WeatherLocationViewModel(
   private fun getLocationsWeather() = viewModelScope.launch {
     _savedLocationsWeatherState.update { LceState.Loading }
 
-    getSavedLocations().zip(getLastLocation()) { savedLocations, lastLocation ->
-      listOf(lastLocation)
-        .plus(savedLocations)
-        .filterNotNull()
-    }
+    getUnitSystemUseCase()
+      .flatMapLatest {
+        getSavedLocations().zip(getLastLocation()) { savedLocations, lastLocation ->
+          listOf(lastLocation)
+            .plus(savedLocations)
+            .filterNotNull()
+        }
+      }
       .transform {
         val weatherLocations = it.map { location -> async { getWeatherForecast(location) } }
           .awaitAll()

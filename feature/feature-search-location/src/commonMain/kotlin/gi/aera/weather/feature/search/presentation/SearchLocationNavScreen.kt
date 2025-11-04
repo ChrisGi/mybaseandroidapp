@@ -22,14 +22,12 @@ import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import gi.aera.ui.LceViewState
 import gi.aera.ui.navigation.Route
 import gi.aera.weather.error.AppErrorContentProvider
-import gi.aera.weather.feature.location.presentation.model.WeatherLocationEvent
 import gi.aera.weather.feature.location.presentation.WeatherLocationBottomSheet
 import gi.aera.weather.feature.location.presentation.WeatherLocationList
 import gi.aera.weather.feature.location.presentation.WeatherLocationViewModel
+import gi.aera.weather.feature.location.presentation.model.WeatherLocationEvent
 import gi.aera.weather.feature.search.presentation.model.SearchLocationEffect
 import gi.aera.weather.feature.search.presentation.model.SearchLocationEvent
-import gi.aera.weather.feature.settings.presentation.model.SettingMenuViewEffect
-import gi.aera.weather.feature.settings.presentation.SettingsMenuViewModel
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -37,7 +35,6 @@ import org.koin.core.parameter.parametersOf
 @OptIn(ExperimentalMaterial3Api::class)
 fun NavGraphBuilder.searchLocationNavScreen(
   onBack: () -> Unit = {},
-  showSettingsScreen: () -> Unit = {},
 ) {
   composable<Route.SearchLocationNavScreen> {
     val searchLocationViewModel = koinViewModel<SearchLocationViewModel>()
@@ -51,17 +48,6 @@ fun NavGraphBuilder.searchLocationNavScreen(
 
     val weatherLocationState by weatherLocationViewModel.weatherLocationState.collectAsStateWithLifecycle()
     val savedLocationsWeatherState by weatherLocationViewModel.savedLocationsWeatherState.collectAsStateWithLifecycle()
-
-    val menuSettingsViewModel: SettingsMenuViewModel = koinViewModel()
-    val menuSettingsState by menuSettingsViewModel.settingsMenuViewState.collectAsStateWithLifecycle()
-
-    LaunchedEffect(Unit) {
-      menuSettingsViewModel.settingsMenuViewEffect.collect { effect ->
-        when (effect) {
-          SettingMenuViewEffect.ShowSettingsScreen -> showSettingsScreen()
-        }
-      }
-    }
 
     var showLocationWeather by remember { mutableStateOf(false) }
 
@@ -98,9 +84,7 @@ fun NavGraphBuilder.searchLocationNavScreen(
 
       SearchLocationScreen(
         state = searchLocationViewState,
-        menuState = menuSettingsState,
         event = searchLocationViewModel::obtainEvent,
-        menuEvent = menuSettingsViewModel::obtainMenuClick,
       ) {
         LceViewState(
           state = savedLocationsWeatherState,
