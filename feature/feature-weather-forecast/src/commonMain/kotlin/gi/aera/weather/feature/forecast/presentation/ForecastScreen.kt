@@ -1,5 +1,6 @@
 package gi.aera.weather.feature.forecast.presentation
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,6 +30,7 @@ fun ForecastScreen(
   forecastState: LceState<List<WeatherConditions>>,
   event: (ForecastScreenViewEvent) -> Unit,
   modifier: Modifier = Modifier,
+  scrollState: ScrollState = rememberScrollState(),
 ) {
   LceViewState(
     modifier = modifier,
@@ -50,7 +52,7 @@ fun ForecastScreen(
   ) { currentConditions ->
     Column(
       modifier = Modifier
-        .verticalScroll(rememberScrollState()),
+        .verticalScroll(scrollState),
     ) {
       Box(
         modifier = Modifier

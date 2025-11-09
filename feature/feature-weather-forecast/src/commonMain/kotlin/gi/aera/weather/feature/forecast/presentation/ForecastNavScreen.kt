@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -16,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -59,9 +61,13 @@ fun NavGraphBuilder.forecastNavScreen(
     }
 
     Surface {
+      val scrollBehavior = BottomAppBarDefaults.exitAlwaysScrollBehavior()
       Scaffold(
+        modifier = Modifier
+          .nestedScroll(scrollBehavior.nestedScrollConnection),
         bottomBar = {
           BottomAppBar(
+            scrollBehavior = scrollBehavior,
             containerColor = Color.Transparent,
             actions = {
               Spacer(Modifier.weight(1f))
@@ -69,7 +75,6 @@ fun NavGraphBuilder.forecastNavScreen(
             },
           )
         },
-        modifier = Modifier,
       ) { innerPadding ->
         Box(
           modifier = Modifier
