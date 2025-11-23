@@ -15,6 +15,7 @@ import io.ktor.client.plugins.resources.Resources
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.URLProtocol
 import io.ktor.http.isSuccess
+import io.ktor.http.path
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
@@ -37,7 +38,8 @@ internal class LocationApiHttpClientConfiguration(private val httpClient: HttpCl
     defaultRequest {
       url {
         protocol = URLProtocol.HTTPS
-        host = "api.geoapify.com/v1"
+        host = "api.geoapify.com"
+        path("v1/")
         parameters.append("apiKey", ApiKeys.geoapifyApiKey)
       }
     }

@@ -17,6 +17,7 @@ import io.ktor.client.plugins.resources.Resources
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.URLProtocol
 import io.ktor.http.isSuccess
+import io.ktor.http.path
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
@@ -43,7 +44,8 @@ internal class WeatherApiHttpClientConfiguration(
     defaultRequest {
       url {
         protocol = URLProtocol.HTTPS
-        host = "api.tomorrow.io/v4"
+        host = "api.tomorrow.io"
+        path("v4/")
       }
       headers.append("apikey", ApiKeys.tomorrowApiKey)
     }

@@ -13,7 +13,7 @@ import gi.aera.appsettings.domain.model.UnitSystem
 import gi.aera.ui.LceState
 import gi.aera.ui.text.UiString
 import gi.aera.ui.theme.AppTheme
-import gi.aera.weathertomorrow.theme.appTypography
+import gi.aera.weather.theme.appTypography
 import gi.aera.ui.theme.extraColors
 import gi.aera.weather.Res
 import gi.aera.weather.presentation.model.WeatherCode

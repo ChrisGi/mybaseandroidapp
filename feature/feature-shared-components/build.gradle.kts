@@ -22,6 +22,7 @@ kotlin {
       instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    experimentalProperties["android.experimental.kmp.enableAndroidResources"] = true
   }
 
   val xcfName = "weather-componentsKit"
@@ -70,8 +71,6 @@ kotlin {
         implementation(compose.material3)
         implementation(compose.ui)
         implementation(compose.components.resources)
-        implementation(compose.preview)
-        implementation(compose.components.uiToolingPreview)
         implementation(compose.materialIconsExtended)
 
         implementation(libs.koin.test)

@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import gi.aera.ui.text.UiString
 import gi.aera.ui.theme.AppTheme
-import gi.aera.weathertomorrow.theme.appTypography
+import gi.aera.weather.theme.appTypography
 import gi.aera.weather.error.FatalError
 
 @Preview

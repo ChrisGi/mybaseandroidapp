@@ -32,7 +32,6 @@ private fun includeModules(directory: String) {
 }
 
 include(":composeApp")
-include(":shared")
 includeModules("libs")
 includeModules("feature")
 includeModules("data")

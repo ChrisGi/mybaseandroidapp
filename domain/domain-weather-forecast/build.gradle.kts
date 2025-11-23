@@ -6,7 +6,9 @@ plugins {
 kotlin {
   // Declare at least one target
   jvm() // Declares a JVM target
+  iosX64()
   iosArm64() // Declares a target that corresponds to 64-bit iPhones
+  iosSimulatorArm64()
 
   sourceSets {
     commonMain {

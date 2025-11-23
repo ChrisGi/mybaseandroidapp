@@ -11,7 +11,7 @@ import gi.aera.ui.navigation.domain.model.NavigationManager
 import gi.aera.ui.theme.AppTheme
 import gi.aera.weather.feature.forecast.presentation.forecastNavScreen
 import gi.aera.weather.feature.search.presentation.searchLocationNavScreen
-import gi.aera.weathertomorrow.theme.appTypography
+import gi.aera.weather.theme.appTypography
 import org.koin.compose.koinInject
 
 @Composable

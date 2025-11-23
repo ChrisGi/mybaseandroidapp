@@ -37,7 +37,6 @@
             <option value="$PROJECT_DIR$/libs/network" />
             <option value="$PROJECT_DIR$/libs/preferences" />
             <option value="$PROJECT_DIR$/libs/ui" />
-            <option value="$PROJECT_DIR$/shared" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -23,8 +23,20 @@ kotlin {
     iosSimulatorArm64(),
   ).forEach { iosTarget ->
     iosTarget.binaries.framework {
-      baseName = "Weather Tomorrow"
+      baseName = "WeatherTomorrow"
       isStatic = true
+
+      // Fix for Xcode warning about missing source files from build server
+      // Disable debug info that includes absolute paths from Kotlin build server
+      freeCompilerArgs += listOf(
+        "-Xadd-light-debug=disable",
+        "-Xoverride-konan-properties=stripDebugInfoFromNativeLibs=true",
+      )
+
+      // For debug builds, use minimal debug info
+      if (debuggable) {
+        linkerOpts += listOf("-S")
+      }
     }
   }
 
@@ -35,6 +47,9 @@ kotlin {
       implementation(libs.slf4j.android)
 
       implementation(libs.koin.android)
+
+      implementation(compose.preview)
+      implementation(compose.components.uiToolingPreview)
     }
     commonMain.dependencies {
       implementation(project(":network"))
@@ -66,8 +81,6 @@ kotlin {
       implementation(compose.material3)
       implementation(compose.ui)
       implementation(compose.components.resources)
-      implementation(compose.preview)
-      implementation(compose.components.uiToolingPreview)
 
       implementation(libs.androidx.lifecycle.viewmodel)
       implementation(libs.androidx.lifecycle.runtimeCompose)
@@ -118,6 +131,6 @@ dependencies {
 
 compose.resources {
   publicResClass = true
-  packageOfResClass = "gi.aera.weather"
+  packageOfResClass = "gi.aera.weather.app"
   generateResClass = always
 }
