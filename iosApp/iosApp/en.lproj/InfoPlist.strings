@@ -1,0 +1,3 @@
+/* Location Permission Descriptions */
+"NSLocationWhenInUseUsageDescription" = "We need your location to provide accurate weather information for your current location.";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "We need your location to provide accurate weather information for your current location.";

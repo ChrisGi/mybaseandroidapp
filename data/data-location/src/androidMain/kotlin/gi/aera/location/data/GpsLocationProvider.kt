@@ -10,7 +10,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
-class GpsLocationProvider(private val fusedLocationClient: FusedLocationProviderClient) {
+internal class GpsLocationProvider(private val fusedLocationClient: FusedLocationProviderClient) {
 
   @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
   fun getLastGpsLocation(): Flow<GpsCoordinates> = callbackFlow {
