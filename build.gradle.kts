@@ -1,4 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+import ios.DeployIosAppTask
+import ios.IosBuildConfig
+
 plugins {
   alias(libs.plugins.android.application) apply false
   alias(libs.plugins.kotlin.android) apply false
@@ -10,6 +13,11 @@ plugins {
   alias(libs.plugins.compose.multiplatform) apply false
   alias(libs.plugins.detekt.plugin) apply true
   alias(libs.plugins.build.konfig) apply false
+}
+
+// Register iOS deployment task
+tasks.register<DeployIosAppTask>("deployToIPhone") {
+  config.set(IosBuildConfig())
 }
 
 dependencies {
